@@ -1,0 +1,47 @@
+mat-toolbar {
+    justify-content: space-between;
+}
+
+mat-sidenav {
+    width: 15em;
+}
+
+.card-content {
+    max-width: 80%;
+    margin: 2em auto;
+    text-align: center;
+    color: darkred;
+}
+
+/*.mat-menu-item {
+    background-color: dimgray !important;
+}*/
+
+.done {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: white;
+}
+
+.app-sidenav {
+    background: url('../assets/font-infocarte.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.toolbar-filler {
+    flex: 1 1 auto
+}
+
+.footer {
+    margin-top: 2em;
+}
+
+.spacer {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}

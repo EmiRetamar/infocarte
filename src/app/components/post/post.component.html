@@ -1,0 +1,68 @@
+<div class="post-container" *ngIf="post">
+    <!-- Publicacion -->
+    <mat-card>
+        <mat-toolbar color="warn" class="mat-elevation-z1">
+            <h1>Nombre Publicación</h1>
+        </mat-toolbar>
+        <div class="card-container">
+            <mat-card class="card-content">
+                <mat-card-header>
+                    <!-- Aca podria ir la foto de la persona correspondiente a la publicacion -->
+                    <img mat-line mat-card-avatar src="/assets/profile.png">
+                    <mat-card-title>{{ post.title }}</mat-card-title>
+                    <mat-card-subtitle>Una Cartelera</mat-card-subtitle>
+                </mat-card-header>
+
+                <img mat-card-image src="/assets/laravel.jpg">
+
+                <mat-card-content>
+                    <p>
+                        Laravel is a web application framework with expressive, elegant syntax.
+                        We believe development must be an enjoyable, creative experience to be truly fulfilling.
+                        Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects,
+                        such as authentication, routing, sessions, and caching.
+                    </p>
+                </mat-card-content>
+
+                <mat-card-actions>
+                    <button mat-button color="primary" [routerLink]="['/cartelera', '1', 'edit-post', 'cartelera-principal']">Editar</button>
+                    <button mat-button color="primary" (click)="eliminarPost('1')">Eliminar</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </mat-card>
+
+    <!-- Caja de comentarios -->
+    <mat-card>
+        <form [formGroup]="commentForm" (ngSubmit)="comentar()" class="comment-form" autocomplete="off">
+            <mat-form-field class="comment-textarea">
+                <mat-label>Escribe un comentario...</mat-label>
+                <textarea matInput formControlName="comentario" cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5"></textarea>
+            </mat-form-field>
+            <button mat-raised-button type="submit" class="comment-button" color="primary" [routerLink]="['/cartelera', '1', 'edit-post', 'cartelera-principal']">Enviar</button>
+            <button mat-raised-button type="reset" class="clear-button">Limpiar</button>
+        </form>
+    </mat-card>
+
+    <!-- Comentarios -->
+    <mat-card class="comment-card" *ngFor="let number of [0,1,2,3,4, 5, 6, 7, 8, 9]">
+        <mat-card-header>
+            <img mat-line mat-card-avatar src="/assets/profile.png">
+            <mat-card-title>Usuario</mat-card-title>
+            <mat-card-subtitle>Fecha</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <p>
+                Laravel is a web application framework with expressive, elegant syntax.
+                We believe development must be an enjoyable, creative experience to be truly fulfilling.
+                Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects,
+                such as authentication, routing, sessions, and caching.
+            </p>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<div class="spinner-container" *ngIf="!post">
+    <mat-spinner class="spinner-content"></mat-spinner>
+</div>

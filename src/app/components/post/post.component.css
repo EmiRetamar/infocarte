@@ -1,0 +1,67 @@
+mat-toolbar {
+    justify-content: center;
+}
+
+mat-card-actions {
+    text-align: center;
+}
+
+.post-container {
+    background-color: white;
+    padding-bottom: 2em;
+}
+
+.card-container {
+    text-align: center;
+}
+
+.spinner-container {
+    align-items: center;
+    margin-bottom: 17.5em;
+}
+
+.spinner-content {
+    width: 800px;
+    margin: 10px auto;
+}
+
+.comment-form {
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid grey;
+    box-shadow: 3px 3px 3px 3px grey;
+    width: 500px;
+}
+
+.comment-textarea {
+    margin-top: 1em;
+    width: 400px !important;
+}
+
+.comment-button {
+    margin-left: 1em;
+    margin-right: 0.5em;
+    margin-bottom: 1em;
+}
+
+.clear-button {
+    margin-left: 0.5em;
+    margin-bottom: 1em;
+}
+
+.comment-card {
+    margin-top: 1.5em;
+}
+
+/*.comments-box {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    right: 50%;
+    bottom: 50%;
+    margin-top: 5em;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width:100%;
+}*/

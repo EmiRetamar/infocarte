@@ -1,0 +1,29 @@
+/* Add application styles & imports to this file! */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+body {
+    background: url('assets/font-infocarte.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.image {
+    background: url('assets/font-infocarte.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+/*
+    Al usar "background" se pueden configurar todas las propiedades en una sola linea
+
+    Es equivalente a esto:
+
+    background-image: url('assets/login.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+*/

@@ -1,0 +1,73 @@
+<mat-sidenav-container class="app-sidenav" fullscreen>
+
+    <mat-sidenav #sidenav mode="push">
+
+        <mat-toolbar color="primary" class="mat-elevation-z1">
+            <span class="toolbar-filler"></span>
+            <button md-icon-button (click)="sidenav.toggle()" class="mat-icon-button sidenav-toggle-button" [hidden]="!sidenav.opened">
+                <mat-icon aria-label="Menu" class="material-icons">close</mat-icon>
+            </button>
+        </mat-toolbar>
+
+        <mat-nav-list>
+            <div *ngIf="!localStorage.getToken('id_token')">
+                <a mat-list-item class="sidenav-link" [routerLink]="['login']" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>input</mat-icon>
+                    <span class="title" mat-line>Login</span>
+                </a>
+            </div>
+            <div *ngIf="localStorage.getToken('id_token')">
+                <a mat-list-item class="sidenav-link" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>perm_identity</mat-icon>
+                    <span class="title" mat-line>Perfil</span>
+                </a>
+                <a mat-list-item class="sidenav-link" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>description</mat-icon>
+                    <span class="title" mat-line>Mis carteleras</span>
+                </a>
+                <a mat-list-item class="sidenav-link" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>favorite_border</mat-icon>
+                    <span class="title" mat-line>Carteleras likeadas</span>
+                </a>
+                <a mat-list-item class="sidenav-link" (click)="logout()" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>exit_to_app</mat-icon>
+                    <span class="title" mat-line>Logout</span>
+                </a>
+            </div>
+        </mat-nav-list>
+
+    </mat-sidenav>
+
+    <mat-toolbar color="primary" class="mat-elevation-z1">
+        <button mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <button mat-button [routerLink]="['/']">
+            <h1>InfoCarte</h1>
+        </button>
+
+        <span><mat-icon>mood</mat-icon></span>
+    </mat-toolbar>
+
+    <mat-card class="card-content">
+        <h1>Sistema de carteleras de la Facultad de Informática - UNLP</h1>
+        <!--<button mat-raised-button [routerLink]="['/']">Inicio</button>
+        <button mat-raised-button color="primary" [routerLink]="['/login']">Login</button>
+        <button mat-raised-button [routerLink]="['/cartelera', '1']">Cartelera</button>
+        <button mat-raised-button color="accent" [routerLink]="['cartelera', '1', 'post', 'cartelera-principal']">Post</button>-->
+    </mat-card>
+
+    <router-outlet></router-outlet>
+
+    <div class="footer">
+        <mat-toolbar color='primary' class="mat-elevation-z1">
+            <span class='spacer'></span>
+                <h3>Copyright © 2018 InfoCarte</h3>
+            <span class='spacer'></span>
+        </mat-toolbar>
+    </div>
+
+</mat-sidenav-container>
+
+<!-- <info-cartelera></info-cartelera> -->

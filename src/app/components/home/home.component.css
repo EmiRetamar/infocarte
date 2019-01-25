@@ -1,0 +1,69 @@
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    color: gray;
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+a:hover {
+    color: navy;
+    text-decoration: underline
+}
+
+.activeButton {
+    background-color: rgb(193, 222, 231);
+}
+
+.card-container {
+    display: flex;
+    flex-flow: row wrap;
+    align-content: center;
+}
+
+.card-content {
+    width: 22em;
+    box-sizing: border-box;
+    margin: 3em;
+}
+
+.add-button {
+    position: fixed;
+    bottom: 20px;
+    right: 24px;
+    color: white;
+}
+
+.spinner-container {
+    align-items: center;
+    margin-bottom: 17.5em;
+}
+
+.spinner-content {
+    width: 800px;
+    margin: 10px auto;
+}
+
+/*.addButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: white;
+}*/
+
+/*.card-container {
+    display: flex;
+    flex-flow: row wrap;
+    align-content: center;
+}
+
+.card-content {
+    width: 15em;
+    box-sizing: border-box;
+    margin: 2.88em;
+}*/

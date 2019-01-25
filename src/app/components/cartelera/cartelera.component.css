@@ -1,0 +1,50 @@
+mat-toolbar {
+    justify-content: center;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    color: gray;
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+a:hover {
+    color: navy;
+    text-decoration: underline
+}
+
+.card-container {
+    display: flex;
+    flex-flow: row wrap;
+    align-content: center;
+}
+
+.card-content {
+    width: 21.7em;
+    box-sizing: border-box;
+    margin: 2.7em;
+}
+
+.add-button {
+    position: fixed;
+    bottom: 20px;
+    right: 24px;
+    color: white;
+}
+
+.spinner-container {
+    align-items: center;
+    margin-bottom: 17.5em;
+}
+
+.spinner-content {
+    width: 800px;
+    margin: 10px auto;
+}
