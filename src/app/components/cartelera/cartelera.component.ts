@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DeletePostComponent } from './delete-post/delete-post.component';
 import { CarteleraService } from '../../services/cartelera.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
 
@@ -13,20 +14,28 @@ import { ToasterService } from '../../services/toaster.service';
 export class CarteleraComponent implements OnInit {
 
     cartelera: any;
+    posts: any;
 
     constructor(private carteleraService: CarteleraService,
                 private router: Router,
                 private route: ActivatedRoute,
                 private dialog: MatDialog,
-                private toasterService: ToasterService) { }
+                private toasterService: ToasterService,
+                public localStorageService: LocalStorageService) { }
 
     ngOnInit() {
         let idCartelera: string;
-        idCartelera = this.route.snapshot.paramMap.get('id');
-        this.carteleraService.getPosts(idCartelera)
+        idCartelera = this.route.snapshot.paramMap.get('idCartelera');
+        this.carteleraService.getCartelera(idCartelera)
             .subscribe(
                 (cartelera) => {
                     this.cartelera = cartelera;
+                    this.carteleraService.getPosts(idCartelera)
+                        .subscribe(
+                            (posts) => {
+                                this.posts = posts;
+                            }
+                        )
                 }
             );
     }

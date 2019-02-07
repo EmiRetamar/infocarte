@@ -14,12 +14,12 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 const appRoutes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'cartelera/:id', component: CarteleraComponent },
-    { path: 'cartelera/:id/post/:title', component: PostComponent },
+    { path: 'cartelera/:idCartelera', component: CarteleraComponent },
+    { path: 'cartelera/:idCartelera/post/:idPost', component: PostComponent },
     { path: 'create-cartelera', component: CreateCarteleraComponent },
-    { path: 'edit-cartelera/:id', component: EditCarteleraComponent },
-    { path: 'cartelera/:id/create-post', component: CreatePostComponent },
-    { path: 'cartelera/:id/edit-post/:title', component: EditPostComponent },
+    { path: 'edit-cartelera/:idCartelera', component: EditCarteleraComponent },
+    { path: 'cartelera/:idCartelera/create-post', component: CreatePostComponent },
+    { path: 'cartelera/:idCartelera/edit-post/:idPost', component: EditPostComponent },
     // { path: '**', component: PageNotFoundComponent },
     // {path: 'projects', component: ProjectsComponent,canActivate:[AuthGuard]},
     { path: '', redirectTo: 'home', pathMatch: 'full' } // Cuando el path esta vacio se redirige a home, pathMatch va en el default siempre

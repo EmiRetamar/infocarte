@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DeleteCarteleraComponent } from './delete-cartelera/delete-cartelera.component';
 import { CarteleraService } from '../../services/cartelera.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 import { Router } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
+import { Cartelera } from '../../models/cartelera';
 
 @Component({
     selector: 'info-home',
@@ -13,47 +15,13 @@ import { ToasterService } from '../../services/toaster.service';
 export class HomeComponent implements OnInit {
 
     carteleras: any[];
-    cartelerasLikeadas =
-                        [
-                            {
-                                "title" : "Cartelera Principal",
-                                "_links" : {
-                                    "self" : {
-                                        "href" : "https://infocarte-api.herokuapp.com/billboards/1"
-                                    },
-                                    "billboard" : {
-                                        "href" : "https://infocarte-api.herokuapp.com/billboards/1"
-                                    }
-                                }
-                            },
-                            {
-                                "title": "2do",
-                                "_links": {
-                                    "self": {
-                                        "href": "https://infocarte-api.herokuapp.com/billboards/3"
-                                    },
-                                    "billboard": {
-                                        "href": "https://infocarte-api.herokuapp.com/billboards/3"
-                                    }
-                                }
-                            },
-                            {
-                                "title": "Ofertas laborales",
-                                "_links": {
-                                    "self": {
-                                        "href": "https://infocarte-api.herokuapp.com/billboards/8"
-                                    },
-                                    "billboard": {
-                                        "href": "https://infocarte-api.herokuapp.com/billboards/8"
-                                    }
-                                }
-                            }
-                        ];
+    cartelerasLikeadas: any[] = [];
 
     constructor(private carteleraService: CarteleraService,
                 private router: Router,
                 private dialog: MatDialog,
-                private toasterService: ToasterService) { }
+                private toasterService: ToasterService,
+                public localStorageService: LocalStorageService) { }
 
     ngOnInit() {
         this.carteleraService.getCarteleras()

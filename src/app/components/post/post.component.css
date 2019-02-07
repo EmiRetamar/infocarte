@@ -11,9 +11,14 @@ mat-card-actions {
     padding-bottom: 2em;
 }
 
-.card-container {
+.description {
     text-align: center;
+    font-size: 2em;
 }
+
+/*.card-container {
+    text-align: center;
+}*/
 
 .spinner-container {
     align-items: center;

@@ -3,24 +3,21 @@
 
         <mat-card-header>
             <mat-card-title>
-                <a [routerLink]="['/cartelera', '1']">{{ cartelera.title }}</a>
+                <a [routerLink]="['/cartelera', cartelera.id]">{{ cartelera.title }}</a>
             </mat-card-title>
-            <mat-card-subtitle>Una Cartelera</mat-card-subtitle>
+            <mat-card-subtitle>{{ cartelera.created_at }}</mat-card-subtitle>
         </mat-card-header>
 
-        <img mat-card-image src="../../assets/cartelera.jpg">
+        <img mat-card-image src="{{ cartelera.image }}" width="250px" height="250px">
 
         <mat-card-content>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-            It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+            {{ cartelera.description }}
         </mat-card-content>
 
         <mat-card-actions>
-            <button mat-button color="primary" [ngClass]="{ 'activeButton': likeada(cartelera) }" (click)="likeAction(cartelera)">Like</button>
-            <button mat-button color="primary" [routerLink]="['/edit-cartelera', '1']">Editar</button>
-            <button mat-button color="primary" (click)="eliminarCartelera(cartelera)">Eliminar</button>
+            <button mat-button color="primary" [ngClass]="{ 'activeButton': likeada(cartelera) }" (click)="likeAction(cartelera)" *ngIf="localStorageService.getToken('id_token')">Like</button>
+            <button mat-button color="primary" [routerLink]="['/edit-cartelera', cartelera.id]" *ngIf="localStorageService.getToken('id_token')">Editar</button>
+            <button mat-button color="primary" (click)="eliminarCartelera(cartelera)" *ngIf="localStorageService.getToken('id_token')">Eliminar</button>
         </mat-card-actions>
 
     </mat-card>

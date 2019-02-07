@@ -10,7 +10,11 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
 
-    constructor(public localStorage: LocalStorageService, private authService: AuthService, private router: Router) { }
+    year: number = Date.now();
+
+    constructor(public localStorageService: LocalStorageService,
+                private authService: AuthService,
+                private router: Router) { }
 
     ngOnInit() { }
 

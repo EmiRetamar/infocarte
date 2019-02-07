@@ -10,13 +10,13 @@
         </mat-toolbar>
 
         <mat-nav-list>
-            <div *ngIf="!localStorage.getToken('id_token')">
+            <div *ngIf="!localStorageService.getToken('id_token')">
                 <a mat-list-item class="sidenav-link" [routerLink]="['login']" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>input</mat-icon>
                     <span class="title" mat-line>Login</span>
                 </a>
             </div>
-            <div *ngIf="localStorage.getToken('id_token')">
+            <div *ngIf="localStorageService.getToken('id_token')">
                 <a mat-list-item class="sidenav-link" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>perm_identity</mat-icon>
                     <span class="title" mat-line>Perfil</span>
@@ -63,7 +63,7 @@
     <div class="footer">
         <mat-toolbar color='primary' class="mat-elevation-z1">
             <span class='spacer'></span>
-                <h3>Copyright © 2018 InfoCarte</h3>
+                <h3>Copyright © {{ year | date: 'yyyy' }} InfoCarte</h3>
             <span class='spacer'></span>
         </mat-toolbar>
     </div>

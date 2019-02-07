@@ -16,8 +16,13 @@ export class CarteleraService {
             .pipe(map((result: any) => result._embedded.billboards));
     }
 
+    getCartelera(idCartelera: string): Observable<any> {
+        return this.http.get(this.getUrl(`billboards/${idCartelera}`));
+    }
+
     getPosts(idCartelera: string): Observable<any> {
-        return this.http.get(this.getUrl(`billboards/${idCartelera}/posts`));
+        return this.http.get(this.getUrl(`billboards/${idCartelera}/posts`))
+            .pipe(map((result: any) => result._embedded.posts));
     }
 
     postCartelera(cartelera: Object) {
@@ -44,8 +49,8 @@ export class CarteleraService {
         return this.http.get(this.getUrl('billboards'));
     }
 
-    getPublicacion(idCartelera: string, titlePost: string): Observable<any> {
-        return this.http.get(this.getUrl(`billboards/${idCartelera}`));
+    getPublicacion(idPost: string): Observable<any> {
+        return this.http.get(this.getUrl(`posts/${idPost}`));
     }
 
     postPublicacion(post: Object) {
@@ -63,6 +68,11 @@ export class CarteleraService {
     deletePublicacion(idPost: string) {
         // return this.http.delete(this.getUrl(`billboards/posts/delete/${idPost}`));
         return this.http.get(this.getUrl('billboards'));
+    }
+
+    getComentarios(idPost: string) {
+        return this.http.get(this.getUrl(`posts/${idPost}/comments`))
+            .pipe(map((comentarios: any) => comentarios._embedded.comments));
     }
 
     private getUrl(modelo: String): string {
