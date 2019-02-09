@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CarteleraService } from '../../../services/cartelera.service';
+import { UserService } from '../../../services/user.service';
+import { ToasterService } from '../../../services/toaster.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'info-create-cartelera',
@@ -12,14 +15,17 @@ export class CreateCarteleraComponent implements OnInit {
     createCarteleraForm: FormGroup;
     submitted = false;
 
-    constructor(private carteleraService: CarteleraService, private formBuilder: FormBuilder) { }
+    constructor(private carteleraService: CarteleraService,
+                private userService: UserService,
+                private toasterService: ToasterService,
+                private formBuilder: FormBuilder,
+                private router: Router) { }
 
     ngOnInit() {
         this.createCarteleraForm = this.formBuilder.group({
-            titulo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-            subtitulo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-            descripcion: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
-            imagen: ['']
+            title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+            description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
+            image: ['']
         });
     }
 
@@ -31,15 +37,22 @@ export class CreateCarteleraComponent implements OnInit {
         this.submitted = true;
         if (this.createCarteleraForm.valid) {
             let formData = this.createCarteleraForm.value;
-            console.log(formData);
-            this.carteleraService.postCartelera(formData)
+            this.userService.getUser()
                 .subscribe(
-                    result => {
-                        // Codigo de resultado exitoso
-                        console.log(result);
-                    },
-                    error => {
-                        // Mensaje de error
+                    (user) => {
+                        formData.created_by = `users/${user.id}`;
+                        this.carteleraService.postCartelera(formData)
+                            .subscribe(
+                                result => {
+                                    // Codigo de resultado exitoso
+                                    this.router.navigateByUrl('/home');
+                                    this.toasterService.success('Cartelera creada con éxito !');
+                                    console.log(result);
+                                },
+                                error => {
+                                    // Mensaje de error
+                                }
+                            );
                     }
                 );
         }

@@ -27,7 +27,7 @@ export class CarteleraService {
 
     postCartelera(cartelera: Object) {
         let httpHeaders = new HttpHeaders({
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            'Content-type': 'application/json; charset=UTF-8'
         });
         return this.http.post(this.getUrl('billboards'), cartelera, { headers: httpHeaders });
     }

@@ -16,10 +16,9 @@ export class EditCarteleraComponent implements OnInit {
 
     ngOnInit() {
         this.editCarteleraForm = this.formBuilder.group({
-            titulo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-            subtitulo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-            descripcion: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
-            imagen: ['']
+            title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+            description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
+            image: ['']
         });
     }
 
