@@ -32,13 +32,15 @@ export class CarteleraService {
         return this.http.post(this.getUrl('billboards'), cartelera, { headers: httpHeaders });
     }
 
-    updateCartelera(cartelera: Object) {
-        return this.http.get(this.getUrl('billboards'));
+    updateCartelera(cartelera: any) {
+        let httpHeaders = new HttpHeaders({
+            'Content-type': 'application/json; charset=UTF-8'
+        })
+        return this.http.patch(this.getUrl(`billboards/${cartelera.id}`), cartelera, { headers: httpHeaders });
     }
 
     deleteCartelera(idCartelera: string) {
-        // return this.http.delete(this.getUrl(`billboards/delete/${idCartelera}`));
-        return this.http.get(this.getUrl('billboards'));
+        return this.http.delete(this.getUrl(`billboards/${idCartelera}`));
     }
 
     like(cartelera: any) {
@@ -55,19 +57,20 @@ export class CarteleraService {
 
     postPublicacion(post: Object) {
         let httpHeaders = new HttpHeaders({
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            'Content-type': 'application/json; charset=UTF-8'
         });
-        // return this.http.post(this.getUrl('posts'), post, { headers: httpHeaders });
-        return this.http.get(this.getUrl('billboards'));
+        return this.http.post(this.getUrl('posts'), post, { headers: httpHeaders });
     }
 
-    updatePublicacion(post: Object) {
-        return this.http.get(this.getUrl('billboards'));
+    updatePublicacion(post: any) {
+        let httpHeaders = new HttpHeaders({
+            'Content-type': 'application/json; charset=UTF-8'
+        });
+        return this.http.patch(this.getUrl(`posts/${post.id}`), post, { headers: httpHeaders });
     }
 
     deletePublicacion(idPost: string) {
-        // return this.http.delete(this.getUrl(`billboards/posts/delete/${idPost}`));
-        return this.http.get(this.getUrl('billboards'));
+        return this.http.delete(this.getUrl(`posts/${idPost}`));
     }
 
     getComentarios(idPost: string) {

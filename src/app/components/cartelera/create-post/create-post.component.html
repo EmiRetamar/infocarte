@@ -14,48 +14,33 @@
             <h4 class="mat-subheading-2 center-align">Ingrese un título</h4>
             <mat-divider></mat-divider>
             <mat-form-field>
-              <input matInput type="text" formControlName="titulo" placeholder="Título">
+              <input matInput type="text" formControlName="title" placeholder="Título">
             </mat-form-field>
-            <div *ngIf="submitted && form.titulo.errors">
-              <mat-error *ngIf="form.titulo.errors.required">El título es obligatorio</mat-error>
-              <mat-error *ngIf="form.titulo.errors.minlength">El título debe tener al menos 3 caracteres</mat-error>
-              <mat-error *ngIf="form.titulo.errors.maxlength">El título debe tener a lo sumo 50 caracteres</mat-error>
+            <div *ngIf="submitted && form.title.errors">
+              <mat-error *ngIf="form.title.errors.required">El título es obligatorio</mat-error>
+              <mat-error *ngIf="form.title.errors.minlength">El título debe tener al menos 3 caracteres</mat-error>
+              <mat-error *ngIf="form.title.errors.maxlength">El título debe tener a lo sumo 50 caracteres</mat-error>
             </div>
           </div>
-          <div fxFlex.xs="100" fxFlex.lg="50" fxFlex.md="50" fxFlex.sm="50">
-            <h4 class="mat-subheading-2 center-align">Ingrese un subtítulo</h4>
-            <mat-divider></mat-divider>
-            <mat-form-field>
-              <input matInput type="text" formControlName="subtitulo" placeholder="Subtítulo">
-            </mat-form-field>
-            <div *ngIf="submitted && form.subtitulo.errors">
-              <mat-error *ngIf="form.subtitulo.errors.required">El subtítulo es obligatorio</mat-error>
-              <mat-error *ngIf="form.subtitulo.errors.minlength">El subtítulo debe tener al menos 3 caracteres</mat-error>
-              <mat-error *ngIf="form.subtitulo.errors.maxlength">El subtítulo debe tener a lo sumo 50 caracteres</mat-error>
-            </div>
-          </div>
-
-        </div>
-
-        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="20px">
 
           <div fxFlex.xs="100" fxFlex.lg="50" fxFlex.md="50" fxFlex.sm="50">
             <h4 class="mat-subheading-2 center-align">Ingrese una descripción</h4>
             <mat-divider></mat-divider>
             <mat-form-field>
-              <textarea matInput formControlName="descripcion" placeholder="Descripción" matTextareaAutosize matAutosizeMinRows="2"
+              <textarea matInput formControlName="description" placeholder="Descripción" matTextareaAutosize matAutosizeMinRows="2"
               matAutosizeMaxRows="5"></textarea>
             </mat-form-field>
-            <div *ngIf="submitted && form.descripcion.errors">
-              <mat-error *ngIf="form.descripcion.errors.required">La descripción es obligatoria</mat-error>
-              <mat-error *ngIf="form.descripcion.errors.minlength">La descripción debe tener al menos 10 caracteres</mat-error>
-              <mat-error *ngIf="form.descripcion.errors.maxlength">La descripción debe tener a lo sumo 1000 caracteres</mat-error>
+            <div *ngIf="submitted && form.description.errors">
+              <mat-error *ngIf="form.description.errors.required">La descripción es obligatoria</mat-error>
+              <mat-error *ngIf="form.description.errors.minlength">La descripción debe tener al menos 10 caracteres</mat-error>
+              <mat-error *ngIf="form.description.errors.maxlength">La descripción debe tener a lo sumo 1000 caracteres</mat-error>
             </div>
           </div>
+
           <div fxFlex.xs="100" fxFlex.lg="50" fxFlex.md="50" fxFlex.sm="50">
             <h4 class="mat-subheading-2 center-align">Seleccione una imagen</h4>
             <mat-divider></mat-divider>
-            <input id="imageInput" type="file" formControlName="imagen" #fileInput>
+            <input id="imageInput" type="file" formControlName="image" #fileInput>
             <button mat-raised-button id="imageButton" type="button" color="primary" (click)="fileInput.click()">Seleccionar Imagen</button>
             <div>La imagen es opcional</div>
           </div>

@@ -38,9 +38,10 @@ export class HomeComponent implements OnInit {
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
         //dialogConfig.height = '12em';
-        //dialogConfig.width = '18em';
+        //dialogConfig.width = '15em';
+        // Estos datos son pasados al componente "DeleteCarteleraComponent"
         dialogConfig.data = {
-            id: '1', // HAY QUE CAMBIARLO
+            id: cartelera.id,
             title: cartelera.title
         };
 
@@ -50,7 +51,7 @@ export class HomeComponent implements OnInit {
             .subscribe(
                 (result) => {
                     if (result) {
-                        this.carteleraService.deleteCartelera('1') // HAY QUE CAMBIAR EL PARAMETRO
+                        this.carteleraService.deleteCartelera(cartelera.id)
                             .subscribe(
                                 (res) => {
                                     this.removeCartelera(this.carteleras, cartelera);

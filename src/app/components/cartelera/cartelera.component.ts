@@ -47,8 +47,9 @@ export class CarteleraComponent implements OnInit {
         dialogConfig.autoFocus = true;
         //dialogConfig.height = '12em';
         //dialogConfig.width = '18em';
+        // Estos datos son pasados al componente "DeletePostComponent"
         dialogConfig.data = {
-            id: '1', // HAY QUE CAMBIARLO
+            id: post.id,
             title: post.title
         };
 
@@ -58,12 +59,14 @@ export class CarteleraComponent implements OnInit {
             .subscribe(
                 (result) => {
                     if (result) {
-                        this.carteleraService.deletePublicacion('1') // HAY QUE CAMBIAR EL PARAMETRO
+                        this.carteleraService.deletePublicacion(post.id)
                             .subscribe(
                                 (res) => {
-                                    this.removePost(post);
-                                    // No muestra el mensaje porque esta fallando removePost
-                                    this.toasterService.success('Publicación eliminada');
+                                    this.removePost(this.posts, post);
+                                    this.toasterService.success('Publicación eliminada con éxito !');
+                                },
+                                (error) => {
+                                    this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
                                 }
                             );
                     }
@@ -71,11 +74,10 @@ export class CarteleraComponent implements OnInit {
             );
     }
 
-    removePost(post: any) {
-        // Falla porque todavia no estan los posts, la cartelera deberia traer todos sus posts desde la api
-        let index = this.cartelera.posts.indexOf(post);
+    removePost(posts: any[], post: any) {
+        let index = posts.indexOf(post);
         if (index > -1) {
-            this.cartelera.posts.splice(index, 1);
+            posts.splice(index, 1);
         }
     }
 

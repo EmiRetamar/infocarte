@@ -41,15 +41,17 @@ export class CreateCarteleraComponent implements OnInit {
                 .subscribe(
                     (user) => {
                         formData.created_by = `users/${user.id}`;
+                        // ESTO ES TEMPORAL HASTA QUE ESTE IMPLEMENTADO EL CARGADOR DE IMAGENES
+                        formData.image = 'https://cdn-images-1.medium.com/max/1600/1*qwoA9FmZDrE5q--_9qqBCQ.jpeg';
                         this.carteleraService.postCartelera(formData)
                             .subscribe(
-                                result => {
+                                (result) => {
                                     // Codigo de resultado exitoso
                                     this.router.navigateByUrl('/home');
                                     this.toasterService.success('Cartelera creada con éxito !');
                                     console.log(result);
                                 },
-                                error => {
+                                (error) => {
                                     // Mensaje de error
                                 }
                             );
