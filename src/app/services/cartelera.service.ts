@@ -78,10 +78,18 @@ export class CarteleraService {
             .pipe(map((comentarios: any) => comentarios._embedded.comments));
     }
 
+    postComentario(comentario: Object) {
+        let httpHeaders = new HttpHeaders({
+            'Content-type': 'application/json; charset=UTF-8'
+        });
+        return this.http.post(this.getUrl('comments'), comentario, { headers: httpHeaders });
+    }
+
     private getUrl(modelo: String): string {
         return this.apiUrl + modelo;
     }
-/*
+
+    /*
     addCartelera(model: Cartelera): Observable<Producto> {
         return this.http.post(this.getUrl('cartelera'), model, this.getOptions()).map(this.getDatos).catch(this.error);
     }

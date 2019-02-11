@@ -55,8 +55,22 @@ mat-card-actions {
     margin-bottom: 1em;
 }
 
+.comment-card-content {
+    
+}
+
+.comment-card-container {
+    display: flex;
+    flex-flow: row wrap;
+    align-content: center;
+}
+
 .comment-card {
+    width: 40%;
+    box-sizing: border-box;
     margin-top: 1.5em;
+    margin-left: 30%;
+    margin-right: 30%;
 }
 
 /*.comments-box {

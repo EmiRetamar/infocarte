@@ -45,7 +45,7 @@ export class EditCarteleraComponent implements OnInit {
             let formData = this.editCarteleraForm.value;
             formData.id = this.cartelera.id;
             // ESTO ES TEMPORAL HASTA QUE ESTE IMPLEMENTADO EL CARGADOR DE IMAGENES
-            formData.image = 'https://cdn-images-1.medium.com/max/1600/1*qwoA9FmZDrE5q--_9qqBCQ.jpeg';
+            formData.image = 'https://cdn-images-1.medium.com/max/2000/1*gycg7f5bYLuR4ut_JAEs7A.png';
             this.carteleraService.updateCartelera(formData)
                 .subscribe(
                     (result) => {
