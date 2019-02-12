@@ -85,21 +85,12 @@ export class CarteleraService {
         return this.http.post(this.getUrl('comments'), comentario, { headers: httpHeaders });
     }
 
+    deleteComentario(idComentario: string) {
+        return this.http.delete(this.getUrl(`comments/${idComentario}`));
+    }
+
     private getUrl(modelo: String): string {
         return this.apiUrl + modelo;
     }
-
-    /*
-    addCartelera(model: Cartelera): Observable<Producto> {
-        return this.http.post(this.getUrl('cartelera'), model, this.getOptions()).map(this.getDatos).catch(this.error);
-    }
-
-    updateCartelera(model: Cartelera) {
-        return this.http.put(this.getUrl('cartelera'), model, this.getOptions()).catch(this.error);
-    }
-
-    removeCartelera(model: Cartelera) {
-        return this.http.delete(this.getUrl('cartelera') + '/' + model.id, this.getOptions()).catch(this.error);
-    }*/
 
 }

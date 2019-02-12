@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DeletePostComponent } from '../cartelera/delete-post/delete-post.component';
+import { DeleteComentarioComponent } from '../post/delete-comentario/delete-comentario.component';
 import { CarteleraService } from '../../services/cartelera.service';
 import { UserService } from '../../services/user.service';
 import { LocalStorageService } from '../../services/local-storage.service';
@@ -20,6 +21,8 @@ export class PostComponent implements OnInit {
     comentarios: any;
     commentForm: FormGroup;
     submitted = false;
+
+    @ViewChild("clearButton", {read: ElementRef}) clearButton: ElementRef;
 
     constructor(private carteleraService: CarteleraService,
                 private userService: UserService,
@@ -54,8 +57,12 @@ export class PostComponent implements OnInit {
                 }
             );
         this.commentForm = this.formBuilder.group({
-            content: ['', [Validators.minLength(1), Validators.maxLength(1000)]]
+            comment: ['', [Validators.minLength(1), Validators.maxLength(1000)]]
         });
+    }
+
+    get form() {
+        return this.commentForm.controls;
     }
 
     eliminarPost(post: any) {
@@ -63,8 +70,6 @@ export class PostComponent implements OnInit {
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-        //dialogConfig.height = '12em';
-        //dialogConfig.width = '18em';
         // Estos datos son pasados al componente "DeletePostComponent"
         dialogConfig.data = {
             id: post.id,
@@ -92,10 +97,20 @@ export class PostComponent implements OnInit {
             );
     }
 
+    onKeypress(event) {
+        if (event.keyCode == 13) {
+            this.comentar();
+        }
+    }
+
     comentar() {
         this.submitted = true;
         if (this.commentForm.valid) {
+            this.toasterService.info('Enviando...');
             let formData = this.commentForm.value;
+            //this.clearButton.nativeElement.onclick();
+            this.commentForm.reset();
+            this.clearButton.nativeElement.focus();
             this.userService.getUser()
                 .subscribe(
                     (user) => {
@@ -103,7 +118,10 @@ export class PostComponent implements OnInit {
                         formData.post = `posts/${this.post.id}`;
                         this.carteleraService.postComentario(formData)
                             .subscribe(
-                                (comentario) => this.addComentario(comentario)
+                                (comentario) => {
+                                    this.addComentario(comentario);
+                                    this.toasterService.success('Enviado !');
+                                }
                             );
                     }
                 );
@@ -117,6 +135,43 @@ export class PostComponent implements OnInit {
         this.comentarios.push(comentario);
     }
 
-    eliminarComentario(comentario: any) {}
+    eliminarComentario(comentario: any) {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        // Estos datos son pasados al componente "DeleteComentarioComponent"
+        dialogConfig.data = {
+            id: comentario.id,
+            title: comentario.title
+        };
+
+        const dialogRef = this.dialog.open(DeleteComentarioComponent, dialogConfig);
+
+        dialogRef.afterClosed()
+            .subscribe(
+                (result) => {
+                    if (result) {
+                        this.carteleraService.deleteComentario(comentario.id)
+                            .subscribe(
+                                (res) => {
+                                    this.removeComentario(comentario);
+                                    this.toasterService.success('Comentario eliminado con éxito !');
+                                },
+                                (error) => {
+                                    this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
+                                }
+                            );
+                    }
+                }
+            );
+    }
+
+    removeComentario(comentario: any) {
+        let index = this.comentarios.indexOf(comentario);
+        if (index > -1) {
+            this.comentarios.splice(index, 1);
+        }
+    }
 
 }

@@ -62,7 +62,7 @@ export class CarteleraComponent implements OnInit {
                         this.carteleraService.deletePublicacion(post.id)
                             .subscribe(
                                 (res) => {
-                                    this.removePost(this.posts, post);
+                                    this.removePost(post);
                                     this.toasterService.success('Publicación eliminada con éxito !');
                                 },
                                 (error) => {
@@ -74,10 +74,10 @@ export class CarteleraComponent implements OnInit {
             );
     }
 
-    removePost(posts: any[], post: any) {
-        let index = posts.indexOf(post);
+    removePost(post: any) {
+        let index = this.posts.indexOf(post);
         if (index > -1) {
-            posts.splice(index, 1);
+            this.posts.splice(index, 1);
         }
     }
 

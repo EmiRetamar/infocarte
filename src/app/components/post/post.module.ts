@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 
 import { PostComponent } from './post.component';
+import { DeleteComentarioComponent } from './delete-comentario/delete-comentario.component';
 
 @NgModule({
   imports: [
@@ -17,8 +18,12 @@ import { PostComponent } from './post.component';
   ],
   exports: [
     // Hay que exportarlo porque lo utiliza el routing en el contexto de app.module donde solo tienen alcance AppComponent y LoginComponent
-    PostComponent
+    PostComponent,
+    DeleteComentarioComponent
   ],
-  declarations: [ PostComponent ]
+  declarations: [ PostComponent, DeleteComentarioComponent ],
+  entryComponents: [
+    DeleteComentarioComponent
+  ]
 })
 export class PostModule { }

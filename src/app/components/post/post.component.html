@@ -40,14 +40,15 @@
         <form [formGroup]="commentForm" (ngSubmit)="comentar()" class="comment-form" autocomplete="off">
             <mat-form-field class="comment-textarea">
                 <mat-label>Escribe un comentario...</mat-label>
-                <textarea matInput formControlName="content" cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5"></textarea>
+                <textarea matInput formControlName="comment" (keypress)="onKeypress($event)"
+                cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5"></textarea>
             </mat-form-field>
-            <div *ngIf="submitted && form.content.errors">
-                <mat-error *ngIf="form.content.errors.minlength">El comentario debe tener al menos 1 caracter</mat-error>
-                <mat-error *ngIf="form.content.errors.maxlength">El comentario debe tener a lo sumo 1000 caracteres</mat-error>
+            <div *ngIf="submitted && form.comment.errors">
+                <mat-error *ngIf="form.comment.errors.minlength">El comentario debe tener al menos 1 caracter</mat-error>
+                <mat-error *ngIf="form.comment.errors.maxlength">El comentario debe tener a lo sumo 1000 caracteres</mat-error>
             </div>
             <button mat-raised-button type="submit" class="comment-button" color="primary">Enviar</button>
-            <button mat-raised-button type="reset" class="clear-button">Limpiar</button>
+            <button #clearButton mat-raised-button type="reset" class="clear-button">Limpiar</button>
         </form>
     </mat-card>
 
@@ -62,7 +63,7 @@
 
             <mat-card-content>
                 <p>
-                    {{ comentario.content }}
+                    {{ comentario.comment }}
                 </p>
             </mat-card-content>
 

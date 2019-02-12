@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
                             .subscribe(
                                 (res) => {
                                     this.removeCartelera(this.carteleras, cartelera);
-                                    this.toasterService.success('Cartelera eliminada');
+                                    this.toasterService.success('Cartelera eliminada con éxito !');
                                 },
                                 (error) => {
                                     this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');

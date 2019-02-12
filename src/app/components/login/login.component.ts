@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 }
 
-/*model: Usuario = new Usuario();
+/*  model: Usuario = new Usuario();
     error = '';
     loading: boolean = false;
 
