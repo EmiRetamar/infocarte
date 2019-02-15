@@ -16,8 +16,22 @@ export class UserService {
 		return this.http.get(this.getUrl('users/me'));
 	}
 
+	getComentarios(idUser: string) {
+		return this.http.get(this.getUrl(`users/${idUser}/comments`))
+			.pipe(map((comentarios: any) => comentarios._embedded.comments));
+	}
+
 	private getUrl(modelo: String): string {
 		return this.apiUrl + modelo;
 	}
+
+	public hasAuthority(authorityParam: string, jsonAuthorities: string) {
+        let authorities = JSON.parse(jsonAuthorities);
+        for(let element of authorities) {
+            if (element.authority == authorityParam)
+				return true;
+		}
+        return false;
+    }
 
 }

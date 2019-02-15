@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CarteleraService } from '../../../services/cartelera.service';
 import { UserService } from '../../../services/user.service';
 import { ToasterService } from '../../../services/toaster.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,7 +20,8 @@ export class CreateCarteleraComponent implements OnInit {
                 private userService: UserService,
                 private toasterService: ToasterService,
                 private formBuilder: FormBuilder,
-                private router: Router) { }
+                private router: Router,
+                public localStorageService: LocalStorageService) { }
 
     ngOnInit() {
         this.createCarteleraForm = this.formBuilder.group({
@@ -37,24 +39,19 @@ export class CreateCarteleraComponent implements OnInit {
         this.submitted = true;
         if (this.createCarteleraForm.valid) {
             let formData = this.createCarteleraForm.value;
-            this.userService.getUser()
+            formData.created_by = `users/${this.localStorageService.getUserId()}`;
+            // ESTO ES TEMPORAL HASTA QUE ESTE IMPLEMENTADO EL CARGADOR DE IMAGENES
+            formData.image = 'https://cdn-images-1.medium.com/max/1600/1*qwoA9FmZDrE5q--_9qqBCQ.jpeg';
+            this.carteleraService.postCartelera(formData)
                 .subscribe(
-                    (user) => {
-                        formData.created_by = `users/${user.id}`;
-                        // ESTO ES TEMPORAL HASTA QUE ESTE IMPLEMENTADO EL CARGADOR DE IMAGENES
-                        formData.image = 'https://cdn-images-1.medium.com/max/1600/1*qwoA9FmZDrE5q--_9qqBCQ.jpeg';
-                        this.carteleraService.postCartelera(formData)
-                            .subscribe(
-                                (result) => {
-                                    // Codigo de resultado exitoso
-                                    this.router.navigateByUrl('/home');
-                                    this.toasterService.success('Cartelera creada con éxito !');
-                                    console.log(result);
-                                },
-                                (error) => {
-                                    // Mensaje de error
-                                }
-                            );
+                    (result) => {
+                        // Codigo de resultado exitoso
+                        this.router.navigateByUrl('/home');
+                        this.toasterService.success('Cartelera creada con éxito !');
+                        console.log(result);
+                    },
+                    (error) => {
+                        // Mensaje de error
                     }
                 );
         }

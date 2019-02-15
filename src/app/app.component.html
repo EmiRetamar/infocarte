@@ -10,13 +10,13 @@
         </mat-toolbar>
 
         <mat-nav-list>
-            <div *ngIf="!localStorageService.getToken('id_token')">
+            <div *ngIf="!localStorageService.getToken()">
                 <a mat-list-item class="sidenav-link" [routerLink]="['login']" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>input</mat-icon>
                     <span class="title" mat-line>Login</span>
                 </a>
             </div>
-            <div *ngIf="localStorageService.getToken('id_token')">
+            <div *ngIf="localStorageService.getToken()">
                 <a mat-list-item class="sidenav-link" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>perm_identity</mat-icon>
                     <span class="title" mat-line>Perfil</span>

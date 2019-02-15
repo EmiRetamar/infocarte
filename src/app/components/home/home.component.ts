@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DeleteCarteleraComponent } from './delete-cartelera/delete-cartelera.component';
 import { CarteleraService } from '../../services/cartelera.service';
+import { UserService } from '../../services/user.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { Router } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
@@ -18,10 +19,11 @@ export class HomeComponent implements OnInit {
     cartelerasLikeadas: any[] = [];
 
     constructor(private carteleraService: CarteleraService,
+                private userService: UserService,
                 private router: Router,
                 private dialog: MatDialog,
                 private toasterService: ToasterService,
-                public localStorageService: LocalStorageService) { }
+                private localStorageService: LocalStorageService) { }
 
     ngOnInit() {
         this.carteleraService.getCarteleras()

@@ -10,12 +10,24 @@ export class LocalStorageService {
 
     constructor() { }
 
-    public getToken(id_token: string): string {
-        return localStorage.getItem(id_token);
+    public getToken(): string {
+        return localStorage.getItem('id_token');
     }
 
-    public getExpiresAt(expires_at: string): string {
-        return localStorage.getItem(expires_at);
+    public getExpiresAt(): string {
+        return localStorage.getItem('expires_at');
+    }
+
+    public getUserId(): string {
+        return localStorage.getItem('id');
+    }
+
+    public getUsername(): string {
+        return localStorage.getItem('username');
+    }
+
+    public getAuthorities(): string {
+        return localStorage.getItem('authorities');
     }
 
 }

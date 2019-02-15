@@ -55,10 +55,6 @@ mat-card-actions {
     margin-bottom: 1em;
 }
 
-.comment-card-content {
-    
-}
-
 .comment-card-container {
     display: flex;
     flex-flow: row wrap;

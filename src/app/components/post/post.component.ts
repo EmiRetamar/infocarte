@@ -19,6 +19,7 @@ export class PostComponent implements OnInit {
     cartelera: any;
     post: any;
     comentarios: any;
+    comentariosUser: any;
     commentForm: FormGroup;
     submitted = false;
 
@@ -39,23 +40,24 @@ export class PostComponent implements OnInit {
         idCartelera = this.route.snapshot.paramMap.get('idCartelera');
         idPost = this.route.snapshot.paramMap.get('idPost');
         this.carteleraService.getCartelera(idCartelera)
-            .subscribe(
-                (cartelera) => {
-                    this.carteleraService.getPublicacion(idPost)
-                        .subscribe(
-                            (post) => {
-                                this.carteleraService.getComentarios(idPost)
-                                    .subscribe(
-                                        (comentarios) => {
-                                            this.cartelera = cartelera;
-                                            this.post = post;
-                                            this.comentarios = comentarios;
-                                        }
-                                    );
-                            }
-                        );
-                }
-            );
+            .subscribe((cartelera) => {
+                this.carteleraService.getPublicacion(idPost)
+                    .subscribe((post) => {
+                        this.carteleraService.getComentarios(idPost)
+                            .subscribe((comentarios) => {
+                                this.cartelera = cartelera;
+                                this.post = post;
+                                this.comentarios = comentarios;
+                                // Si el usuario esta logueado
+                                if(this.localStorageService.getToken()) {
+                                    this.userService.getComentarios(this.localStorageService.getUserId())
+                                    .subscribe((comentariosUser) => {
+                                        this.comentariosUser = comentariosUser;
+                                    });
+                                }
+                            });
+                    });
+            });
         this.commentForm = this.formBuilder.group({
             comment: ['', [Validators.minLength(1), Validators.maxLength(1000)]]
         });
@@ -97,6 +99,14 @@ export class PostComponent implements OnInit {
             );
     }
 
+    isMyComment(comentarioActual: any) {
+        for (let comentario of this.comentariosUser) {
+            if (this.equals(comentario, comentarioActual))
+                return true;
+        }
+        return false;
+    }
+
     onKeypress(event) {
         if (event.keyCode == 13) {
             this.comentar();
@@ -108,21 +118,15 @@ export class PostComponent implements OnInit {
         if (this.commentForm.valid) {
             this.toasterService.info('Enviando...');
             let formData = this.commentForm.value;
-            //this.clearButton.nativeElement.onclick();
             this.commentForm.reset();
             this.clearButton.nativeElement.focus();
-            this.userService.getUser()
+            formData.user = `users/${this.localStorageService.getUserId()}`;
+            formData.post = `posts/${this.post.id}`;
+            this.carteleraService.postComentario(formData)
                 .subscribe(
-                    (user) => {
-                        formData.user = `users/${user.id}`;
-                        formData.post = `posts/${this.post.id}`;
-                        this.carteleraService.postComentario(formData)
-                            .subscribe(
-                                (comentario) => {
-                                    this.addComentario(comentario);
-                                    this.toasterService.success('Enviado !');
-                                }
-                            );
+                    (comentario) => {
+                        this.addComentario(comentario);
+                        this.toasterService.success('Enviado !');
                     }
                 );
         }
@@ -133,6 +137,7 @@ export class PostComponent implements OnInit {
 
     addComentario(comentario: any) {
         this.comentarios.push(comentario);
+        this.comentariosUser.push(comentario);
     }
 
     eliminarComentario(comentario: any) {
@@ -172,6 +177,41 @@ export class PostComponent implements OnInit {
         if (index > -1) {
             this.comentarios.splice(index, 1);
         }
+    }
+
+    equals(x, y) {
+        if ( x === y ) return true;
+        // if both x and y are null or undefined and exactly the same
+
+        if ( ! ( x instanceof Object ) || ! ( y instanceof Object ) ) return false;
+            // if they are not strictly equal, they both need to be Objects
+
+        if ( x.constructor !== y.constructor ) return false;
+            // they must have the exact same prototype chain, the closest we can do is
+            // test there constructor.
+
+        for ( var p in x ) {
+            if ( ! x.hasOwnProperty( p ) ) continue;
+            // other properties were tested using x.constructor === y.constructor
+
+            if ( ! y.hasOwnProperty( p ) ) return false;
+            // allows to compare x[ p ] and y[ p ] when set to undefined
+
+            if ( x[ p ] === y[ p ] ) continue;
+            // if they have the same strict value or identity then they are equal
+
+            if ( typeof( x[ p ] ) !== "object" ) return false;
+            // Numbers, Strings, Functions, Booleans must be strictly equal
+
+            if ( ! this.equals( x[ p ],  y[ p ] ) ) return false;
+            // Objects and Arrays must be tested recursively
+        }
+
+        for ( p in y ) {
+            if ( y.hasOwnProperty( p ) && ! x.hasOwnProperty( p ) ) return false;
+            // allows x[ p ] to be set to undefined
+        }
+        return true;
     }
 
 }

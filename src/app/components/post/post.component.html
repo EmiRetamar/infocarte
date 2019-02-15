@@ -28,15 +28,15 @@
                 </mat-card-content>
 
                 <mat-card-actions>
-                    <button mat-button color="primary" [routerLink]="['/cartelera', cartelera.id, 'edit-post', post.id]" *ngIf="localStorageService.getToken('id_token')">Editar</button>
-                    <button mat-button color="primary" (click)="eliminarPost(post)" *ngIf="localStorageService.getToken('id_token')">Eliminar</button>
+                    <button mat-button color="primary" [routerLink]="['/cartelera', cartelera.id, 'edit-post', post.id]" *ngIf="localStorageService.getToken() && (userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities()) || userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities()))">Editar</button>
+                    <button mat-button color="primary" (click)="eliminarPost(post)" *ngIf="localStorageService.getToken() && (userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities()) || userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities()))">Eliminar</button>
                 </mat-card-actions>
             </mat-card>
         </div>
     </mat-card>
 
     <!-- Caja de comentarios -->
-    <mat-card *ngIf="localStorageService.getToken('id_token')">
+    <mat-card *ngIf="localStorageService.getToken()">
         <form [formGroup]="commentForm" (ngSubmit)="comentar()" class="comment-form" autocomplete="off">
             <mat-form-field class="comment-textarea">
                 <mat-label>Escribe un comentario...</mat-label>
@@ -57,8 +57,8 @@
         <mat-card class="comment-card" *ngFor="let comentario of comentarios">
             <mat-card-header>
                 <img mat-line mat-card-avatar src="/assets/profile.png">
-                <mat-card-title>Usuario</mat-card-title>
-                <mat-card-subtitle>Fecha</mat-card-subtitle>
+                <mat-card-title>{{ localStorageService.getUsername('username') }}</mat-card-title>
+                <mat-card-subtitle>{{ comentario.created_at }}</mat-card-subtitle>
             </mat-card-header>
 
             <mat-card-content>
@@ -68,7 +68,7 @@
             </mat-card-content>
 
             <mat-card-actions>
-                <button mat-button color="primary" (click)="eliminarComentario(comentario)" *ngIf="localStorageService.getToken('id_token')">Eliminar</button>
+                <button mat-button color="primary" (click)="eliminarComentario(comentario)" *ngIf="localStorageService.getToken() && isMyComment(comentario)">Eliminar</button>
             </mat-card-actions>
         </mat-card>
     </div>

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CarteleraService } from '../../../services/cartelera.service';
 import { UserService } from '../../../services/user.service';
 import { ToasterService } from '../../../services/toaster.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
 
 @Component({
     selector: 'info-create-post',
@@ -21,7 +22,8 @@ export class CreatePostComponent implements OnInit {
                 private toasterService: ToasterService,
                 private router: Router,
                 private route: ActivatedRoute,
-                private formBuilder: FormBuilder) { }
+                private formBuilder: FormBuilder,
+                public localStorageService: LocalStorageService) { }
 
     ngOnInit() {
         this.idCartelera = this.route.snapshot.paramMap.get('idCartelera');
@@ -40,26 +42,21 @@ export class CreatePostComponent implements OnInit {
         this.submitted = true;
         if (this.createPostForm.valid) {
             let formData = this.createPostForm.value;
-            this.userService.getUser()
+            formData.user = `users/${this.localStorageService.getUserId()}`;
+            formData.billboard = `billboards/${this.idCartelera}`;
+            formData.comments_enabled = true;
+            // ESTO ES TEMPORAL HASTA QUE ESTE IMPLEMENTADO EL CARGADOR DE IMAGENES
+            formData.image = 'https://novemberfive.co/images/blog/kotlin-implementation/img-header.jpg'
+            this.carteleraService.postPublicacion(formData)
                 .subscribe(
-                    (user) => {
-                        formData.user = `users/${user.id}`;
-                        formData.billboard = `billboards/${this.idCartelera}`;
-                        formData.comments_enabled = true;
-                        // ESTO ES TEMPORAL HASTA QUE ESTE IMPLEMENTADO EL CARGADOR DE IMAGENES
-                        formData.image = 'https://novemberfive.co/images/blog/kotlin-implementation/img-header.jpg'
-                        this.carteleraService.postPublicacion(formData)
-                            .subscribe(
-                                (result) => {
-                                    // Codigo de resultado exitoso
-                                    this.router.navigateByUrl(`/cartelera/${this.idCartelera}`);
-                                    this.toasterService.success('Publicación creada con éxito !');
-                                    console.log(result);
-                                },
-                                (error) => {
-                                    // Mensaje de error
-                                }
-                            );
+                    (result) => {
+                        // Codigo de resultado exitoso
+                        this.router.navigateByUrl(`/cartelera/${this.idCartelera}`);
+                        this.toasterService.success('Publicación creada con éxito !');
+                        console.log(result);
+                    },
+                    (error) => {
+                        // Mensaje de error
                     }
                 );
         }
