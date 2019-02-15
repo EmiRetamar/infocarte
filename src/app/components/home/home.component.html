@@ -23,7 +23,7 @@
     </mat-card>
 
     <span class="add-button">
-        <button mat-fab [routerLink]="['/create-cartelera']">
+        <button mat-fab [routerLink]="['/create-cartelera']" *ngIf="localStorageService.getToken() && userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities())">
             <mat-icon>add</mat-icon>
         </button>
     </span>

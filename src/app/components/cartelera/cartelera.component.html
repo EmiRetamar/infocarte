@@ -32,7 +32,7 @@
         </mat-card>
 
         <span class="add-button">
-            <button mat-fab [routerLink]="['/cartelera', cartelera.id, 'create-post']">
+            <button mat-fab [routerLink]="['/cartelera', cartelera.id, 'create-post']" *ngIf="localStorageService.getToken() && (userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities()) || userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities()))">
                 <mat-icon>add</mat-icon>
             </button>
         </span>
