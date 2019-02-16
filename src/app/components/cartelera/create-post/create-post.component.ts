@@ -15,6 +15,7 @@ export class CreatePostComponent implements OnInit {
 
     idCartelera: string;
     createPostForm: FormGroup;
+    comentariosHabilitados = false;
     submitted = false;
 
     constructor(private carteleraService: CarteleraService,
@@ -30,7 +31,8 @@ export class CreatePostComponent implements OnInit {
         this.createPostForm = this.formBuilder.group({
             title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
             description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
-            image: ['']
+            image: [''],
+            comments_enabled: ['']
         });
     }
 
@@ -44,7 +46,6 @@ export class CreatePostComponent implements OnInit {
             let formData = this.createPostForm.value;
             formData.user = `users/${this.localStorageService.getUserId()}`;
             formData.billboard = `billboards/${this.idCartelera}`;
-            formData.comments_enabled = true;
             // ESTO ES TEMPORAL HASTA QUE ESTE IMPLEMENTADO EL CARGADOR DE IMAGENES
             formData.image = 'https://novemberfive.co/images/blog/kotlin-implementation/img-header.jpg'
             this.carteleraService.postPublicacion(formData)

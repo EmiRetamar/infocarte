@@ -16,8 +16,15 @@ export class UserService {
 		return this.http.get(this.getUrl('users/me'));
 	}
 
+	getUserForComment(idComentario: string) {
+		return this.http.get(this.getUrl(`comments/${idComentario}/user`));
+	}
+
 	getComentarios(idUser: string) {
-		return this.http.get(this.getUrl(`users/${idUser}/comments`))
+		let httpHeaders = new HttpHeaders({
+            'Access-Control-Allow-Origin': '*'
+        });
+		return this.http.get(this.getUrl(`users/${idUser}/comments`), { headers: httpHeaders })
 			.pipe(map((comentarios: any) => comentarios._embedded.comments));
 	}
 

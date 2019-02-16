@@ -99,6 +99,15 @@ export class PostComponent implements OnInit {
             );
     }
 
+    getUserForComment(idComentario) {
+        this.userService.getUserForComment(idComentario)
+            .subscribe(
+                (user) => {
+                    return user;
+                }
+            );
+    }
+
     isMyComment(comentarioActual: any) {
         for (let comentario of this.comentariosUser) {
             if (this.equals(comentario, comentarioActual))

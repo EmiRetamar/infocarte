@@ -45,6 +45,12 @@
             <div>Si no selecciona una imagen se mantendra su imagen anterior</div>
           </div>
 
+          <div fxFlex.xs="100" fxFlex.lg="50" fxFlex.md="50" fxFlex.sm="50">
+              <h4 class="mat-subheading-2 center-align">Comentarios</h4>
+              <mat-divider></mat-divider>
+            <mat-slide-toggle formControlName="comments_enabled" color="primary" [ngModel]="post.comments_enabled">Habilitar comentarios</mat-slide-toggle>
+          </div>
+
         </div>
 
         <div id="posMatDivider">

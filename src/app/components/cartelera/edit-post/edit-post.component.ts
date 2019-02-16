@@ -33,7 +33,8 @@ export class EditPostComponent implements OnInit {
         this.editPostForm = this.formBuilder.group({
             title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
             description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
-            image: ['']
+            image: [''],
+            comments_enabled: ['']
         });
     }
 
