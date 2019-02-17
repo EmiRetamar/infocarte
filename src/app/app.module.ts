@@ -18,6 +18,10 @@ import { PostModule } from './components/post/post.module';
 import { LocalStorageService } from './services/local-storage.service';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ToasterService } from './services/toaster.service';
+import { UsuarioAutenticado } from './components/guards/usuario-autenticado';
+import { UsuarioAdministrador } from './components/guards/usuario-administrador';
+import { UsuarioProfesor } from './components/guards/usuario-profesor';
+import { UsuarioAlumno } from './components/guards/usuario-alumno';
 
 @NgModule({
   declarations: [
@@ -42,6 +46,10 @@ import { ToasterService } from './services/toaster.service';
     CarteleraService,
     LocalStorageService,
     ToasterService,
+    UsuarioAutenticado,
+    UsuarioAdministrador,
+    UsuarioProfesor,
+    UsuarioAlumno,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [ AppComponent ]

@@ -10,16 +10,19 @@ import { EditCarteleraComponent } from './components/home/edit-cartelera/edit-ca
 import { CreatePostComponent } from './components/cartelera/create-post/create-post.component';
 import { EditPostComponent } from './components/cartelera/edit-post/edit-post.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { UsuarioAutenticado } from './components/guards/usuario-autenticado';
+import { UsuarioAdministrador } from './components/guards/usuario-administrador';
+import { UsuarioProfesor } from './components/guards/usuario-profesor';
 
 const appRoutes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'cartelera/:idCartelera', component: CarteleraComponent },
     { path: 'cartelera/:idCartelera/post/:idPost', component: PostComponent },
-    { path: 'create-cartelera', component: CreateCarteleraComponent },
-    { path: 'edit-cartelera/:idCartelera', component: EditCarteleraComponent },
-    { path: 'cartelera/:idCartelera/create-post', component: CreatePostComponent },
-    { path: 'cartelera/:idCartelera/edit-post/:idPost', component: EditPostComponent },
+    { path: 'create-cartelera', component: CreateCarteleraComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },
+    { path: 'edit-cartelera/:idCartelera', component: EditCarteleraComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },
+    { path: 'cartelera/:idCartelera/create-post', component: CreatePostComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
+    { path: 'cartelera/:idCartelera/edit-post/:idPost', component: EditPostComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
     // { path: '**', component: PageNotFoundComponent },
     // {path: 'projects', component: ProjectsComponent,canActivate:[AuthGuard]},
     { path: '', redirectTo: 'home', pathMatch: 'full' } // Cuando el path esta vacio se redirige a home, pathMatch va en el default siempre
