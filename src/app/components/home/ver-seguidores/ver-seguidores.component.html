@@ -1,0 +1,5 @@
+<mat-list *ngIf="seguidores">
+  <mat-list-item *ngFor="let seguidor of seguidores">
+    {{ seguidor.name }} {{ seguidor.lastname }}
+  </mat-list-item>
+</mat-list>

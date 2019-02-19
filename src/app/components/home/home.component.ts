@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import { VerSeguidoresComponent } from './ver-seguidores/ver-seguidores.component';
 import { DeleteCarteleraComponent } from './delete-cartelera/delete-cartelera.component';
 import { CarteleraService } from '../../services/cartelera.service';
 import { UserService } from '../../services/user.service';
@@ -32,6 +33,18 @@ export class HomeComponent implements OnInit {
                     this.carteleras = carteleras;
                 }
             );
+    }
+
+    verSeguidores(cartelera) {
+        const dialogConfig = new MatDialogConfig();
+
+        //dialogConfig.height = '12em';
+        //dialogConfig.width = '15em';
+        dialogConfig.data = {
+            id: cartelera.id
+        };
+
+        this.dialog.open(VerSeguidoresComponent, dialogConfig);
     }
 
     eliminarCartelera(cartelera: any) {

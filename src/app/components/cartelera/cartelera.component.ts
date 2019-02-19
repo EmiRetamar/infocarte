@@ -16,6 +16,7 @@ export class CarteleraComponent implements OnInit {
 
     cartelera: any;
     posts: any;
+    postsUser: any;
 
     constructor(private carteleraService: CarteleraService,
                 private userService: UserService,
@@ -34,12 +35,24 @@ export class CarteleraComponent implements OnInit {
                     this.cartelera = cartelera;
                     this.carteleraService.getPosts(idCartelera)
                         .subscribe(
-                            (posts) => {
-                                this.posts = posts;
+                            (postsBillboard) => {
+                                this.posts = postsBillboard;
+                                this.userService.getPosts(this.localStorageService.getUserId())
+                                    .subscribe(
+                                        (postsUser) => this.postsUser = postsUser
+                                    );
                             }
-                        )
+                        );
                 }
             );
+    }
+
+    isMyPost(postActual: any) {
+        for (let post of this.postsUser) {
+            if (post.id == postActual.id)
+                return true;
+        }
+        return false;
     }
 
     eliminarPost(post: any) {
