@@ -17,6 +17,10 @@ export class UserService {
 		return this.http.get(this.getUrl('users/me'));
 	}
 
+	getUserById(idUser: string) {
+		return this.http.get(this.getUrl(`users/${idUser}`));
+	}
+
 	getPosts(idUser: string) {
 		return this.http.get(this.getUrl(`users/${idUser}/posts`))
 			.pipe(map((result: any) => result._embedded.posts));

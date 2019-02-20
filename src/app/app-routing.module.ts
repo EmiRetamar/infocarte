@@ -13,6 +13,8 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { UsuarioAutenticado } from './components/guards/usuario-autenticado';
 import { UsuarioAdministrador } from './components/guards/usuario-administrador';
 import { UsuarioProfesor } from './components/guards/usuario-profesor';
+import { PerfilComponent } from './components/usuario/perfil/perfil.component';
+import { EditUserComponent } from './components/usuario/edit-user/edit-user.component';
 
 const appRoutes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -23,6 +25,8 @@ const appRoutes: Routes = [
     { path: 'edit-cartelera/:idCartelera', component: EditCarteleraComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },
     { path: 'cartelera/:idCartelera/create-post', component: CreatePostComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
     { path: 'cartelera/:idCartelera/edit-post/:idPost', component: EditPostComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
+    { path: 'user/:idUser', component: PerfilComponent },
+    { path: 'edit-user/:idUser', component: EditUserComponent },
     // { path: '**', component: PageNotFoundComponent },
     // {path: 'projects', component: ProjectsComponent,canActivate:[AuthGuard]},
     { path: '', redirectTo: 'home', pathMatch: 'full' } // Cuando el path esta vacio se redirige a home, pathMatch va en el default siempre

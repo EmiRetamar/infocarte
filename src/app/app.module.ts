@@ -22,6 +22,7 @@ import { UsuarioAutenticado } from './components/guards/usuario-autenticado';
 import { UsuarioAdministrador } from './components/guards/usuario-administrador';
 import { UsuarioProfesor } from './components/guards/usuario-profesor';
 import { UsuarioAlumno } from './components/guards/usuario-alumno';
+import { UsuarioModule } from './components/usuario/usuario.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { UsuarioAlumno } from './components/guards/usuario-alumno';
     HttpClientModule,
     HomeModule,
     CarteleraModule,
-    PostModule
+    PostModule,
+    UsuarioModule
   ],
   providers: [
     AuthService,

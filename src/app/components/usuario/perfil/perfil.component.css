@@ -1,0 +1,40 @@
+mat-card-actions {
+	text-align: center;
+}
+
+/*.mat-list {
+	text-align: center;
+}*/
+
+.card-container {
+	display: flex;
+	flex-flow: row wrap;
+	align-content: center;
+}
+
+.card-content {
+	width: 60%;
+	box-sizing: border-box;
+	margin-top: 1.5em;
+	margin-left: 20%;
+	margin-right: 20%;
+}
+
+.usuario {
+	text-align: center;
+	font-size: 2em;
+}
+
+.div-width {
+	width: 100%;
+}
+
+.spinner-container {
+    align-items: center;
+    margin-bottom: 17.5em;
+}
+
+.spinner-content {
+    width: 800px;
+    margin: 10px auto;
+}
