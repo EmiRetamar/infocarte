@@ -1,5 +1,15 @@
-<mat-list *ngIf="seguidores">
-  <mat-list-item *ngFor="let seguidor of seguidores">
-    {{ seguidor.name }} {{ seguidor.lastname }}
-  </mat-list-item>
-</mat-list>
+<mat-dialog-content>
+	<h3>Lista de seguidores</h3>
+	<mat-divider></mat-divider>
+	<mat-list *ngIf="seguidores">
+		<mat-list-item *ngFor="let seguidor of seguidores">
+			<img mat-line mat-card-avatar src="{{ seguidor.photo }}" (click)="verPerfil(seguidor.id)">
+			{{ seguidor.name }} {{ seguidor.lastname }}
+			<mat-divider></mat-divider>
+		</mat-list-item>
+	</mat-list>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+	<!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+	<button #buttonClose mat-button color="primary" [mat-dialog-close]="true">Cerrar</button>
+</mat-dialog-actions>

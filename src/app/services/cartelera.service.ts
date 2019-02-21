@@ -35,7 +35,7 @@ export class CarteleraService {
     updateCartelera(cartelera: any) {
         let httpHeaders = new HttpHeaders({
             'Content-type': 'application/json; charset=UTF-8'
-        })
+        });
         return this.http.patch(this.getUrl(`billboards/${cartelera.id}`), cartelera, { headers: httpHeaders });
     }
 
@@ -43,13 +43,27 @@ export class CarteleraService {
         return this.http.delete(this.getUrl(`billboards/${idCartelera}`));
     }
 
-    like(cartelera: any) {
+    follow(idUser: string, idCartelera: string) {
+        let httpHeaders = new HttpHeaders({
+            'Content-type': 'application/json; charset=UTF-8'
+        });
+        let body = { "billboard_id": `${idCartelera}` };
+        return this.http.post(this.getUrl(`users/${idUser}/followBillboard`), body, { headers: httpHeaders });
+    }
+
+    unfollow(idUser: string, idCartelera: string) {
+        /*let httpHeaders = new HttpHeaders({
+            'Content-type': 'application/json; charset=UTF-8'
+        });
+        let body = { "billboard_id": `${idCartelera}` };
+        return this.http.delete(this.getUrl(`users/${idUser}/followBillboard`), { headers: httpHeaders });*/
         return this.http.get(this.getUrl('billboards'));
     }
 
-    dislike(cartelera: any) {
-        return this.http.get(this.getUrl('billboards'));
-    }
+    getSeguidores(idCartelera) {
+		return this.http.get(this.getUrl(`billboards/${idCartelera}/usersFollowers`))
+			.pipe(map((result: any) => result._embedded.users));
+	}
 
     getPublicacion(idPost: string): Observable<any> {
         return this.http.get(this.getUrl(`posts/${idPost}`));

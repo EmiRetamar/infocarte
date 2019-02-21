@@ -45,7 +45,7 @@ export class PostComponent implements OnInit {
                     .subscribe((post) => {
                         this.carteleraService.getComentarios(idPost)
                             .subscribe((comentarios) => {
-                                this.userService.getComentarios(this.localStorageService.getUserId())
+                                this.userService.getComentariosUser(this.localStorageService.getUserId())
                                     .subscribe((comentariosUser) => {
                                         this.cartelera = cartelera;
                                         this.post = post;

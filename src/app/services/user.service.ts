@@ -21,7 +21,7 @@ export class UserService {
 		return this.http.get(this.getUrl(`users/${idUser}`));
 	}
 
-	getPosts(idUser: string) {
+	getPostsUser(idUser: string) {
 		return this.http.get(this.getUrl(`users/${idUser}/posts`))
 			.pipe(map((result: any) => result._embedded.posts));
 	}
@@ -30,14 +30,14 @@ export class UserService {
 		return this.http.get(this.getUrl(`comments/${idComentario}/user`));
 	}
 
-	getComentarios(idUser: string) {
+	getComentariosUser(idUser: string) {
 		return this.http.get(this.getUrl(`users/${idUser}/comments`))
 			.pipe(map((comentarios: any) => comentarios.data));
 	}
 
-	getSeguidores(idCartelera) {
-		return this.http.get(this.getUrl(`users/${idCartelera}/followedBillboards`))
-			.pipe(map((carteleras: any) => carteleras._embedded.billboards));
+	getCartelerasSeguidas(idUser: string) {
+		return this.http.get(this.getUrl(`users/${idUser}/followedBillboards`))
+			.pipe(map((result: any) => result._embedded.billboards));
 	}
 
 	private getUrl(modelo: String): string {

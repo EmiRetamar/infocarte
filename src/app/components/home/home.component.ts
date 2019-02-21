@@ -17,7 +17,7 @@ import { Cartelera } from '../../models/cartelera';
 export class HomeComponent implements OnInit {
 
     carteleras: any[];
-    cartelerasLikeadas: any[] = [];
+    cartelerasSeguidas: any[] = [];
 
     constructor(private carteleraService: CarteleraService,
                 private userService: UserService,
@@ -30,7 +30,13 @@ export class HomeComponent implements OnInit {
         this.carteleraService.getCarteleras()
             .subscribe(
                 (carteleras) => {
-                    this.carteleras = carteleras;
+                    this.userService.getCartelerasSeguidas(this.localStorageService.getUserId())
+                        .subscribe(
+                            (cartelerasSeguidas) => {
+                                this.carteleras = carteleras;
+                                this.cartelerasSeguidas = cartelerasSeguidas;
+                            }
+                        );
                 }
             );
     }
@@ -41,7 +47,8 @@ export class HomeComponent implements OnInit {
         //dialogConfig.height = '12em';
         //dialogConfig.width = '15em';
         dialogConfig.data = {
-            id: cartelera.id
+            id: cartelera.id,
+            dialogRef: this.dialog
         };
 
         this.dialog.open(VerSeguidoresComponent, dialogConfig);
@@ -88,30 +95,31 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    likeAction(carteleraActual) {
-        let dislike = true;
-        // Si se encuentra la cartelera clickeada en la coleccion cartelerasLikeadas significa que fue un dislike
-        if (this.likeada(carteleraActual, dislike)) {
-            // Llamada a la api para eliminar el like de la cartelera para el usuario actual
-            this.carteleraService.dislike(carteleraActual)
+    followAction(carteleraActual) {
+        let unfollow = true;
+        let idUser = this.localStorageService.getUserId();
+        // Si se encuentra la cartelera clickeada en la coleccion cartelerasSeguidas significa que fue un unfollow
+        if (this.followed(carteleraActual, unfollow)) {
+            // Llamada a la api para eliminar el follow de la cartelera para el usuario actual
+            this.carteleraService.unfollow(idUser, carteleraActual.id)
                 .subscribe(
                     (result) => {
                         return;
                     },
                     (error) => {
-                        // Si ocurre un error en el servidor, la cartelera es agregada nuevamente a la coleccion cartelerasLikeadas
-                        this.cartelerasLikeadas.push(carteleraActual);
+                        // Si ocurre un error en el servidor, la cartelera es agregada nuevamente a la coleccion cartelerasSeguidas
+                        this.cartelerasSeguidas.push(carteleraActual);
                         this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
                     }
                 );
         }
-        // Si no se encuentra la cartelera clickeada en la coleccion cartelerasLikeadas significa que fue un like
+        // Si no se encuentra la cartelera clickeada en la coleccion cartelerasSeguidas significa que fue un follow
         else {
-            this.carteleraService.like(carteleraActual)
+            this.carteleraService.follow(idUser, carteleraActual.id)
                 .subscribe(
                     (result) => {
-                        // Si el like se produce correctamente en la api, se agrega la cartelera a la coleccion local cartelerasLikeadas
-                        this.cartelerasLikeadas.push(carteleraActual);
+                        // Si el follow se produce correctamente en la api, se agrega la cartelera a la coleccion local cartelerasSeguidas
+                        this.cartelerasSeguidas.push(carteleraActual);
                         return;
                     },
                     (error) => {
@@ -119,15 +127,14 @@ export class HomeComponent implements OnInit {
                     }
                 );
         }
-        console.log(this.cartelerasLikeadas);
     }
 
-    // Verifica si una cartelera esta likeada, tambien efectua un dislike en caso de que se llame desde likeAction, esto significa que se produjo un click en "like" sobre una cartelera likeada, lo que produce como resultado un "dislike"
-    likeada(carteleraActual, dislike?: boolean): boolean {
-        for (let carteleraLikeada of this.cartelerasLikeadas) {
-            if (this.equals(carteleraLikeada, carteleraActual)) {
-                if(dislike)
-                    this.removeCartelera(this.cartelerasLikeadas, carteleraLikeada);
+    // Verifica si una cartelera esta followed, tambien efectua un unfollow en caso de que se llame desde followAction, esto significa que se produjo un click en "Dejar de seguir" sobre una cartelera followed
+    followed(carteleraActual, unfollow?: boolean): boolean {
+        for (let carteleraSeguida of this.cartelerasSeguidas) {
+            if (this.equals(carteleraSeguida, carteleraActual)) {
+                if(unfollow)
+                    this.removeCartelera(this.cartelerasSeguidas, carteleraSeguida);
                 return true;
             }
         }

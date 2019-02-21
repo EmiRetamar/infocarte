@@ -15,7 +15,17 @@
         </mat-card-content>
 
         <mat-card-actions>
-            <button mat-button color="primary" [ngClass]="{ 'activeButton': likeada(cartelera) }" (click)="likeAction(cartelera)" *ngIf="localStorageService.getToken() && userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())">Like</button>
+            <!-- Con boton "Like" -->
+            <!--<button mat-button color="primary" [ngClass]="{ 'activeButton': likeada(cartelera) }" (click)="likeAction(cartelera)" *ngIf="localStorageService.getToken() && userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())">Seguir</button>-->
+
+            <!-- Con boton "Seguir"/"Siguiendo" -->
+            <div *ngIf="followed(cartelera); then siguiendo else seguir"></div>
+            <ng-template #siguiendo>
+                <button mat-button color="primary" class="activeButton" (click)="followAction(cartelera)" *ngIf="localStorageService.getToken() && userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())">Siguiendo</button>
+            </ng-template>
+            <ng-template #seguir>
+                <button mat-button color="primary" (click)="followAction(cartelera)" *ngIf="localStorageService.getToken() && userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())">Seguir</button>
+            </ng-template>
             <button mat-button color="primary" (click)="verSeguidores(cartelera)" *ngIf="localStorageService.getToken() && (userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities()) || userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities()))">Seguidores</button>
             <button mat-button color="primary" [routerLink]="['/edit-cartelera', cartelera.id]" *ngIf="localStorageService.getToken() && userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities())">Editar</button>
             <button mat-button color="primary" (click)="eliminarCartelera(cartelera)" *ngIf="localStorageService.getToken() && userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities())">Eliminar</button>

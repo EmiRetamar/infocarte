@@ -37,7 +37,7 @@ export class CarteleraComponent implements OnInit {
                         .subscribe(
                             (postsBillboard) => {
                                 this.posts = postsBillboard;
-                                this.userService.getPosts(this.localStorageService.getUserId())
+                                this.userService.getPostsUser(this.localStorageService.getUserId())
                                     .subscribe(
                                         (postsUser) => this.postsUser = postsUser
                                     );

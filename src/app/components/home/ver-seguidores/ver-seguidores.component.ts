@@ -1,6 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { UserService } from '../../../services/user.service';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { CarteleraService } from '../../../services/cartelera.service';
+import { Router } from '@angular/router';
 
 @Component({
   	selector: 'info-ver-seguidores',
@@ -10,19 +11,30 @@ import { UserService } from '../../../services/user.service';
 export class VerSeguidoresComponent implements OnInit {
 
 	idCartelera: string;
-	seguidores;
+	seguidores: any;
+	dialogRef: MatDialog;
 
-  	constructor(@Inject(MAT_DIALOG_DATA) data: any, private userService: UserService) {
+	/* {read: ElementRef} es porque es un boton de angular material, si no se especifica esta propiedad
+	no es posible acceder a la propiedad "nativeElement" */
+	@ViewChild("buttonClose", {read: ElementRef}) buttonClose: ElementRef;
+
+  	constructor(@Inject(MAT_DIALOG_DATA) data: any, private carteleraService: CarteleraService, private router: Router) {
 		this.idCartelera = data.id;
+		this.dialogRef = data.dialogRef;
 	}
 
 	ngOnInit() {
-		this.userService.getSeguidores(this.idCartelera)
+		this.carteleraService.getSeguidores(this.idCartelera)
 			.subscribe(
 				(seguidores) => {
 					this.seguidores = seguidores;
 				}
 			)
   	}
+
+	verPerfil(idUser) {
+		this.dialogRef.closeAll();
+		this.router.navigateByUrl(`/user/${idUser}`);
+	}
 
 }
