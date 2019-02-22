@@ -17,7 +17,7 @@
                 </a>
             </div>
             <div *ngIf="localStorageService.getToken()">
-                <a mat-list-item class="sidenav-link" (click)="sidenav.toggle()">
+                <a mat-list-item class="sidenav-link" [routerLink]="['user', localStorageService.getUserId()]" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>perm_identity</mat-icon>
                     <span class="title" mat-line>Perfil</span>
                 </a>
@@ -27,7 +27,7 @@
                 </a>
                 <a mat-list-item class="sidenav-link" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>favorite_border</mat-icon>
-                    <span class="title" mat-line>Carteleras likeadas</span>
+                    <span class="title" mat-line>Carteleras seguidas</span>
                 </a>
                 <a mat-list-item class="sidenav-link" (click)="logout()" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>exit_to_app</mat-icon>
@@ -47,8 +47,33 @@
             <h1>InfoCarte</h1>
         </button>
 
-        <span><mat-icon>mood</mat-icon></span>
+        <button mat-icon-button [matMenuTriggerFor]="matmenu">
+            <mat-icon>public</mat-icon>
+        </button>
+
+        <!--<span><mat-icon>mood</mat-icon></span>-->
     </mat-toolbar>
+
+    <mat-menu #matmenu="matMenu">
+        <button mat-menu-item>
+            <mat-icon>notifications</mat-icon>
+            <span>
+                New notification
+            </span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>notifications</mat-icon>
+            <span>
+                New notification
+            </span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>notifications</mat-icon>
+            <span>
+                New notification
+            </span>
+        </button>
+    </mat-menu>
 
     <mat-card class="card-content">
         <h1>Sistema de carteleras de la Facultad de Informática - UNLP</h1>

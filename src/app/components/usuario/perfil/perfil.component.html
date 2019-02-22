@@ -1,7 +1,7 @@
 <div class="card-container" *ngIf="user">
 	<mat-card class="card-content">
 
-		<img mat-card-image src="http://tadalafilforsale.net/data/media/4/52175933.jpg">
+		<img mat-card-image src="{{ user.photo }}">
 
 		<mat-card-content>
 
@@ -11,7 +11,7 @@
 				<mat-divider></mat-divider>
 				<mat-list-item>Nombre de usuario: {{ user.username }}</mat-list-item>
 				<mat-divider></mat-divider>
-				<mat-list-item>Email: admin@admin.com</mat-list-item>
+				<mat-list-item>Email: {{ user.email }}</mat-list-item>
 				<mat-divider></mat-divider>
 				<mat-list-item>
 					<div class="div-width">Carteleras creadas:</div>
@@ -33,7 +33,7 @@
 		</mat-card-content>
 
 		<mat-card-actions>
-			<button mat-button color="primary" [routerLink]="['/edit-user']">Editar</button>
+			<button mat-button color="primary" [routerLink]="['/edit-user', user.id]">Editar</button>
 		</mat-card-actions>
 
 	</mat-card>

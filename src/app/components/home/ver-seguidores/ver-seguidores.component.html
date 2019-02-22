@@ -3,8 +3,10 @@
 	<mat-divider></mat-divider>
 	<mat-list *ngIf="seguidores">
 		<mat-list-item *ngFor="let seguidor of seguidores">
-			<img mat-line mat-card-avatar src="{{ seguidor.photo }}" (click)="verPerfil(seguidor.id)">
-			{{ seguidor.name }} {{ seguidor.lastname }}
+			<img mat-line mat-card-avatar class="profile-img" src="{{ seguidor.photo }}">
+			<a [routerLink]="['/user', seguidor.id]" (click)="closeMatDialog()">
+				{{ seguidor.name }} {{ seguidor.lastname }}
+			</a>
 			<mat-divider></mat-divider>
 		</mat-list-item>
 	</mat-list>

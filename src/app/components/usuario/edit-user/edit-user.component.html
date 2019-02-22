@@ -44,7 +44,7 @@
               <h4 class="mat-subheading-2 center-align">Email</h4>
               <mat-divider></mat-divider>
               <mat-form-field>
-                <input matInput type="email" formControlName="email" placeholder="Email">
+                <input matInput type="email" formControlName="email" placeholder="Email" [ngModel]="user.email">
               </mat-form-field>
               <div *ngIf="submitted && form.email.errors">
                 <mat-error *ngIf="form.email.errors.required">El email es obligatorio</mat-error>

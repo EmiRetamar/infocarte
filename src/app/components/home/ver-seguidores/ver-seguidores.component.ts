@@ -32,9 +32,8 @@ export class VerSeguidoresComponent implements OnInit {
 			)
   	}
 
-	verPerfil(idUser) {
+	closeMatDialog() {
 		this.dialogRef.closeAll();
-		this.router.navigateByUrl(`/user/${idUser}`);
 	}
 
 }
