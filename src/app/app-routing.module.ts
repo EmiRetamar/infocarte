@@ -28,7 +28,6 @@ const appRoutes: Routes = [
     { path: 'user/:idUser', component: PerfilComponent },
     { path: 'edit-user/:idUser', component: EditUserComponent },
     // { path: '**', component: PageNotFoundComponent },
-    // {path: 'projects', component: ProjectsComponent,canActivate:[AuthGuard]},
     { path: '', redirectTo: 'home', pathMatch: 'full' } // Cuando el path esta vacio se redirige a home, pathMatch va en el default siempre
 ];
 
