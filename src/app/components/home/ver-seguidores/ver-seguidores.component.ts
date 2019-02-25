@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { CarteleraService } from '../../../services/cartelera.service';
 import { Router } from '@angular/router';
+import { Usuario } from '../../../models/usuario';
 
 @Component({
   	selector: 'info-ver-seguidores',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 export class VerSeguidoresComponent implements OnInit {
 
 	idCartelera: string;
-	seguidores: any;
+	seguidores: Usuario[];
 	dialogRef: MatDialog;
 
 	/* {read: ElementRef} es porque es un boton de angular material, si no se especifica esta propiedad
@@ -26,10 +27,8 @@ export class VerSeguidoresComponent implements OnInit {
 	ngOnInit() {
 		this.carteleraService.getSeguidores(this.idCartelera)
 			.subscribe(
-				(seguidores) => {
-					this.seguidores = seguidores;
-				}
-			)
+				(seguidores) => this.seguidores = seguidores
+			);
   	}
 
 	closeMatDialog() {

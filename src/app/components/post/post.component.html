@@ -4,7 +4,7 @@
     Si se usa cuando no hay comentarios queda un padding blanco del estilo aplicado al div
     debajo del mat-card, es decir, queda un fragmento demas que no deberia estar
 -->
-<div [ngClass]="{ 'post-container': comentarios.length > 0 ? true : false }" *ngIf="cartelera && post && comentarios && comentariosUser">
+<div [ngClass]="{ 'post-container': comentarios.length > 0 ? true : false }" *ngIf="loaded">
     <!-- Publicacion -->
     <mat-card>
         <mat-toolbar color="warn" class="mat-elevation-z1">
@@ -54,14 +54,19 @@
         <mat-card class="comment-card" *ngFor="let comentario of comentarios">
             <mat-card-header>
                 <img mat-line mat-card-avatar src="/assets/profile.png">
-                <mat-card-title>Usuario</mat-card-title>
+                <mat-card-title *ngIf="usersForComments[comentario.id] != undefined">
+                    {{ usersForComments[comentario.id].name }} {{ usersForComments[comentario.id].lastname }}
+                </mat-card-title>
+                <!--<mat-card-title *ngIf="usersForComments[comentario.id] != undefined">
+                    <div *ngIf="isMyComment(comentario); #usuarioAutenticado else #otroUsuario"></div>
+                    <ng-template #usuarioAutenticado>{{ user.name }} {{ user.lastname }}</ng-template>
+                    <ng-template #OtroUsuario>{{ usersForComments[comentario.id].name }} {{ usersForComments[comentario.id].lastname }}</ng-template>
+                </mat-card-title>-->
                 <mat-card-subtitle>{{ comentario.created_at }}</mat-card-subtitle>
             </mat-card-header>
 
             <mat-card-content>
-                <p>
-                    {{ comentario.comment }}
-                </p>
+                {{ comentario.comment }}
             </mat-card-content>
 
             <mat-card-actions>
@@ -72,6 +77,6 @@
 
 </div>
 
-<div class="spinner-container" *ngIf="!cartelera || !post || !comentarios || !comentariosUser">
+<div class="spinner-container" *ngIf="!loaded">
     <mat-spinner class="spinner-content"></mat-spinner>
 </div>

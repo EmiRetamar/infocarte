@@ -16,8 +16,8 @@ import { Cartelera } from '../../models/cartelera';
 })
 export class HomeComponent implements OnInit {
 
-    carteleras: any[];
-    cartelerasSeguidas: any[] = [];
+    carteleras: Cartelera[];
+    cartelerasSeguidas: Cartelera[] = [];
 
     constructor(private carteleraService: CarteleraService,
                 private userService: UserService,
@@ -30,18 +30,18 @@ export class HomeComponent implements OnInit {
         this.carteleraService.getCarteleras()
             .subscribe(
                 (carteleras) => {
-                    this.userService.getCartelerasSeguidas(this.localStorageService.getUserId())
-                        .subscribe(
-                            (cartelerasSeguidas) => {
-                                this.carteleras = carteleras;
-                                this.cartelerasSeguidas = cartelerasSeguidas;
-                            }
-                        );
+                    this.carteleras = carteleras;
+                    if (this.localStorageService.getToken()) {
+                        this.userService.getCartelerasSeguidas(this.localStorageService.getUserId())
+                            .subscribe(
+                                (cartelerasSeguidas) => this.cartelerasSeguidas = cartelerasSeguidas
+                            );
+                    }
                 }
             );
     }
 
-    verSeguidores(cartelera) {
+    verSeguidores(cartelera: Cartelera) {
         const dialogConfig = new MatDialogConfig();
 
         //dialogConfig.height = '12em';
@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit {
         this.dialog.open(VerSeguidoresComponent, dialogConfig);
     }
 
-    eliminarCartelera(cartelera: any) {
+    eliminarCartelera(cartelera: Cartelera) {
         const dialogConfig = new MatDialogConfig();
 
         dialogConfig.disableClose = true;
@@ -75,12 +75,13 @@ export class HomeComponent implements OnInit {
                     if (result) {
                         this.carteleraService.deleteCartelera(cartelera.id)
                             .subscribe(
-                                (res) => {
+                                () => {
                                     this.removeCartelera(this.carteleras, cartelera);
                                     this.toasterService.success('Cartelera eliminada con éxito !');
                                 },
                                 (error) => {
                                     this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
+                                    console.error(error.message);
                                 }
                             );
                     }
@@ -88,14 +89,14 @@ export class HomeComponent implements OnInit {
             );
     }
 
-    removeCartelera(carteleras: any[], cartelera: any) {
+    removeCartelera(carteleras: Cartelera[], cartelera: Cartelera) {
         let index = carteleras.indexOf(cartelera);
         if (index > -1) {
             carteleras.splice(index, 1);
         }
     }
 
-    followAction(carteleraActual) {
+    followAction(carteleraActual: Cartelera) {
         let unfollow = true;
         let idUser = this.localStorageService.getUserId();
         // Si se encuentra la cartelera clickeada en la coleccion cartelerasSeguidas significa que fue un unfollow
@@ -104,12 +105,15 @@ export class HomeComponent implements OnInit {
             this.carteleraService.unfollow(idUser, carteleraActual.id)
                 .subscribe(
                     (result) => {
+                        //this.cartelerasSeguidas.pop(carteleraActual);
+                        console.log(result);
                         return;
                     },
                     (error) => {
                         // Si ocurre un error en el servidor, la cartelera es agregada nuevamente a la coleccion cartelerasSeguidas
                         this.cartelerasSeguidas.push(carteleraActual);
                         this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
+                        console.error(error.message);
                     }
                 );
         }
@@ -120,19 +124,33 @@ export class HomeComponent implements OnInit {
                     (result) => {
                         // Si el follow se produce correctamente en la api, se agrega la cartelera a la coleccion local cartelerasSeguidas
                         this.cartelerasSeguidas.push(carteleraActual);
+                        console.log(result);
                         return;
                     },
                     (error) => {
                         this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
+                        console.error(error.message);
                     }
                 );
         }
     }
 
     // Verifica si una cartelera esta followed, tambien efectua un unfollow en caso de que se llame desde followAction, esto significa que se produjo un click en "Dejar de seguir" sobre una cartelera followed
-    followed(carteleraActual, unfollow?: boolean): boolean {
+    followed(carteleraActual: Cartelera, unfollow?: boolean): boolean {
         for (let carteleraSeguida of this.cartelerasSeguidas) {
             if (this.equals(carteleraSeguida, carteleraActual)) {
+                /* Si esta presente el parametro "unfollow" significa que el usuario realizo un click
+                en "seguir/siguiendo" pero como la comprobacion de la variable se ejecuta despues de
+                la comparacion de "carteleraSeguida" con "carteleraActual" el metodo "removeCartelera()
+                se ejecutara solo en caso de realizar un unfollow ya que al retornar true el metodo equals()
+                la cartelera actual es una cartelera seguida por el usuario */
+
+                /* La variable "unfollow" es necesaria porque en el caso de la carga del listado de cartelera
+                se llamara al metodo followed() (este metodo) para comprobar si la cartelera que se esta
+                cargando en la vista es una cartelera seguida para aplicarle un estilo al boton indicando
+                que la cartelera esta followed, entonces si no se usa esta variable cada vez que se cargue
+                el listado de carteleras se ejecutara el metodo "removeCartelera()" y se eliminaran
+                las carteleras seguidas */
                 if(unfollow)
                     this.removeCartelera(this.cartelerasSeguidas, carteleraSeguida);
                 return true;

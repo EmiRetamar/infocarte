@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs/Observable';
+import { finalize } from 'rxjs/operators';
 import { CarteleraService } from '../../../services/cartelera.service';
 import { UserService } from '../../../services/user.service';
 import { ToasterService } from '../../../services/toaster.service';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { Router } from '@angular/router';
+import { Cartelera } from '../../../models/cartelera';
 
 @Component({
     selector: 'info-create-cartelera',
@@ -14,12 +18,16 @@ import { Router } from '@angular/router';
 export class CreateCarteleraComponent implements OnInit {
 
     createCarteleraForm: FormGroup;
+    imageUrl: string;
     submitted = false;
+    uploadProgress: Observable<number>;
+    uploadUrl: Observable<string>;
 
     constructor(private carteleraService: CarteleraService,
                 private userService: UserService,
                 private toasterService: ToasterService,
                 private formBuilder: FormBuilder,
+                private fireStorage: AngularFireStorage,
                 private router: Router,
                 public localStorageService: LocalStorageService) { }
 
@@ -40,24 +48,53 @@ export class CreateCarteleraComponent implements OnInit {
         if (this.createCarteleraForm.valid) {
             let formData = this.createCarteleraForm.value;
             formData.created_by = `users/${this.localStorageService.getUserId()}`;
-            // ESTO ES TEMPORAL HASTA QUE ESTE IMPLEMENTADO EL CARGADOR DE IMAGENES
-            formData.image = 'https://cdn-images-1.medium.com/max/1600/1*qwoA9FmZDrE5q--_9qqBCQ.jpeg';
+            if (this.imageUrl == undefined)
+                formData.image = '../../../../assets/cartelera.jpg';
+            else
+                formData.image = this.imageUrl;
             this.carteleraService.postCartelera(formData)
                 .subscribe(
-                    (result) => {
+                    (newBillboard: Cartelera) => {
                         // Codigo de resultado exitoso
                         this.router.navigateByUrl('/home');
                         this.toasterService.success('Cartelera creada con éxito !');
-                        console.log(result);
+                        console.log(newBillboard);
                     },
                     (error) => {
-                        // Mensaje de error
+                        this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
+                        console.error(error.message);
                     }
                 );
         }
         else {
             return;
         }
+    }
+
+    upload(event) {
+        // Se obtiene el archivo del input
+        const file = event.target.files[0];
+
+        // Se genera un id aleatorio que se usara como nombre de la imagen
+        const randomId = Math.random().toString(36).substring(2);
+
+        const filepath = `images/${randomId}`;
+
+        const fileRef = this.fireStorage.ref(filepath);
+
+        // Se sube la imagen
+        const task = this.fireStorage.upload(filepath, file);
+
+        // Se setea el progreso de carga
+        this.uploadProgress = task.percentageChanges();
+
+        // Se notifica cuando la imagen termina de subirse y esta disponible
+        task.snapshotChanges().pipe(
+            finalize(() => {
+                this.uploadUrl = fileRef.getDownloadURL();
+                this.uploadUrl.subscribe((imageUrl) => this.imageUrl = imageUrl);
+            })
+        ).subscribe();
     }
 
 }

@@ -8,6 +8,10 @@ import { UserService } from '../../services/user.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
+import { Cartelera } from '../../models/cartelera';
+import { Post } from '../../models/post';
+import { Comentario } from '../../models/comentario';
+import { Usuario } from '../../models/usuario';
 
 @Component({
     selector: 'info-cartelera-detail',
@@ -16,12 +20,15 @@ import { ToasterService } from '../../services/toaster.service';
 })
 export class PostComponent implements OnInit {
 
-    cartelera: any;
-    post: any;
-    comentarios: any;
+    user: Usuario;
+    cartelera: Cartelera;
+    post: Post;
+    comentarios: Comentario[];
     comentariosUser: any;
+    usersForComments: Usuario[] = new Array();
     commentForm: FormGroup;
     submitted = false;
+    loaded = false;
 
     @ViewChild("clearButton", {read: ElementRef}) clearButton: ElementRef;
 
@@ -51,6 +58,8 @@ export class PostComponent implements OnInit {
                                         this.post = post;
                                         this.comentarios = comentarios;
                                         this.comentariosUser = comentariosUser;
+                                        this.getUsersForComments(this.comentarios);
+                                        this.loaded = true;
                                     });
                             });
                     });
@@ -64,7 +73,7 @@ export class PostComponent implements OnInit {
         return this.commentForm.controls;
     }
 
-    eliminarPost(post: any) {
+    eliminarPost(post: Post) {
         const dialogConfig = new MatDialogConfig();
 
         dialogConfig.disableClose = true;
@@ -83,12 +92,13 @@ export class PostComponent implements OnInit {
                     if (result) {
                         this.carteleraService.deletePublicacion(post.id)
                             .subscribe(
-                                (res) => {
+                                () => {
                                     this.router.navigateByUrl(`cartelera/${this.cartelera.id}`);
                                     this.toasterService.success('Publicación eliminada con éxito !');
                                 },
                                 (error) => {
                                     this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
+                                    console.error(error.message);
                                 }
                             );
                     }
@@ -96,12 +106,16 @@ export class PostComponent implements OnInit {
             );
     }
 
-    getUserForComment(idComentario) {
-        this.userService.getUserForComment(idComentario)
+    getUsersForComments(comentarios: Comentario[]): void {
+        for (let comentario of comentarios) {
+            this.requestUserForComment(comentario);
+        }
+    }
+
+    requestUserForComment(comentario: Comentario) {
+        this.userService.getUserForComment(comentario.id)
             .subscribe(
-                (user) => {
-                    return user;
-                }
+                (user: Usuario) => this.usersForComments[comentario.id] = user
             );
     }
 
@@ -133,7 +147,7 @@ export class PostComponent implements OnInit {
     Se filtra solo el atributo "data" cuando se recibe la respuesta en el metodo getComentarios(idUser)
     de la clase UserService
     */
-    isMyComment(comentarioActual: any) {
+    isMyComment(comentarioActual: Comentario) {
         for (let comentario of this.comentariosUser) {
             if (comentario[0] == comentarioActual.id)
                 return true;
@@ -158,9 +172,15 @@ export class PostComponent implements OnInit {
             formData.post = `posts/${this.post.id}`;
             this.carteleraService.postComentario(formData)
                 .subscribe(
-                    (comentario) => {
+                    (comentario: Comentario) => {
+                        this.requestUserForComment(comentario);
                         this.addComentario(comentario);
                         this.toasterService.success('Enviado !');
+                        console.log(comentario);
+                    },
+                    error => {
+                        this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
+                        console.error(error.message);
                     }
                 );
         }
@@ -169,7 +189,7 @@ export class PostComponent implements OnInit {
         }
     }
 
-    addComentario(comentario: any) {
+    addComentario(comentario: Comentario) {
         this.comentarios.push(comentario);
         // Se agrega una nueva posicion en el arreglo que guarda los comentarios del usuario logueado
         /* Solo es necesario guardar el id del comentario para comparar, pero se guarda el texto
@@ -177,7 +197,7 @@ export class PostComponent implements OnInit {
         this.comentariosUser.push([ comentario.id, comentario.comment ]);
     }
 
-    eliminarComentario(comentario: any) {
+    eliminarComentario(comentario: Comentario) {
         const dialogConfig = new MatDialogConfig();
 
         dialogConfig.disableClose = true;
@@ -185,7 +205,7 @@ export class PostComponent implements OnInit {
         // Estos datos son pasados al componente "DeleteComentarioComponent"
         dialogConfig.data = {
             id: comentario.id,
-            title: comentario.title
+            title: comentario.comment
         };
 
         const dialogRef = this.dialog.open(DeleteComentarioComponent, dialogConfig);
@@ -196,12 +216,13 @@ export class PostComponent implements OnInit {
                     if (result) {
                         this.carteleraService.deleteComentario(comentario.id)
                             .subscribe(
-                                (res) => {
+                                () => {
                                     this.removeComentario(comentario);
                                     this.toasterService.success('Comentario eliminado con éxito !');
                                 },
                                 (error) => {
                                     this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
+                                    console.error(error.message);
                                 }
                             );
                     }
@@ -209,7 +230,7 @@ export class PostComponent implements OnInit {
             );
     }
 
-    removeComentario(comentario: any) {
+    removeComentario(comentario: Comentario) {
         let index = this.comentarios.indexOf(comentario);
         if (index > -1) {
             this.comentarios.splice(index, 1);

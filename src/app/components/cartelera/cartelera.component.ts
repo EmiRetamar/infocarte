@@ -6,6 +6,8 @@ import { UserService } from '../../services/user.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
+import { Cartelera } from '../../models/cartelera';
+import { Post } from '../../models/post';
 
 @Component({
     selector: 'info-cartelera',
@@ -14,9 +16,9 @@ import { ToasterService } from '../../services/toaster.service';
 })
 export class CarteleraComponent implements OnInit {
 
-    cartelera: any;
-    posts: any;
-    postsUser: any;
+    cartelera: Cartelera;
+    posts: Post[];
+    postsUser: Post[];
 
     constructor(private carteleraService: CarteleraService,
                 private userService: UserService,
@@ -47,7 +49,7 @@ export class CarteleraComponent implements OnInit {
             );
     }
 
-    isMyPost(postActual: any) {
+    isMyPost(postActual: Post) {
         for (let post of this.postsUser) {
             if (post.id == postActual.id)
                 return true;
@@ -55,7 +57,7 @@ export class CarteleraComponent implements OnInit {
         return false;
     }
 
-    eliminarPost(post: any) {
+    eliminarPost(post: Post) {
         const dialogConfig = new MatDialogConfig();
 
         dialogConfig.disableClose = true;
@@ -76,12 +78,13 @@ export class CarteleraComponent implements OnInit {
                     if (result) {
                         this.carteleraService.deletePublicacion(post.id)
                             .subscribe(
-                                (res) => {
+                                () => {
                                     this.removePost(post);
                                     this.toasterService.success('Publicación eliminada con éxito !');
                                 },
                                 (error) => {
                                     this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
+                                    console.error(error.message);
                                 }
                             );
                     }
@@ -89,7 +92,7 @@ export class CarteleraComponent implements OnInit {
             );
     }
 
-    removePost(post: any) {
+    removePost(post: Post) {
         let index = this.posts.indexOf(post);
         if (index > -1) {
             this.posts.splice(index, 1);

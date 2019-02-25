@@ -3,7 +3,7 @@
         <div fxLayout="column" fxLayoutAlign="center center">
             <mat-card>
                 <mat-card-content>
-                    <form [formGroup]="form" (ngSubmit)="login()" autocomplete="on">
+                    <form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="on">
                         <p align="center">Iniciar Sesión</p>
                         <mat-form-field class="full-width-input">
                             <input matInput formControlName="username" placeholder="Usuario" required>

@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs/Observable';
+import { finalize } from 'rxjs/operators';
 import { CarteleraService } from '../../../services/cartelera.service';
 import { ToasterService } from 'src/app/services/toaster.service';
+import { Post } from '../../../models/post';
 
 @Component({
     selector: 'info-edit-post',
@@ -13,13 +17,17 @@ export class EditPostComponent implements OnInit {
 
     idCartelera: string;
     idPost: string;
-    post: any;
+    post: Post;
     editPostForm: FormGroup;
+    imageUrl: string;
     submitted = false;
+    uploadProgress: Observable<number>;
+    uploadUrl: Observable<string>;
 
     constructor(private carteleraService: CarteleraService,
                 private toasterService: ToasterService,
                 private formBuilder: FormBuilder,
+                private fireStorage: AngularFireStorage,
                 private router: Router,
                 private route: ActivatedRoute) { }
 
@@ -28,7 +36,7 @@ export class EditPostComponent implements OnInit {
         this.idPost = this.route.snapshot.paramMap.get('idPost');
         this.carteleraService.getPublicacion(this.idPost)
             .subscribe(
-                (post) => this.post = post
+                (post: Post) => this.post = post
             )
         this.editPostForm = this.formBuilder.group({
             title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -47,24 +55,53 @@ export class EditPostComponent implements OnInit {
         if (this.editPostForm.valid) {
             let formData = this.editPostForm.value;
             formData.id = this.post.id;
-            // ESTO ES TEMPORAL HASTA QUE ESTE IMPLEMENTADO EL CARGADOR DE IMAGENES
-            formData.image = 'https://udemy-images.udemy.com/course/750x422/947098_02ec.jpg';
+            if (this.imageUrl == undefined)
+                // Si no se cambio la imagen, se mantiene la misma
+                formData.image = this.post.image;
+            else
+                formData.image = this.imageUrl;
             this.carteleraService.updatePublicacion(formData)
                 .subscribe(
-                    (result) => {
-                        // Codigo de resultado exitoso
+                    (updatedPost: Post) => {
                         this.router.navigateByUrl(`/cartelera/${this.idCartelera}`);
                         this.toasterService.success('Publicación editada con éxito !');
-                        console.log(result);
+                        console.log(updatedPost);
                     },
                     (error) => {
-                        // Mensaje de error
+                        this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
+                        console.error(error.message);
                     }
                 );
         }
         else {
             return;
         }
+    }
+
+    upload(event) {
+        // Se obtiene el archivo del input
+        const file = event.target.files[0];
+
+        // Se genera un id aleatorio que se usara como nombre de la imagen
+        const randomId = Math.random().toString(36).substring(2);
+
+        const filepath = `images/${randomId}`;
+
+        const fileRef = this.fireStorage.ref(filepath);
+
+        // Se sube la imagen
+        const task = this.fireStorage.upload(filepath, file);
+
+        // Se setea el progreso de carga
+        this.uploadProgress = task.percentageChanges();
+
+        // Se notifica cuando la imagen termina de subirse y esta disponible
+        task.snapshotChanges().pipe(
+            finalize(() => {
+                this.uploadUrl = fileRef.getDownloadURL();
+                this.uploadUrl.subscribe((imageUrl) => this.imageUrl = imageUrl);
+            })
+        ).subscribe();
     }
 
 }

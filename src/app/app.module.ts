@@ -6,6 +6,8 @@ import { MaterialModule } from './material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AngularFireModule } from '@angular/fire';
+import {AngularFireStorageModule} from '@angular/fire/storage'
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -23,6 +25,7 @@ import { UsuarioAdministrador } from './components/guards/usuario-administrador'
 import { UsuarioProfesor } from './components/guards/usuario-profesor';
 import { UsuarioAlumno } from './components/guards/usuario-alumno';
 import { UsuarioModule } from './components/usuario/usuario.module';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,10 @@ import { UsuarioModule } from './components/usuario/usuario.module';
     HomeModule,
     CarteleraModule,
     PostModule,
-    UsuarioModule
+    UsuarioModule,
+    /* Angular Firebase Modules */
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule
   ],
   providers: [
     AuthService,

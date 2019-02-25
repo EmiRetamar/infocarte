@@ -16,7 +16,14 @@
                     <span class="title" mat-line>Login</span>
                 </a>
             </div>
-            <div *ngIf="localStorageService.getToken()">
+            <!-- Como el endpoint al cual accede "this.userService.getUser()" en "auth.service.ts" necesita
+            que se envie el token en las cabeceras http, primero se setea el token en el localStorage
+            y al producirse ese cambio este if quedara en true y en el "[routerLink]" se intentara acceder
+            al id del usuario inmediatamente pero como la solicitud http a la api rest es mas lenta
+            se intentara acceder a "localStorage.getItem('id')" en "local-storage-service.ts" y esa propiedad
+            es no existe aun, por lo tanto retornara null y se generara el siguiente error en consola:
+            "ERROR TypeError: Cannot read property 'outlets' of null" -->
+            <div *ngIf="localStorageService.getToken() && localStorageService.getUserId()">
                 <a mat-list-item class="sidenav-link" [routerLink]="['user', localStorageService.getUserId()]" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>perm_identity</mat-icon>
                     <span class="title" mat-line>Perfil</span>
@@ -57,21 +64,15 @@
     <mat-menu #matmenu="matMenu">
         <button mat-menu-item>
             <mat-icon>notifications</mat-icon>
-            <span>
-                New notification
-            </span>
+            <span>New notification</span>
         </button>
         <button mat-menu-item>
             <mat-icon>notifications</mat-icon>
-            <span>
-                New notification
-            </span>
+            <span>New notification</span>
         </button>
         <button mat-menu-item>
             <mat-icon>notifications</mat-icon>
-            <span>
-                New notification
-            </span>
+            <span>New notification</span>
         </button>
     </mat-menu>
 

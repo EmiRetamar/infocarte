@@ -19,7 +19,7 @@ nvm install node
 
 ## NPM
 
-NPM viene instalado con nodejs
+NPM viene instalado con Node.js
 
 Para verificar si estan instalados correctamente ejecutar los siguientes comandos:
 
@@ -27,7 +27,7 @@ node -v
 
 npm -v
 
-## Instalación de angular/cli
+## Instalación de Angular-CLI
 
 npm install -g @angular/cli
 
@@ -42,4 +42,3 @@ ng serve
 El proyecto corre por defecto en el puerto 4200
 
 http://localhost:4200/
-

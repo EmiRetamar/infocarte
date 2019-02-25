@@ -18,6 +18,10 @@ export class LocalStorageService {
         return localStorage.getItem('expires_at');
     }
 
+    public getTokenType(): string {
+        return localStorage.getItem('token_type');
+    }
+
     public getUserId(): string {
         return localStorage.getItem('id');
     }

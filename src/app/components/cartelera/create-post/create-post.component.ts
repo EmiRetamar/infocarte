@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs/Observable';
+import { finalize } from 'rxjs/operators';
 import { CarteleraService } from '../../../services/cartelera.service';
 import { UserService } from '../../../services/user.service';
 import { ToasterService } from '../../../services/toaster.service';
 import { LocalStorageService } from '../../../services/local-storage.service';
+import { Post } from '../../../models/post';
 
 @Component({
     selector: 'info-create-post',
@@ -15,8 +19,11 @@ export class CreatePostComponent implements OnInit {
 
     idCartelera: string;
     createPostForm: FormGroup;
+    imageUrl: string;
     comentariosHabilitados = false;
     submitted = false;
+    uploadProgress: Observable<number>;
+    uploadUrl: Observable<string>;
 
     constructor(private carteleraService: CarteleraService,
                 private userService: UserService,
@@ -24,6 +31,7 @@ export class CreatePostComponent implements OnInit {
                 private router: Router,
                 private route: ActivatedRoute,
                 private formBuilder: FormBuilder,
+                private fireStorage: AngularFireStorage,
                 public localStorageService: LocalStorageService) { }
 
     ngOnInit() {
@@ -32,7 +40,7 @@ export class CreatePostComponent implements OnInit {
             title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
             description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
             image: [''],
-            comments_enabled: ['']
+            comments_enabled: [false]
         });
     }
 
@@ -46,24 +54,52 @@ export class CreatePostComponent implements OnInit {
             let formData = this.createPostForm.value;
             formData.user = `users/${this.localStorageService.getUserId()}`;
             formData.billboard = `billboards/${this.idCartelera}`;
-            // ESTO ES TEMPORAL HASTA QUE ESTE IMPLEMENTADO EL CARGADOR DE IMAGENES
-            formData.image = 'https://novemberfive.co/images/blog/kotlin-implementation/img-header.jpg'
+            if (this.imageUrl == undefined)
+                formData.image = '../../../../assets/publicacion.jpg';
+            else
+                formData.image = this.imageUrl;
             this.carteleraService.postPublicacion(formData)
                 .subscribe(
-                    (result) => {
-                        // Codigo de resultado exitoso
+                    (newPost: Post) => {
                         this.router.navigateByUrl(`/cartelera/${this.idCartelera}`);
                         this.toasterService.success('Publicación creada con éxito !');
-                        console.log(result);
+                        console.log(newPost);
                     },
                     (error) => {
-                        // Mensaje de error
+                        this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
+                        console.error(error.message);
                     }
                 );
         }
         else {
             return;
         }
+    }
+
+    upload(event) {
+        // Se obtiene el archivo del input
+        const file = event.target.files[0];
+
+        // Se genera un id aleatorio que se usara como nombre de la imagen
+        const randomId = Math.random().toString(36).substring(2);
+
+        const filepath = `images/${randomId}`;
+
+        const fileRef = this.fireStorage.ref(filepath);
+
+        // Se sube la imagen
+        const task = this.fireStorage.upload(filepath, file);
+
+        // Se setea el progreso de carga
+        this.uploadProgress = task.percentageChanges();
+
+        // Se notifica cuando la imagen termina de subirse y esta disponible
+        task.snapshotChanges().pipe(
+            finalize(() => {
+                this.uploadUrl = fileRef.getDownloadURL();
+                this.uploadUrl.subscribe((imageUrl) => this.imageUrl = imageUrl);
+            })
+        ).subscribe();
     }
 
 }

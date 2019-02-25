@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
-import { pipe } from '@angular/core/src/render3/pipe';
+import { Cartelera } from '../models/cartelera';
+import { Post } from '../models/post';
+import { Usuario } from '../models/usuario';
 
 @Injectable({
 	providedIn: 'root'
@@ -17,34 +19,41 @@ export class UserService {
 		return this.http.get(this.getUrl('users/me'));
 	}
 
-	getUserById(idUser: string) {
-		return this.http.get(this.getUrl(`users/${idUser}`));
+	getUserById(idUser: string): Observable<Usuario> {
+		return this.http.get<Usuario>(this.getUrl(`users/${idUser}`));
 	}
 
-	getPostsUser(idUser: string) {
+	updateUser(user: any): Observable<Usuario> {
+        let httpHeaders = new HttpHeaders({
+            'Content-type': 'application/json; charset=UTF-8'
+        });
+        return this.http.patch<Usuario>(this.getUrl(`users/${user.id}`), user, { headers: httpHeaders });
+    }
+
+	getPostsUser(idUser: string): Observable<Post[]> {
 		return this.http.get(this.getUrl(`users/${idUser}/posts`))
-			.pipe(map((result: any) => result._embedded.posts));
+			.pipe(map((result: any) => result._embedded.posts as Post[]));
 	}
 
-	getUserForComment(idComentario: string) {
-		return this.http.get(this.getUrl(`comments/${idComentario}/user`));
+	getUserForComment(idComentario: string): Observable<Usuario> {
+		return this.http.get<Usuario>(this.getUrl(`comments/${idComentario}/user`));
 	}
 
-	getComentariosUser(idUser: string) {
+	getComentariosUser(idUser: string): Observable<any> {
 		return this.http.get(this.getUrl(`users/${idUser}/comments`))
 			.pipe(map((comentarios: any) => comentarios.data));
 	}
 
-	getCartelerasSeguidas(idUser: string) {
+	getCartelerasSeguidas(idUser: string): Observable<Cartelera[]> {
 		return this.http.get(this.getUrl(`users/${idUser}/followedBillboards`))
-			.pipe(map((result: any) => result._embedded.billboards));
+			.pipe(map((result: any) => result._embedded.billboards as Cartelera[]));
 	}
 
 	private getUrl(modelo: String): string {
 		return this.apiUrl + modelo;
 	}
 
-	public hasAuthority(authorityParam: string, jsonAuthorities: string) {
+	public hasAuthority(authorityParam: string, jsonAuthorities: string): boolean {
         let authorities = JSON.parse(jsonAuthorities);
         for(let element of authorities) {
             if (element.authority == authorityParam)

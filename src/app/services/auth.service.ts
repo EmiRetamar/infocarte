@@ -28,14 +28,16 @@ export class AuthService {
         };
 
         return this.http.post(this.apiUrl, params.toString(), httpOptions)
-            .pipe(map(result => this.setSession(result)));
+            .pipe(map((result: any) => this.setSession(result)));
     }
 
     setSession(jwt) {
-        const expiresAt = moment().add(jwt.expires_in, 'second');
 
         console.log(jwt.accessToken);
         localStorage.setItem('id_token', jwt.accessToken);
+        localStorage.setItem('token_type', jwt.tokenType);
+
+        const expiresAt = moment().add(jwt.expires_in, 'second');
         localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()) );
 
         this.userService.getUser()
@@ -48,17 +50,16 @@ export class AuthService {
                     y luego antes de recuperarlo convertirlo en objeto */
                     localStorage.setItem('authorities', JSON.stringify(user.authorities));
                 }
-            )
+            );
 
         return jwt;
     }
 
     logout() {
-        localStorage.removeItem('id_token');
-        localStorage.removeItem('expires_at');
+        localStorage.clear();
     }
 
-    public isLoggedIn() {
+    isLoggedIn() {
         return moment().isBefore(this.getExpiration());
     }
 

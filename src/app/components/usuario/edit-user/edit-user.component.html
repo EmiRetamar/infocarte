@@ -56,7 +56,7 @@
             <div fxFlex.xs="100" fxFlex.lg="50" fxFlex.md="50" fxFlex.sm="50">
               <h4 class="mat-subheading-2 center-align">Seleccione una imagen</h4>
               <mat-divider></mat-divider>
-              <input id="imageInput" type="file" formControlName="image" #fileInput>
+              <input id="imageInput" type="file" formControlName="photo" (change)="upload($event)" accept="image/*" #fileInput>
               <button mat-raised-button id="imageButton" type="button" color="primary" (click)="fileInput.click()">Seleccionar Imagen</button>
               <div>La imagen es opcional</div>
             </div>
@@ -70,7 +70,7 @@
         <div class="optionButtons">
           <!-- Aca podria agregar un form asi cuando se presiona enter se cargan los datos automaticamente -->
           <button mat-raised-button id="confirmButton" type="submit" color="primary">Confirmar</button>
-          <button mat-raised-button id="cancelButton" color="primary" [routerLink]="['/home']">Cancelar</button>
+          <button mat-raised-button id="cancelButton" color="primary" [routerLink]="['/user', user.id]">Cancelar</button>
         </div>
 
       </form>

@@ -3,6 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { Cartelera } from '../models/cartelera';
+import { Post } from '../models/post';
+import { Comentario } from '../models/comentario';
+import { Usuario } from '../models/usuario';
 
 @Injectable()
 export class CarteleraService {
@@ -11,32 +14,32 @@ export class CarteleraService {
 
     constructor(private http: HttpClient) { }
 
-    getCarteleras(): Observable<any> {
+    getCarteleras(): Observable<Cartelera[]> {
         return this.http.get(this.getUrl('billboards'))
-            .pipe(map((result: any) => result._embedded.billboards));
+            .pipe(map((result: any) => result._embedded.billboards as Cartelera[]));
     }
 
-    getCartelera(idCartelera: string): Observable<any> {
-        return this.http.get(this.getUrl(`billboards/${idCartelera}`));
+    getCartelera(idCartelera: string): Observable<Cartelera> {
+        return this.http.get<Cartelera>(this.getUrl(`billboards/${idCartelera}`));
     }
 
-    getPosts(idCartelera: string): Observable<any> {
+    getPosts(idCartelera: string): Observable<Post[]> {
         return this.http.get(this.getUrl(`billboards/${idCartelera}/posts`))
-            .pipe(map((result: any) => result._embedded.posts));
+            .pipe(map((result: any) => result._embedded.posts as Post[]));
     }
 
-    postCartelera(cartelera: Object) {
+    postCartelera(cartelera: Object): Observable<Cartelera> {
         let httpHeaders = new HttpHeaders({
             'Content-type': 'application/json; charset=UTF-8'
         });
-        return this.http.post(this.getUrl('billboards'), cartelera, { headers: httpHeaders });
+        return this.http.post<Cartelera>(this.getUrl('billboards'), cartelera, { headers: httpHeaders });
     }
 
-    updateCartelera(cartelera: any) {
+    updateCartelera(cartelera: any): Observable<Cartelera> {
         let httpHeaders = new HttpHeaders({
             'Content-type': 'application/json; charset=UTF-8'
         });
-        return this.http.patch(this.getUrl(`billboards/${cartelera.id}`), cartelera, { headers: httpHeaders });
+        return this.http.patch<Cartelera>(this.getUrl(`billboards/${cartelera.id}`), cartelera, { headers: httpHeaders });
     }
 
     deleteCartelera(idCartelera: string) {
@@ -60,43 +63,43 @@ export class CarteleraService {
         return this.http.get(this.getUrl('billboards'));
     }
 
-    getSeguidores(idCartelera) {
+    getSeguidores(idCartelera: string): Observable<Usuario[]> {
 		return this.http.get(this.getUrl(`billboards/${idCartelera}/usersFollowers`))
-			.pipe(map((result: any) => result._embedded.users));
+			.pipe(map((result: any) => result._embedded.users as Usuario[]));
 	}
 
-    getPublicacion(idPost: string): Observable<any> {
-        return this.http.get(this.getUrl(`posts/${idPost}`));
+    getPublicacion(idPost: string): Observable<Post> {
+        return this.http.get<Post>(this.getUrl(`posts/${idPost}`));
     }
 
-    postPublicacion(post: Object) {
+    postPublicacion(post: Object): Observable<Post> {
         let httpHeaders = new HttpHeaders({
             'Content-type': 'application/json; charset=UTF-8'
         });
-        return this.http.post(this.getUrl('posts'), post, { headers: httpHeaders });
+        return this.http.post<Post>(this.getUrl('posts'), post, { headers: httpHeaders });
     }
 
-    updatePublicacion(post: any) {
+    updatePublicacion(post: any): Observable<Post> {
         let httpHeaders = new HttpHeaders({
             'Content-type': 'application/json; charset=UTF-8'
         });
-        return this.http.patch(this.getUrl(`posts/${post.id}`), post, { headers: httpHeaders });
+        return this.http.patch<Post>(this.getUrl(`posts/${post.id}`), post, { headers: httpHeaders });
     }
 
     deletePublicacion(idPost: string) {
         return this.http.delete(this.getUrl(`posts/${idPost}`));
     }
 
-    getComentarios(idPost: string) {
+    getComentarios(idPost: string): Observable<Comentario[]> {
         return this.http.get(this.getUrl(`posts/${idPost}/comments`))
-            .pipe(map((comentarios: any) => comentarios._embedded.comments));
+            .pipe(map((comentarios: any) => comentarios._embedded.comments as Comentario[]));
     }
 
-    postComentario(comentario: Object) {
+    postComentario(comentario: Object): Observable<Comentario> {
         let httpHeaders = new HttpHeaders({
             'Content-type': 'application/json; charset=UTF-8'
         });
-        return this.http.post(this.getUrl('comments'), comentario, { headers: httpHeaders });
+        return this.http.post<Comentario>(this.getUrl('comments'), comentario, { headers: httpHeaders });
     }
 
     deleteComentario(idComentario: string) {
