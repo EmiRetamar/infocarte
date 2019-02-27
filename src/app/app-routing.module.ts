@@ -32,8 +32,8 @@ const appRoutes: Routes = [
     { path: 'edit-user/:idUser', component: EditUserComponent },
     { path: 'carteleras-creadas', component: CartelerasCreadasComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },
     { path: 'carteleras-seguidas', component: CartelerasSeguidasComponent, canActivate: [ UsuarioAutenticado, UsuarioAlumno ] },
-    // { path: '**', component: PageNotFoundComponent },
-    { path: '', redirectTo: 'home', pathMatch: 'full' } // Cuando el path esta vacio se redirige a home, pathMatch va en el default siempre
+    { path: '', redirectTo: 'home', pathMatch: 'full' }, // Cuando el path esta vacio se redirige a home, pathMatch va en el default siempre
+    { path: '**', component: PageNotFoundComponent }
 ];
 
 // Las rutas se definen en RouterModule y se exportan para ser importadas por la clase AppModule
