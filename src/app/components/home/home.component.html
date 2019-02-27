@@ -1,4 +1,5 @@
 <div class="card-container" *ngIf="carteleras">
+
     <mat-card class="card-content" *ngFor="let cartelera of carteleras">
 
         <mat-card-header>
@@ -38,6 +39,7 @@
             <mat-icon>add</mat-icon>
         </button>
     </span>
+
 </div>
 
 <div class="spinner-container" *ngIf="!carteleras">

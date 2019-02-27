@@ -9,12 +9,15 @@ import { CreateCarteleraComponent } from './components/home/create-cartelera/cre
 import { EditCarteleraComponent } from './components/home/edit-cartelera/edit-cartelera.component';
 import { CreatePostComponent } from './components/cartelera/create-post/create-post.component';
 import { EditPostComponent } from './components/cartelera/edit-post/edit-post.component';
+import { PerfilComponent } from './components/usuario/perfil/perfil.component';
+import { EditUserComponent } from './components/usuario/edit-user/edit-user.component';
+import { CartelerasSeguidasComponent } from './components/usuario/carteleras-seguidas/carteleras-seguidas.component';
+import { CartelerasCreadasComponent } from './components/usuario/carteleras-creadas/carteleras-creadas.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { UsuarioAutenticado } from './components/guards/usuario-autenticado';
 import { UsuarioAdministrador } from './components/guards/usuario-administrador';
 import { UsuarioProfesor } from './components/guards/usuario-profesor';
-import { PerfilComponent } from './components/usuario/perfil/perfil.component';
-import { EditUserComponent } from './components/usuario/edit-user/edit-user.component';
+import { UsuarioAlumno } from './components/guards/usuario-alumno';
 
 const appRoutes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -27,6 +30,8 @@ const appRoutes: Routes = [
     { path: 'cartelera/:idCartelera/edit-post/:idPost', component: EditPostComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
     { path: 'user/:idUser', component: PerfilComponent },
     { path: 'edit-user/:idUser', component: EditUserComponent },
+    { path: 'carteleras-creadas', component: CartelerasCreadasComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },
+    { path: 'carteleras-seguidas', component: CartelerasSeguidasComponent, canActivate: [ UsuarioAutenticado, UsuarioAlumno ] },
     // { path: '**', component: PageNotFoundComponent },
     { path: '', redirectTo: 'home', pathMatch: 'full' } // Cuando el path esta vacio se redirige a home, pathMatch va en el default siempre
 ];

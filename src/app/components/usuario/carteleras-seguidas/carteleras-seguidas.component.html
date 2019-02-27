@@ -1,0 +1,40 @@
+<div class="mat-toolbar-position">
+	<mat-toolbar color="warn" class="mat-elevation-z1">
+		<h1>Carteleras seguidas</h1>
+	</mat-toolbar>
+</div>
+
+<div class="card-container" *ngIf="carteleras">
+
+	<mat-card class="card-content" *ngFor="let cartelera of carteleras">
+
+		<mat-card-header>
+			<mat-card-title>
+				<a [routerLink]="['/cartelera', cartelera.id]">{{ cartelera.title }}</a>
+			</mat-card-title>
+			<mat-card-subtitle>{{ cartelera.created_at }}</mat-card-subtitle>
+		</mat-card-header>
+
+		<img mat-card-image src="{{ cartelera.image }}" width="250px" height="250px">
+
+		<mat-card-content>
+			{{ cartelera.description }}
+		</mat-card-content>
+
+		<mat-card-actions>
+			<div *ngIf="followed(cartelera); then siguiendo else seguir"></div>
+			<ng-template #siguiendo>
+				<button mat-button color="primary" class="activeButton" (click)="followAction(cartelera)" *ngIf="localStorageService.getToken() && userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())">Siguiendo</button>
+			</ng-template>
+			<ng-template #seguir>
+				<button mat-button color="primary" (click)="followAction(cartelera)" *ngIf="localStorageService.getToken() && userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())">Seguir</button>
+			</ng-template>
+		</mat-card-actions>
+
+	</mat-card>
+
+</div>
+
+<div class="spinner-container" *ngIf="!carteleras">
+	<mat-spinner class="spinner-content"></mat-spinner>
+</div>

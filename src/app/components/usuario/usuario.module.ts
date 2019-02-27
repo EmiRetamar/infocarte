@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 
 import { PerfilComponent } from './perfil/perfil.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { CartelerasCreadasComponent } from './carteleras-creadas/carteleras-creadas.component';
+import { CartelerasSeguidasComponent } from './carteleras-seguidas/carteleras-seguidas.component';
 
 @NgModule({
   imports: [
@@ -18,9 +20,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     FormsModule
   ],
-  exports: [
-    PerfilComponent
-  ],
-  declarations: [ PerfilComponent, EditUserComponent ],
+  exports: [],
+  declarations: [ PerfilComponent, EditUserComponent, CartelerasCreadasComponent, CartelerasSeguidasComponent ],
 })
 export class UsuarioModule { }

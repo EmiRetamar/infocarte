@@ -1,100 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { VerSeguidoresComponent } from './ver-seguidores/ver-seguidores.component';
-import { DeleteCarteleraComponent } from './delete-cartelera/delete-cartelera.component';
-import { CarteleraService } from '../../services/cartelera.service';
-import { UserService } from '../../services/user.service';
-import { ToasterService } from '../../services/toaster.service';
-import { LocalStorageService } from '../../services/local-storage.service';
-import { Cartelera } from '../../models/cartelera';
+import { UserService } from '../../../services/user.service';
+import { CarteleraService } from '../../../services/cartelera.service';
+import { ToasterService } from '../../../services/toaster.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
+import { Cartelera } from '../../../models/cartelera';
 
 @Component({
-    selector: 'info-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.css']
+	selector: 'info-carteleras-seguidas',
+	templateUrl: './carteleras-seguidas.component.html',
+	styleUrls: ['./carteleras-seguidas.component.css']
 })
-export class HomeComponent implements OnInit {
+export class CartelerasSeguidasComponent implements OnInit {
 
-    carteleras: Cartelera[];
-    cartelerasSeguidas: Cartelera[] = [];
+	carteleras: Cartelera[];
+	cartelerasSeguidas: Cartelera[];
 
-    constructor(private carteleraService: CarteleraService,
-                private userService: UserService,
-                private dialog: MatDialog,
-                private toasterService: ToasterService,
-                private localStorageService: LocalStorageService) { }
+	constructor(private userService: UserService,
+				private carteleraService: CarteleraService,
+				private toasterService: ToasterService,
+				private localStorageService: LocalStorageService) { }
 
-    ngOnInit() {
-        this.carteleraService.getCarteleras()
-            .subscribe(
-                (carteleras) => {
-                    this.carteleras = carteleras;
-                    if (this.localStorageService.getToken()) {
-                        this.userService.getCartelerasSeguidas(this.localStorageService.getUserId())
-                            .subscribe(
-                                (cartelerasSeguidas) => this.cartelerasSeguidas = cartelerasSeguidas
-                            );
-                    }
-                }
-            );
-    }
+	ngOnInit() {
+		this.userService.getCartelerasSeguidas(this.localStorageService.getUserId())
+			.subscribe(
+				(cartelerasSeguidas) => {
+					this.carteleras = cartelerasSeguidas;
+					this.cartelerasSeguidas = cartelerasSeguidas;
+				}
+			);
+	}
 
-    verSeguidores(cartelera: Cartelera) {
-        const dialogConfig = new MatDialogConfig();
-
-        //dialogConfig.height = '12em';
-        //dialogConfig.width = '15em';
-        dialogConfig.data = {
-            id: cartelera.id,
-            dialogRef: this.dialog
-        };
-
-        this.dialog.open(VerSeguidoresComponent, dialogConfig);
-    }
-
-    eliminarCartelera(cartelera: Cartelera) {
-        const dialogConfig = new MatDialogConfig();
-
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        //dialogConfig.height = '12em';
-        //dialogConfig.width = '15em';
-        // Estos datos son pasados al componente "DeleteCarteleraComponent"
-        dialogConfig.data = {
-            id: cartelera.id,
-            title: cartelera.title
-        };
-
-        const dialogRef = this.dialog.open(DeleteCarteleraComponent, dialogConfig);
-
-        dialogRef.afterClosed()
-            .subscribe(
-                (result) => {
-                    if (result) {
-                        this.carteleraService.deleteCartelera(cartelera.id)
-                            .subscribe(
-                                () => {
-                                    this.removeCartelera(this.carteleras, cartelera);
-                                    this.toasterService.success('Cartelera eliminada con éxito !');
-                                },
-                                (error) => {
-                                    this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
-                                    console.error(error.message);
-                                }
-                            );
-                    }
-                }
-            );
-    }
-
-    removeCartelera(carteleras: Cartelera[], cartelera: Cartelera) {
-        let index = carteleras.indexOf(cartelera);
-        if (index > -1) {
-            carteleras.splice(index, 1);
-        }
-    }
-
-    followAction(carteleraActual: Cartelera) {
+	followAction(carteleraActual: Cartelera) {
         let unfollow = true;
         let idUser = this.localStorageService.getUserId();
         // Si se encuentra la cartelera clickeada en la coleccion cartelerasSeguidas significa que fue un unfollow
@@ -133,7 +69,7 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    // Verifica si una cartelera esta followed, tambien efectua un unfollow en caso de que se llame desde followAction, esto significa que se produjo un click en "Dejar de seguir" sobre una cartelera followed
+	// Verifica si una cartelera esta followed, tambien efectua un unfollow en caso de que se llame desde followAction, esto significa que se produjo un click en "Dejar de seguir" sobre una cartelera followed
     followed(carteleraActual: Cartelera, unfollow?: boolean): boolean {
         for (let carteleraSeguida of this.cartelerasSeguidas) {
             if (this.equals(carteleraSeguida, carteleraActual)) {
@@ -155,6 +91,13 @@ export class HomeComponent implements OnInit {
             }
         }
         return false;
+	}
+
+	removeCartelera(carteleras: Cartelera[], cartelera: Cartelera) {
+        let index = carteleras.indexOf(cartelera);
+        if (index > -1) {
+            carteleras.splice(index, 1);
+        }
     }
 
     equals(x, y) {

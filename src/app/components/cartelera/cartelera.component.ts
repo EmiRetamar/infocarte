@@ -4,7 +4,7 @@ import { DeletePostComponent } from './delete-post/delete-post.component';
 import { CarteleraService } from '../../services/cartelera.service';
 import { UserService } from '../../services/user.service';
 import { LocalStorageService } from '../../services/local-storage.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
 import { Cartelera } from '../../models/cartelera';
 import { Post } from '../../models/post';
@@ -22,7 +22,6 @@ export class CarteleraComponent implements OnInit {
 
     constructor(private carteleraService: CarteleraService,
                 private userService: UserService,
-                private router: Router,
                 private route: ActivatedRoute,
                 private dialog: MatDialog,
                 private toasterService: ToasterService,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageService } from './services/local-storage.service';
 import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
+import { LocalStorageService } from './services/local-storage.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,9 +13,10 @@ export class AppComponent implements OnInit {
 
     year: number = Date.now();
 
-    constructor(public localStorageService: LocalStorageService,
+    constructor(private router: Router,
                 private authService: AuthService,
-                private router: Router) { }
+                private userService: UserService,
+                public localStorageService: LocalStorageService) { }
 
     ngOnInit() { }
 

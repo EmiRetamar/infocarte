@@ -44,6 +44,11 @@ export class UserService {
 			.pipe(map((comentarios: any) => comentarios.data));
 	}
 
+	getCartelerasCreadas(idUser: string): Observable<Cartelera[]> {
+		return this.http.get(this.getUrl(`users/${idUser}/createdBillboard`))
+			.pipe(map((result: any) => result._embedded.billboards as Cartelera[]));
+	}
+
 	getCartelerasSeguidas(idUser: string): Observable<Cartelera[]> {
 		return this.http.get(this.getUrl(`users/${idUser}/followedBillboards`))
 			.pipe(map((result: any) => result._embedded.billboards as Cartelera[]));

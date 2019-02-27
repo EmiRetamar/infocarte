@@ -11,7 +11,7 @@
 
         <mat-nav-list>
             <div *ngIf="!localStorageService.getToken()">
-                <a mat-list-item class="sidenav-link" [routerLink]="['login']" (click)="sidenav.toggle()">
+                <a mat-list-item class="sidenav-link" [routerLink]="['/login']" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>input</mat-icon>
                     <span class="title" mat-line>Login</span>
                 </a>
@@ -24,15 +24,15 @@
             es no existe aun, por lo tanto retornara null y se generara el siguiente error en consola:
             "ERROR TypeError: Cannot read property 'outlets' of null" -->
             <div *ngIf="localStorageService.getToken() && localStorageService.getUserId()">
-                <a mat-list-item class="sidenav-link" [routerLink]="['user', localStorageService.getUserId()]" (click)="sidenav.toggle()">
+                <a mat-list-item class="sidenav-link" [routerLink]="['/user', localStorageService.getUserId()]" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>perm_identity</mat-icon>
                     <span class="title" mat-line>Perfil</span>
                 </a>
-                <a mat-list-item class="sidenav-link" (click)="sidenav.toggle()">
+                <a mat-list-item class="sidenav-link" [routerLink]="['/carteleras-creadas']" (click)="sidenav.toggle()" *ngIf="userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities())">
                     <mat-icon mat-list-icon>description</mat-icon>
                     <span class="title" mat-line>Mis carteleras</span>
                 </a>
-                <a mat-list-item class="sidenav-link" (click)="sidenav.toggle()">
+                <a mat-list-item class="sidenav-link" [routerLink]="['/carteleras-seguidas']" (click)="sidenav.toggle()" *ngIf="userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())">
                     <mat-icon mat-list-icon>favorite_border</mat-icon>
                     <span class="title" mat-line>Carteleras seguidas</span>
                 </a>
