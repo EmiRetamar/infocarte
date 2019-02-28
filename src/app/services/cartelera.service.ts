@@ -23,6 +23,10 @@ export class CarteleraService {
         return this.http.get<Cartelera>(this.getUrl(`billboards/${idCartelera}`));
     }
 
+    getCarteleraForPost(idPost: string): Observable<Cartelera> {
+        return this.http.get<Cartelera>(this.getUrl(`posts/${idPost}/billboard`));
+    }
+
     getPosts(idCartelera: string): Observable<Post[]> {
         return this.http.get(this.getUrl(`billboards/${idCartelera}/posts`))
             .pipe(map((result: any) => result._embedded.posts as Post[]));

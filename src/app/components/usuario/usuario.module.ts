@@ -9,6 +9,7 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { CartelerasCreadasComponent } from './carteleras-creadas/carteleras-creadas.component';
 import { CartelerasSeguidasComponent } from './carteleras-seguidas/carteleras-seguidas.component';
+import { PostsCreadosComponent } from './posts-creados/posts-creados.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,6 @@ import { CartelerasSeguidasComponent } from './carteleras-seguidas/carteleras-se
     FormsModule
   ],
   exports: [],
-  declarations: [ PerfilComponent, EditUserComponent, CartelerasCreadasComponent, CartelerasSeguidasComponent ],
+  declarations: [ PerfilComponent, EditUserComponent, CartelerasCreadasComponent, CartelerasSeguidasComponent, PostsCreadosComponent ],
 })
 export class UsuarioModule { }

@@ -11,8 +11,9 @@ import { CreatePostComponent } from './components/cartelera/create-post/create-p
 import { EditPostComponent } from './components/cartelera/edit-post/edit-post.component';
 import { PerfilComponent } from './components/usuario/perfil/perfil.component';
 import { EditUserComponent } from './components/usuario/edit-user/edit-user.component';
-import { CartelerasSeguidasComponent } from './components/usuario/carteleras-seguidas/carteleras-seguidas.component';
 import { CartelerasCreadasComponent } from './components/usuario/carteleras-creadas/carteleras-creadas.component';
+import { CartelerasSeguidasComponent } from './components/usuario/carteleras-seguidas/carteleras-seguidas.component';
+import { PostsCreadosComponent } from './components/usuario/posts-creados/posts-creados.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { UsuarioAutenticado } from './components/guards/usuario-autenticado';
 import { UsuarioAdministrador } from './components/guards/usuario-administrador';
@@ -32,6 +33,7 @@ const appRoutes: Routes = [
     { path: 'edit-user/:idUser', component: EditUserComponent },
     { path: 'carteleras-creadas', component: CartelerasCreadasComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },
     { path: 'carteleras-seguidas', component: CartelerasSeguidasComponent, canActivate: [ UsuarioAutenticado, UsuarioAlumno ] },
+    { path: 'posts-creados', component: PostsCreadosComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
     { path: '', redirectTo: 'home', pathMatch: 'full' }, // Cuando el path esta vacio se redirige a home, pathMatch va en el default siempre
     { path: '**', component: PageNotFoundComponent }
 ];

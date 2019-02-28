@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
-import {AngularFireStorageModule} from '@angular/fire/storage'
+import { AngularFireStorageModule } from '@angular/fire/storage'
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -20,11 +20,11 @@ import { PostModule } from './components/post/post.module';
 import { LocalStorageService } from './services/local-storage.service';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ToasterService } from './services/toaster.service';
+import { UsuarioModule } from './components/usuario/usuario.module';
 import { UsuarioAutenticado } from './components/guards/usuario-autenticado';
 import { UsuarioAdministrador } from './components/guards/usuario-administrador';
 import { UsuarioProfesor } from './components/guards/usuario-profesor';
 import { UsuarioAlumno } from './components/guards/usuario-alumno';
-import { UsuarioModule } from './components/usuario/usuario.module';
 import { environment } from '../environments/environment';
 
 @NgModule({

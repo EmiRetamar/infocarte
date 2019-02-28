@@ -54,6 +54,11 @@ export class UserService {
 			.pipe(map((result: any) => result._embedded.billboards as Cartelera[]));
 	}
 
+	getPostsCreados(idUser: string): Observable<Post[]> {
+		return this.http.get(this.getUrl(`users/${idUser}/posts`))
+			.pipe(map((result: any) => result._embedded.billboards as Post[]));
+	}
+
 	private getUrl(modelo: String): string {
 		return this.apiUrl + modelo;
 	}
