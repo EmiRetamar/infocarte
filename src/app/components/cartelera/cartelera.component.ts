@@ -61,7 +61,9 @@ export class CarteleraComponent implements OnInit {
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-
+        //dialogConfig.height = '12em';
+        //dialogConfig.width = '18em';
+        // Estos datos son pasados al componente "DeletePostComponent"
         dialogConfig.data = {
             id: post.id,
             title: post.title

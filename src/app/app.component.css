@@ -13,6 +13,10 @@ mat-sidenav {
     color: darkred;
 }
 
+/*.mat-menu-item {
+    background-color: dimgray !important;
+}*/
+
 .done {
     position: fixed;
     bottom: 20px;

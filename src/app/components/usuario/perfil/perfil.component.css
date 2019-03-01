@@ -2,6 +2,10 @@ mat-card-actions {
 	text-align: center;
 }
 
+/*.mat-list {
+	text-align: center;
+}*/
+
 .card-container {
 	display: flex;
 	flex-flow: row wrap;

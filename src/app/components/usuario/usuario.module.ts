@@ -16,6 +16,8 @@ import { PostsCreadosComponent } from './posts-creados/posts-creados.component';
     CommonModule,
     MaterialModule,
     AppRoutingModule,
+    /* "warnOnNgModelWithFormControl" evita el warning de usar "formControlName" y "[ngModel]"
+    en el mismo campo del formulario, ya que esta deprecated y fue eliminado en Angular 7 */
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     FormsModule
   ],

@@ -16,6 +16,13 @@
                     <span class="title" mat-line>Login</span>
                 </a>
             </div>
+            <!-- Como el endpoint al cual accede "this.userService.getUser()" en "auth.service.ts" necesita
+            que se envie el token en las cabeceras http, primero se setea el token en el localStorage
+            y al producirse ese cambio este if quedara en true y en el "[routerLink]" se intentara acceder
+            al id del usuario inmediatamente pero como la solicitud http a la api rest es mas lenta
+            se intentara acceder a "localStorage.getItem('id')" en "local-storage-service.ts" y esa propiedad
+            es no existe aun, por lo tanto retornara null y se generara el siguiente error en consola:
+            "ERROR TypeError: Cannot read property 'outlets' of null" -->
             <div *ngIf="localStorageService.getToken() && localStorageService.getUserId()">
                 <a mat-list-item class="sidenav-link" [routerLink]="['/user', localStorageService.getUserId()]" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>perm_identity</mat-icon>
@@ -29,7 +36,7 @@
                     <mat-icon mat-list-icon>favorite_border</mat-icon>
                     <span class="title" mat-line>Carteleras seguidas</span>
                 </a>
-                <a mat-list-item class="sidenav-link" [routerLink]="['/posts-creados']" (click)="sidenav.toggle()" *ngIf="userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities())">
+                <a mat-list-item class="sidenav-link" [routerLink]="['/posts-creados']" (click)="sidenav.toggle()" *ngIf="userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities()) || userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities())">
                     <mat-icon mat-list-icon>favorite_border</mat-icon>
                     <span class="title" mat-line>Mis publicaciones</span>
                 </a>
@@ -54,6 +61,8 @@
         <button mat-icon-button [matMenuTriggerFor]="matmenu">
             <mat-icon>public</mat-icon>
         </button>
+
+        <!--<span><mat-icon>mood</mat-icon></span>-->
     </mat-toolbar>
 
     <mat-menu #matmenu="matMenu">
@@ -73,6 +82,10 @@
 
     <mat-card class="card-content">
         <h1>Sistema de carteleras de la Facultad de Informática - UNLP</h1>
+        <!--<button mat-raised-button [routerLink]="['/']">Inicio</button>
+        <button mat-raised-button color="primary" [routerLink]="['/login']">Login</button>
+        <button mat-raised-button [routerLink]="['/cartelera', '1']">Cartelera</button>
+        <button mat-raised-button color="accent" [routerLink]="['cartelera', '1', 'post', 'cartelera-principal']">Post</button>-->
     </mat-card>
 
     <router-outlet></router-outlet>
@@ -86,3 +99,5 @@
     </div>
 
 </mat-sidenav-container>
+
+<!-- <info-cartelera></info-cartelera> -->

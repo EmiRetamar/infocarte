@@ -5,8 +5,12 @@
         </div>
     </mat-toolbar>
     <div class="card-container">
+        <!-- Aca se van generando los posts de la cartelera seleccionada -->
         <mat-card class="card-content" *ngFor="let post of posts">
             <mat-card-header>
+                <!-- Aca podria ir la foto de la persona correspondiente a la publicacion -->
+                <!--<div mat-card-avatar class="example-header-image">
+                </div>-->
                 <mat-card-title>
                     <a [routerLink]="['/cartelera', cartelera.id, 'post', post.id]">{{ post.title }}</a>
                 </mat-card-title>

@@ -16,6 +16,10 @@
         </mat-card-content>
 
         <mat-card-actions>
+            <!-- Con boton "Like" -->
+            <!--<button mat-button color="primary" [ngClass]="{ 'activeButton': likeada(cartelera) }" (click)="likeAction(cartelera)" *ngIf="localStorageService.getToken() && userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())">Seguir</button>-->
+
+            <!-- Con boton "Seguir"/"Siguiendo" -->
             <div *ngIf="followed(cartelera); then siguiendo else seguir"></div>
             <ng-template #siguiendo>
                 <button mat-button color="primary" class="activeButton" (click)="followAction(cartelera)" *ngIf="localStorageService.getToken() && userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())">Siguiendo</button>
