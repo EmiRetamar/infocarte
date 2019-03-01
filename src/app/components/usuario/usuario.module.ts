@@ -21,7 +21,7 @@ import { PostsCreadosComponent } from './posts-creados/posts-creados.component';
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     FormsModule
   ],
-  exports: [ PerfilComponent, EditUserComponent, CartelerasCreadasComponent, CartelerasSeguidasComponent, PostsCreadosComponent ],
+  exports: [],
   declarations: [ PerfilComponent, EditUserComponent, CartelerasCreadasComponent, CartelerasSeguidasComponent, PostsCreadosComponent ],
 })
 export class UsuarioModule { }
