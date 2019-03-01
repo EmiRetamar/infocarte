@@ -29,6 +29,10 @@
                     <mat-icon mat-list-icon>favorite_border</mat-icon>
                     <span class="title" mat-line>Carteleras seguidas</span>
                 </a>
+                <a mat-list-item class="sidenav-link" [routerLink]="['/posts-creados']" (click)="sidenav.toggle()" *ngIf="userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities())">
+                    <mat-icon mat-list-icon>favorite_border</mat-icon>
+                    <span class="title" mat-line>Mis publicaciones</span>
+                </a>
                 <a mat-list-item class="sidenav-link" (click)="logout()" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>exit_to_app</mat-icon>
                     <span class="title" mat-line>Logout</span>
