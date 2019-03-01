@@ -1,8 +1,6 @@
-<mat-card *ngIf="posts">
+<mat-card *ngIf="loaded">
 	<mat-toolbar color="warn" class="mat-elevation-z1">
-		<div *ngIf="cartelera">
-			<h1>Carteleras creadas</h1>
-		</div>
+		<h1>Carteleras creadas</h1>
 	</mat-toolbar>
 	<div class="card-container">
 		<!-- Aca se van generando los posts de la cartelera seleccionada -->
@@ -12,7 +10,7 @@
 				<!--<div mat-card-avatar class="example-header-image">
 				</div>-->
 				<mat-card-title>
-					<a [routerLink]="[]">{{ post.title }}</a>
+					<a [routerLink]="['/cartelera', cartelerasForPosts[post.id], 'post', post.id]">{{ post.title }}</a>
 				</mat-card-title>
 				<mat-card-subtitle>{{ post.created_at }}</mat-card-subtitle>
 			</mat-card-header>
@@ -24,19 +22,13 @@
 			</mat-card-content>
 
 			<mat-card-actions>
-				<button mat-button color="primary" [routerLink]="['/cartelera', cartelerasForPosts[post.id].id, 'edit-post', post.id]">Editar</button>
+				<button mat-button color="primary" [routerLink]="['/cartelera', cartelerasForPosts[post.id], 'edit-post', post.id]">Editar</button>
 				<button mat-button color="primary" (click)="eliminarPost(post)">Eliminar</button>
 			</mat-card-actions>
 		</mat-card>
-
-		<span class="add-button">
-			<button mat-fab [routerLink]="['/cartelera', cartelera.id, 'create-post']">
-				<mat-icon>add</mat-icon>
-			</button>
-		</span>
 	</div>
 </mat-card>
 
-<div class="spinner-container" *ngIf="!posts">
+<div class="spinner-container" *ngIf="!loaded">
 	<mat-spinner class="spinner-content"></mat-spinner>
 </div>

@@ -56,7 +56,7 @@ export class UserService {
 
 	getPostsCreados(idUser: string): Observable<Post[]> {
 		return this.http.get(this.getUrl(`users/${idUser}/posts`))
-			.pipe(map((result: any) => result._embedded.billboards as Post[]));
+			.pipe(map((result: any) => result._embedded.posts as Post[]));
 	}
 
 	private getUrl(modelo: String): string {

@@ -16,7 +16,8 @@ import { Post } from '../../../models/post';
 export class PostsCreadosComponent implements OnInit {
 
 	posts: Post[];
-	cartelerasForPosts: Cartelera[] = new Array();
+	cartelerasForPosts: string[] = new Array();
+	loaded = false;
 
 	constructor(private carteleraService: CarteleraService,
 				private userService: UserService,
@@ -30,6 +31,7 @@ export class PostsCreadosComponent implements OnInit {
                 (postsCreados) => {
 					this.posts = postsCreados;
 					this.getCartelerasForPosts(this.posts);
+					this.loaded = true;
                 }
             );
 	}
@@ -43,7 +45,15 @@ export class PostsCreadosComponent implements OnInit {
     requestCarteleraForPost(post: Post) {
         this.carteleraService.getCarteleraForPost(post.id)
             .subscribe(
-                (cartelera: Cartelera) => this.cartelerasForPosts[post.id] = cartelera
+				/*
+				"cartelerasForPosts" es un arreglo donde se guardan los "id" de las carteleras a la cual
+				pertenecen los posts. El arreglo tiene como indices los "id" de los posts y como contenido
+				los "id" para cada indice el "id" de la cartelera a la que pertenece el post
+				Por ejemplo: si "post.id" es igual a '1' y "cartelera.id" es igual a '2'
+				"this.cartelerasForPosts['1'] = '2'" significa que el post con "id: 1" pertenece
+				a la cartelera con "id: 2"
+				*/
+                (cartelera: Cartelera) => this.cartelerasForPosts[post.id] = cartelera.id
             );
     }
 

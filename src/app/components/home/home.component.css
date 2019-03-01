@@ -42,7 +42,8 @@ a:hover {
 
 .spinner-container {
     align-items: center;
-    margin-bottom: 17.5em;
+    margin-bottom: 25em;
+    /*margin-bottom: 17.5em;*/
 }
 
 .spinner-content {
