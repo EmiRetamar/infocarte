@@ -22,6 +22,8 @@ export class CreatePostComponent implements OnInit {
     imageUrl: string;
     comentariosHabilitados = false;
     submitted = false;
+    loading = false;
+    loaded = false;
     uploadProgress: Observable<number>;
     uploadUrl: Observable<string>;
 
@@ -77,6 +79,9 @@ export class CreatePostComponent implements OnInit {
     }
 
     upload(event) {
+        // Cargando imagen
+        this.loading = true;
+
         // Se obtiene el archivo del input
         const file = event.target.files[0];
 
@@ -98,6 +103,8 @@ export class CreatePostComponent implements OnInit {
             finalize(() => {
                 this.uploadUrl = fileRef.getDownloadURL();
                 this.uploadUrl.subscribe((imageUrl) => this.imageUrl = imageUrl);
+                this.loading = false;
+                this.loaded = true;
             })
         ).subscribe();
     }

@@ -57,7 +57,6 @@ export class CreateCarteleraComponent implements OnInit {
             this.carteleraService.postCartelera(formData)
                 .subscribe(
                     (newBillboard: Cartelera) => {
-                        // Codigo de resultado exitoso
                         this.router.navigateByUrl('/home');
                         this.toasterService.success('Cartelera creada con éxito !');
                         console.log(newBillboard);

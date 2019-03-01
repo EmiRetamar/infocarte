@@ -37,12 +37,15 @@
             </div>
           </div>
 
-          <div fxFlex.xs="100" fxFlex.lg="50" fxFlex.md="50" fxFlex.sm="50">
+          <div fxFlex.xs="100" fxFlex.lg="50" fxFlex.md="50" fxFlex.sm="50" id="imageUrl">
             <h4 class="mat-subheading-2 center-align">Seleccione una imagen</h4>
             <mat-divider></mat-divider>
             <input id="imageInput" type="file" formControlName="image" (change)="upload($event)" accept="image/*" #fileInput>
             <button mat-raised-button id="imageButton" type="button" color="primary" (click)="fileInput.click()">Seleccionar Imagen</button>
-            <div>Si no selecciona una imagen se mantendra su imagen anterior</div>
+            <div *ngIf="!loading && !loaded">Si no selecciona una imagen se mantendra su imagen anterior</div>
+            <div *ngIf="!loading && loaded">{{ this.imageUrl }}</div>
+            <div *ngIf="loading" aling="center">Cargando imagen, por favor espere...</div>
+            <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
           </div>
 
           <div fxFlex.xs="100" fxFlex.lg="50" fxFlex.md="50" fxFlex.sm="50">
