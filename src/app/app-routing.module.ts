@@ -34,14 +34,12 @@ const appRoutes: Routes = [
     { path: 'carteleras-creadas', component: CartelerasCreadasComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },
     { path: 'carteleras-seguidas', component: CartelerasSeguidasComponent, canActivate: [ UsuarioAutenticado, UsuarioAlumno ] },
     { path: 'posts-creados', component: PostsCreadosComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
-    { path: '', redirectTo: 'home', pathMatch: 'full' }, // Cuando el path esta vacio se redirige a home, pathMatch va en el default siempre
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
 ];
 
-// Las rutas se definen en RouterModule y se exportan para ser importadas por la clase AppModule
 @NgModule({
     imports: [ RouterModule.forRoot(appRoutes, { onSameUrlNavigation: 'reload' }) ],
     exports: [ RouterModule ]
 })
 export class AppRoutingModule { }
-// export const Routing = RouterModule.forRoot(appRoutes);

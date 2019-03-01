@@ -34,12 +34,12 @@ import { environment } from '../environments/environment';
     PageNotFoundComponent,
   ],
   imports: [
-    BrowserModule, // BrowserModule lo necesita cualquier app que se renderice en el navegador
-    CommonModule, // El modulo que incluye todas las directivas basicas de Angular como NgIf, NgForOf, etc
-    AppRoutingModule, // El routing se importa como un modulo mas
-    MaterialModule, // Modulo que importa todos los modulos necesarios para Angular Material
+    BrowserModule,
+    CommonModule,
+    AppRoutingModule,
+    MaterialModule,
     ReactiveFormsModule,
-    FormsModule, // Sirve para hacer "two way data binding" con la notacion [(ngModel)] en una etiqueta html
+    FormsModule,
     HttpClientModule,
     HomeModule,
     CarteleraModule,

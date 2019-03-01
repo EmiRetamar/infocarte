@@ -50,22 +50,3 @@ a:hover {
     width: 800px;
     margin: 10px auto;
 }
-
-/*.addButton {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    color: white;
-}*/
-
-/*.card-container {
-    display: flex;
-    flex-flow: row wrap;
-    align-content: center;
-}
-
-.card-content {
-    width: 15em;
-    box-sizing: border-box;
-    margin: 2.88em;
-}*/

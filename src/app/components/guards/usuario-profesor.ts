@@ -13,7 +13,6 @@ export class UsuarioProfesor implements CanActivate {
 
     canActivate() {
         let roleUser = JSON.parse(this.localStorageService.getAuthorities())[0].authority;
-        // Si el usuario NO tiene permisos de profesor
         if (roleUser != 'ADMIN' && roleUser != 'PROFESOR') {
             this.toasterService.warning('No tienes permisos para acceder');
             this.router.navigate(['/home']);

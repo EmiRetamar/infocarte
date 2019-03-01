@@ -4,14 +4,12 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { UserService } from './user.service';
-// import { Usuario } from '../models/Usuario';
 
 @Injectable()
 export class AuthService {
 
     private apiUrl = 'https://infocarte-api.herokuapp.com/api/auth/signin';
 
-    // El atributo http es inyectado por el framework (Inyeccion de dependencias)
     constructor(private http: HttpClient, private userService: UserService) { }
 
     login(username: string, password: string): Observable<any> {
@@ -45,9 +43,6 @@ export class AuthService {
                 (user) => {
                     localStorage.setItem('id', user.id);
                     localStorage.setItem('username', user.username);
-                    /* localStorage solo puede guardar strings, por lo tanto la unica forma de guardar
-                    un objeto es convertirlo en string (queda en formato json pero como un string)
-                    y luego antes de recuperarlo convertirlo en objeto */
                     localStorage.setItem('authorities', JSON.stringify(user.authorities));
                 }
             );

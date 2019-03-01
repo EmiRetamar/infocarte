@@ -1,9 +1,3 @@
-<!-- Se aplica el estilo solo si hay comentarios -->
-<!-- El estilo es simplemente un fondo blanco para todo el contenido del div -->
-<!--
-    Si se usa cuando no hay comentarios queda un padding blanco del estilo aplicado al div
-    debajo del mat-card, es decir, queda un fragmento demas que no deberia estar
--->
 <div [ngClass]="{ 'post-container': comentarios.length > 0 ? true : false }" *ngIf="loaded">
     <!-- Publicacion -->
     <mat-card>
@@ -57,11 +51,6 @@
                 <mat-card-title *ngIf="usersForComments[comentario.id] != undefined">
                     {{ usersForComments[comentario.id].name }} {{ usersForComments[comentario.id].lastname }}
                 </mat-card-title>
-                <!--<mat-card-title *ngIf="usersForComments[comentario.id] != undefined">
-                    <div *ngIf="isMyComment(comentario); #usuarioAutenticado else #otroUsuario"></div>
-                    <ng-template #usuarioAutenticado>{{ user.name }} {{ user.lastname }}</ng-template>
-                    <ng-template #OtroUsuario>{{ usersForComments[comentario.id].name }} {{ usersForComments[comentario.id].lastname }}</ng-template>
-                </mat-card-title>-->
                 <mat-card-subtitle>{{ comentario.created_at }}</mat-card-subtitle>
             </mat-card-header>
 

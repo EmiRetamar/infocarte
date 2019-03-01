@@ -46,7 +46,7 @@ export class CartelerasCreadasComponent implements OnInit {
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-        // Estos datos son pasados al componente "DeleteCarteleraComponent"
+
         dialogConfig.data = {
             id: cartelera.id,
             title: cartelera.title
