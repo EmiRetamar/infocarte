@@ -59,12 +59,11 @@ export class CarteleraService {
     }
 
     unfollow(idUser: string, idCartelera: string) {
-        /*let httpHeaders = new HttpHeaders({
+        let httpHeaders = new HttpHeaders({
             'Content-type': 'application/json; charset=UTF-8'
         });
-        let body = { "billboard_id": `${idCartelera}` };
-        return this.http.delete(this.getUrl(`users/${idUser}/followBillboard`), { headers: httpHeaders });*/
-        return this.http.get(this.getUrl('billboards'));
+        //let body = { "billboard_id": `${idCartelera}` };
+        return this.http.post(this.getUrl(`users/${idUser}/unfollowBillboard/${idCartelera}`), { headers: httpHeaders });
     }
 
     getSeguidores(idCartelera: string): Observable<Usuario[]> {
