@@ -102,9 +102,9 @@ export class HomeComponent implements OnInit {
             // Llamada a la api para eliminar el follow de la cartelera para el usuario actual
             this.carteleraService.unfollow(idUser, carteleraActual.id)
                 .subscribe(
-                    (result) => {
-                        //this.cartelerasSeguidas.pop(carteleraActual);
-                        console.log(result);
+                    () => {
+                        // Si el unfollow se produce correctamente en la api, se elimina la cartelera de la coleccion local cartelerasSeguidas
+                        this.removeCartelera(this.cartelerasSeguidas, carteleraActual);
                         return;
                     },
                     (error) => {
@@ -119,10 +119,9 @@ export class HomeComponent implements OnInit {
         else {
             this.carteleraService.follow(idUser, carteleraActual.id)
                 .subscribe(
-                    (result) => {
+                    () => {
                         // Si el follow se produce correctamente en la api, se agrega la cartelera a la coleccion local cartelerasSeguidas
                         this.cartelerasSeguidas.push(carteleraActual);
-                        console.log(result);
                         return;
                     },
                     (error) => {
