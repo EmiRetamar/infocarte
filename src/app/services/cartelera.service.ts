@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Cartelera } from '../models/cartelera';
 import { Post } from '../models/post';
 import { Comentario } from '../models/comentario';
+import { Notificacion } from '../models/notificacion';
 import { Usuario } from '../models/usuario';
 
 @Injectable()
@@ -103,6 +104,25 @@ export class CarteleraService {
 
     deleteComentario(idComentario: string) {
         return this.http.delete(this.getUrl(`comments/${idComentario}`));
+    }
+
+    postNotificacion(notificacion: string): Observable<Notificacion> {
+        let httpHeaders = new HttpHeaders({
+            'Content-type': 'application/json; charset=UTF-8'
+        });
+        let body = { "text": `${notificacion}` };
+        return this.http.post<Notificacion>(this.getUrl('notifications'), body, { headers: httpHeaders });
+    }
+
+    postUserNotificacion(idNotificacion: string, idUser: string) {
+        let httpHeaders = new HttpHeaders({
+            'Content-type': 'application/json; charset=UTF-8'
+        });
+        let body = {
+            "notification": `notifications/${idNotificacion}`,
+            "user": `users/${idUser}`
+        };
+        return this.http.post(this.getUrl('userNotifications'), body, { headers: httpHeaders });
     }
 
     private getUrl(modelo: String): string {

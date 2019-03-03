@@ -8,7 +8,10 @@ import { CarteleraService } from '../../../services/cartelera.service';
 import { UserService } from '../../../services/user.service';
 import { ToasterService } from '../../../services/toaster.service';
 import { LocalStorageService } from '../../../services/local-storage.service';
+import { Cartelera } from '../../../models/cartelera';
 import { Post } from '../../../models/post';
+import { Notificacion } from '../../../models/notificacion';
+import { Usuario } from '../../../models/usuario';
 
 @Component({
     selector: 'info-create-post',
@@ -18,6 +21,8 @@ import { Post } from '../../../models/post';
 export class CreatePostComponent implements OnInit {
 
     idCartelera: string;
+    cartelera: Cartelera;
+    seguidores: Usuario[];
     createPostForm: FormGroup;
     imageUrl: string;
     comentariosHabilitados = false;
@@ -38,6 +43,10 @@ export class CreatePostComponent implements OnInit {
 
     ngOnInit() {
         this.idCartelera = this.route.snapshot.paramMap.get('idCartelera');
+        this.carteleraService.getCartelera(this.idCartelera)
+            .subscribe(
+                (cartelera: Cartelera) => this.cartelera = cartelera
+            );
         this.createPostForm = this.formBuilder.group({
             title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
             description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
@@ -63,6 +72,8 @@ export class CreatePostComponent implements OnInit {
             this.carteleraService.postPublicacion(formData)
                 .subscribe(
                     (newPost: Post) => {
+                        this.getSeguidoresForCartelera(this.idCartelera);
+                        this.notificarUsuarios(newPost);
                         this.router.navigateByUrl(`/cartelera/${this.idCartelera}`);
                         this.toasterService.success('Publicación creada con éxito !');
                         console.log(newPost);
@@ -76,6 +87,24 @@ export class CreatePostComponent implements OnInit {
         else {
             return;
         }
+    }
+
+    getSeguidoresForCartelera(idCartelera: string) {
+        this.carteleraService.getSeguidores(idCartelera)
+            .subscribe(
+                (seguidores: Usuario[]) => this.seguidores = seguidores
+            )
+    }
+
+    notificarUsuarios(newPost: Post) {
+        this.carteleraService.postNotificacion(`Se creó la publicación "${newPost.title}" en la cartelera "${this.cartelera.title}"`)
+            .subscribe(
+                (notificacion: Notificacion) => {
+                    for (let seguidor of this.seguidores) {
+                        this.carteleraService.postUserNotificacion(notificacion.id, seguidor.id).subscribe();
+                    }
+                }
+            );
     }
 
     upload(event) {

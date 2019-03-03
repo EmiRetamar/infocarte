@@ -6,7 +6,10 @@ import { Observable } from 'rxjs/Observable';
 import { finalize } from 'rxjs/operators';
 import { CarteleraService } from '../../../services/cartelera.service';
 import { ToasterService } from 'src/app/services/toaster.service';
+import { Cartelera } from '../../../models/cartelera';
 import { Post } from '../../../models/post';
+import { Notificacion } from '../../../models/notificacion';
+import { Usuario } from '../../../models/usuario';
 
 @Component({
     selector: 'info-edit-post',
@@ -17,7 +20,9 @@ export class EditPostComponent implements OnInit {
 
     idCartelera: string;
     idPost: string;
+    cartelera: Cartelera;
     post: Post;
+    seguidores: Usuario[];
     editPostForm: FormGroup;
     imageUrl: string;
     submitted = false;
@@ -36,10 +41,18 @@ export class EditPostComponent implements OnInit {
     ngOnInit() {
         this.idCartelera = this.route.snapshot.paramMap.get('idCartelera');
         this.idPost = this.route.snapshot.paramMap.get('idPost');
-        this.carteleraService.getPublicacion(this.idPost)
+        this.carteleraService.getCartelera(this.idCartelera)
             .subscribe(
-                (post: Post) => this.post = post
-            )
+                (cartelera: Cartelera) => {
+                    this.carteleraService.getPublicacion(this.idPost)
+                        .subscribe(
+                            (post: Post) => {
+                                this.cartelera = cartelera;
+                                this.post = post;
+                            }
+                        );
+                }
+            );
         this.editPostForm = this.formBuilder.group({
             title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
             description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
@@ -65,6 +78,8 @@ export class EditPostComponent implements OnInit {
             this.carteleraService.updatePublicacion(formData)
                 .subscribe(
                     (updatedPost: Post) => {
+                        this.getSeguidoresForCartelera(this.idCartelera);
+                        this.notificarUsuarios(updatedPost);
                         this.router.navigateByUrl(`/cartelera/${this.idCartelera}`);
                         this.toasterService.success('Publicación editada con éxito !');
                         console.log(updatedPost);
@@ -78,6 +93,24 @@ export class EditPostComponent implements OnInit {
         else {
             return;
         }
+    }
+
+    getSeguidoresForCartelera(idCartelera: string) {
+        this.carteleraService.getSeguidores(idCartelera)
+            .subscribe(
+                (seguidores: Usuario[]) => this.seguidores = seguidores
+            )
+    }
+
+    notificarUsuarios(updatedPost: Post) {
+        this.carteleraService.postNotificacion(`Se actualizó la publicación "${updatedPost.title}" en la cartelera "${this.cartelera.title}"`)
+            .subscribe(
+                (notificacion: Notificacion) => {
+                    for (let seguidor of this.seguidores) {
+                        this.carteleraService.postUserNotificacion(notificacion.id, seguidor.id).subscribe();
+                    }
+                }
+            );
     }
 
     upload(event) {
