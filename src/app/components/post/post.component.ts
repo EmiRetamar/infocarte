@@ -11,6 +11,7 @@ import { ToasterService } from '../../services/toaster.service';
 import { Cartelera } from '../../models/cartelera';
 import { Post } from '../../models/post';
 import { Comentario } from '../../models/comentario';
+import { Notificacion } from '../../models/notificacion';
 import { Usuario } from '../../models/usuario';
 
 @Component({
@@ -20,12 +21,15 @@ import { Usuario } from '../../models/usuario';
 })
 export class PostComponent implements OnInit {
 
+    idCartelera: string;
+    idPost: string;
     user: Usuario;
     cartelera: Cartelera;
     post: Post;
     comentarios: Comentario[];
     comentariosUser: any;
     usersForComments: Usuario[] = new Array();
+    seguidores: Usuario[];
     commentForm: FormGroup;
     submitted = false;
     loaded = false;
@@ -42,24 +46,26 @@ export class PostComponent implements OnInit {
                 public localStorageService: LocalStorageService) { }
 
     ngOnInit() {
-        let idCartelera: string;
-        let idPost: string;
-        idCartelera = this.route.snapshot.paramMap.get('idCartelera');
-        idPost = this.route.snapshot.paramMap.get('idPost');
-        this.carteleraService.getCartelera(idCartelera)
+        this.idCartelera = this.route.snapshot.paramMap.get('idCartelera');
+        this.idPost = this.route.snapshot.paramMap.get('idPost');
+        this.carteleraService.getCartelera(this.idCartelera)
             .subscribe((cartelera) => {
-                this.carteleraService.getPublicacion(idPost)
+                this.carteleraService.getPublicacion(this.idPost)
                     .subscribe((post) => {
-                        this.carteleraService.getComentarios(idPost)
+                        this.carteleraService.getComentarios(this.idPost)
                             .subscribe((comentarios) => {
-                                this.userService.getComentariosUser(this.localStorageService.getUserId())
-                                    .subscribe((comentariosUser) => {
-                                        this.cartelera = cartelera;
-                                        this.post = post;
-                                        this.comentarios = comentarios;
-                                        this.comentariosUser = comentariosUser;
-                                        this.getUsersForComments(this.comentarios);
-                                        this.loaded = true;
+                                this.userService.getUserById(this.localStorageService.getUserId())
+                                    .subscribe((user) => {
+                                        this.userService.getComentariosUser(this.localStorageService.getUserId())
+                                            .subscribe((comentariosUser) => {
+                                                this.cartelera = cartelera;
+                                                this.post = post;
+                                                this.comentarios = comentarios;
+                                                this.user = user;
+                                                this.comentariosUser = comentariosUser;
+                                                this.getUsersForComments(this.comentarios);
+                                                this.loaded = true;
+                                            });
                                     });
                             });
                     });
@@ -176,6 +182,8 @@ export class PostComponent implements OnInit {
                         this.requestUserForComment(comentario);
                         this.addComentario(comentario);
                         this.toasterService.success('Enviado !');
+                        this.getSeguidoresForCartelera(this.idCartelera);
+                        this.notificarUsuarios();
                         console.log(comentario);
                     },
                     error => {
@@ -187,6 +195,24 @@ export class PostComponent implements OnInit {
         else {
             return;
         }
+    }
+
+    getSeguidoresForCartelera(idCartelera: string) {
+        this.carteleraService.getSeguidores(idCartelera)
+            .subscribe(
+                (seguidores: Usuario[]) => this.seguidores = seguidores
+            )
+    }
+
+    notificarUsuarios() {
+        this.carteleraService.postNotificacion(`${this.user.name} ${this.user.lastname} creó un comentario en la publicación "${this.post.title}" de la cartelera "${this.cartelera.title}"`)
+            .subscribe(
+                (notificacion: Notificacion) => {
+                    for (let seguidor of this.seguidores) {
+                        this.carteleraService.postUserNotificacion(notificacion.id, seguidor.id).subscribe();
+                    }
+                }
+            );
     }
 
     addComentario(comentario: Comentario) {
