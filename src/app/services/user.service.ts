@@ -4,8 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { Cartelera } from '../models/cartelera';
 import { Post } from '../models/post';
-import { Notificacion } from '../models/notificacion';
 import { Usuario } from '../models/usuario';
+import { Notificacion } from '../models/notificacion';
+import { UsuarioNotificaciones } from '../models/usuario-notificaciones';
 
 @Injectable({
 	providedIn: 'root'
@@ -60,9 +61,9 @@ export class UserService {
 			.pipe(map((result: any) => result._embedded.posts as Post[]));
 	}
 
-	getUserNotifications(idUser: string) {
+	getUserNotifications(idUser: string): Observable<UsuarioNotificaciones[]> {
 		return this.http.get(this.getUrl(`users/${idUser}/userNotifications`))
-			.pipe(map((result: any) => result._embedded.userNotifications));
+			.pipe(map((result: any) => result._embedded.userNotifications as UsuarioNotificaciones[]));
 	}
 
 	getNotification(idUserNotification: string): Observable<Notificacion> {

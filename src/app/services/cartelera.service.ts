@@ -5,8 +5,8 @@ import { map } from 'rxjs/operators';
 import { Cartelera } from '../models/cartelera';
 import { Post } from '../models/post';
 import { Comentario } from '../models/comentario';
-import { Notificacion } from '../models/notificacion';
 import { Usuario } from '../models/usuario';
+import { Notificacion } from '../models/notificacion';
 
 @Injectable()
 export class CarteleraService {

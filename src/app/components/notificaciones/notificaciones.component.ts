@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { Notificacion } from '../../models/notificacion';
+import { UsuarioNotificaciones } from 'src/app/models/usuario-notificaciones';
 
 @Component({
 	selector: 'info-notificaciones',
@@ -18,18 +19,18 @@ export class NotificacionesComponent implements OnInit {
 	ngOnInit() {
 		this.userService.getUserNotifications(this.localStorageService.getUserId())
 			.subscribe(
-				(userNotifications) => {
+				(userNotifications: UsuarioNotificaciones[]) => {
 					this.getNotificaciones(userNotifications);
 				}
 			);
 	}
 
-	getNotificaciones(userNotifications): void {
+	getNotificaciones(userNotifications: UsuarioNotificaciones[]): void {
 		for (let userNotification of userNotifications) {
 			this.userService.getNotification(userNotification.id)
 				.subscribe(
 					(notification: Notificacion) => {
-						this.notifications.push([ notification.text, userNotification.read ]);
+						this.notifications.push({ text: notification.text, read: userNotification.read });
 					}
 				);
 		}
