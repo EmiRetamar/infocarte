@@ -103,11 +103,11 @@ export class EditPostComponent implements OnInit {
     }
 
     notificarUsuarios(updatedPost: Post) {
-        this.carteleraService.postNotificacion(`Se actualizó la publicación "${updatedPost.title}" en la cartelera "${this.cartelera.title}"`)
+        this.carteleraService.postNotification(`Se actualizó la publicación "${updatedPost.title}" en la cartelera "${this.cartelera.title}"`)
             .subscribe(
                 (notificacion: Notificacion) => {
                     for (let seguidor of this.seguidores) {
-                        this.carteleraService.postUserNotificacion(notificacion.id, seguidor.id).subscribe();
+                        this.carteleraService.postUserNotification(notificacion.id, seguidor.id).subscribe();
                     }
                 }
             );

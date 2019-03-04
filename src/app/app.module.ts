@@ -21,6 +21,7 @@ import { LocalStorageService } from './services/local-storage.service';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ToasterService } from './services/toaster.service';
 import { UsuarioModule } from './components/usuario/usuario.module';
+import { NotificacionesModule } from './components/notificaciones/notificaciones.module';
 import { UsuarioAutenticado } from './components/guards/usuario-autenticado';
 import { UsuarioAdministrador } from './components/guards/usuario-administrador';
 import { UsuarioProfesor } from './components/guards/usuario-profesor';
@@ -45,6 +46,7 @@ import { environment } from '../environments/environment';
     CarteleraModule,
     PostModule,
     UsuarioModule,
+    NotificacionesModule,
     /* Angular Firebase Modules */
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule

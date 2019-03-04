@@ -14,6 +14,7 @@ import { EditUserComponent } from './components/usuario/edit-user/edit-user.comp
 import { CartelerasCreadasComponent } from './components/usuario/carteleras-creadas/carteleras-creadas.component';
 import { CartelerasSeguidasComponent } from './components/usuario/carteleras-seguidas/carteleras-seguidas.component';
 import { PostsCreadosComponent } from './components/usuario/posts-creados/posts-creados.component';
+import { NotificacionesComponent } from './components/notificaciones/notificaciones.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { UsuarioAutenticado } from './components/guards/usuario-autenticado';
 import { UsuarioAdministrador } from './components/guards/usuario-administrador';
@@ -34,6 +35,7 @@ const appRoutes: Routes = [
     { path: 'carteleras-creadas', component: CartelerasCreadasComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },
     { path: 'carteleras-seguidas', component: CartelerasSeguidasComponent, canActivate: [ UsuarioAutenticado, UsuarioAlumno ] },
     { path: 'posts-creados', component: PostsCreadosComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
+    { path: 'notificaciones', component: NotificacionesComponent, canActivate: [ UsuarioAutenticado, UsuarioAlumno ] },
     { path: '', redirectTo: 'home', pathMatch: 'full' }, // Cuando el path esta vacio se redirige a home, pathMatch va en el default siempre
     { path: '**', component: PageNotFoundComponent }
 ];

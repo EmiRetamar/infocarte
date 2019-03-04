@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { Cartelera } from '../models/cartelera';
 import { Post } from '../models/post';
+import { Notificacion } from '../models/notificacion';
 import { Usuario } from '../models/usuario';
 
 @Injectable({
@@ -57,6 +58,15 @@ export class UserService {
 	getPostsCreados(idUser: string): Observable<Post[]> {
 		return this.http.get(this.getUrl(`users/${idUser}/posts`))
 			.pipe(map((result: any) => result._embedded.posts as Post[]));
+	}
+
+	getUserNotifications(idUser: string) {
+		return this.http.get(this.getUrl(`users/${idUser}/userNotifications`))
+			.pipe(map((result: any) => result._embedded.userNotifications));
+	}
+
+	getNotification(idUserNotification: string): Observable<Notificacion> {
+		return this.http.get<Notificacion>(this.getUrl(`userNotifications/${idUserNotification}/notification`));
 	}
 
 	private getUrl(modelo: String): string {

@@ -1,5 +1,5 @@
 export interface Notificacion {
     id: string;
-    message: string;
+    text: string;
     _links: any;
 }

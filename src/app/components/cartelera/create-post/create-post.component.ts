@@ -97,11 +97,11 @@ export class CreatePostComponent implements OnInit {
     }
 
     notificarUsuarios(newPost: Post) {
-        this.carteleraService.postNotificacion(`Se creó la publicación "${newPost.title}" en la cartelera "${this.cartelera.title}"`)
+        this.carteleraService.postNotification(`Se creó la publicación "${newPost.title}" en la cartelera "${this.cartelera.title}"`)
             .subscribe(
                 (notificacion: Notificacion) => {
                     for (let seguidor of this.seguidores) {
-                        this.carteleraService.postUserNotificacion(notificacion.id, seguidor.id).subscribe();
+                        this.carteleraService.postUserNotification(notificacion.id, seguidor.id).subscribe();
                     }
                 }
             );
