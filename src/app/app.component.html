@@ -29,16 +29,20 @@
                     <span class="title" mat-line>Perfil</span>
                 </a>
                 <a mat-list-item class="sidenav-link" [routerLink]="['/carteleras-creadas']" (click)="sidenav.toggle()" *ngIf="userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities())">
-                    <mat-icon mat-list-icon>description</mat-icon>
+                    <mat-icon mat-list-icon>calendar_today</mat-icon>
                     <span class="title" mat-line>Mis carteleras</span>
+                </a>
+                <a mat-list-item class="sidenav-link" [routerLink]="['/posts-creados']" (click)="sidenav.toggle()" *ngIf="userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities()) || userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities())">
+                    <mat-icon mat-list-icon>description</mat-icon>
+                    <span class="title" mat-line>Mis publicaciones</span>
+                </a>
+                <a mat-list-item class="sidenav-link" [routerLink]="['/notificaciones']" (click)="sidenav.toggle()" *ngIf="userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())">
+                    <mat-icon mat-list-icon>notifications</mat-icon>
+                    <span class="title" mat-line>Notificaciones</span>
                 </a>
                 <a mat-list-item class="sidenav-link" [routerLink]="['/carteleras-seguidas']" (click)="sidenav.toggle()" *ngIf="userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())">
                     <mat-icon mat-list-icon>favorite_border</mat-icon>
                     <span class="title" mat-line>Carteleras seguidas</span>
-                </a>
-                <a mat-list-item class="sidenav-link" [routerLink]="['/posts-creados']" (click)="sidenav.toggle()" *ngIf="userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities()) || userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities())">
-                    <mat-icon mat-list-icon>favorite_border</mat-icon>
-                    <span class="title" mat-line>Mis publicaciones</span>
                 </a>
                 <a mat-list-item class="sidenav-link" (click)="logout()" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>exit_to_app</mat-icon>
