@@ -8,7 +8,9 @@
     <!-- Publicacion -->
     <mat-card>
         <mat-toolbar color="warn" class="mat-elevation-z1">
-            <h1>{{ cartelera.title }}</h1>
+            <button mat-button [routerLink]="['/cartelera', cartelera.id]">
+                <h1>{{ cartelera.title }}</h1>
+            </button>
         </mat-toolbar>
         <div class="card-container">
             <mat-card class="card-content">
