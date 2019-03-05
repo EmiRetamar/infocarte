@@ -70,6 +70,10 @@ export class UserService {
 		return this.http.get<Notificacion>(this.getUrl(`userNotifications/${idUserNotification}/notification`));
 	}
 
+	leerNotification(idUser: string, idUserNotification: string) {
+		return this.http.get(this.getUrl(`users/${idUser}/userNotifications/${idUserNotification}`));
+	}
+
 	private getUrl(modelo: String): string {
 		return this.apiUrl + modelo;
 	}

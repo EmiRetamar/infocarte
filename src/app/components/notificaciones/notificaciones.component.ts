@@ -12,6 +12,7 @@ import { UsuarioNotificaciones } from 'src/app/models/usuario-notificaciones';
 export class NotificacionesComponent implements OnInit {
 
 	notifications = new Array();
+	loaded = false;
 
 	constructor(private userService: UserService,
 				private localStorageService: LocalStorageService) { }
@@ -21,6 +22,11 @@ export class NotificacionesComponent implements OnInit {
 			.subscribe(
 				(userNotifications: UsuarioNotificaciones[]) => {
 					this.getNotificaciones(userNotifications);
+					/* Se espera 1 segundo para setear en true la variable loaded porque sino queda precargado
+					en la vista que el arreglo "notifications" esta vacio (cuando hay notificaciones) y se
+					muestra el mensaje de que aun no hay notificaciones durante algunas milesimas de segundo
+					hasta que se cargue la vista con el listado de notificaciones */
+					setTimeout(() => { this.loaded = true; }, 1000);
 				}
 			);
 	}
@@ -30,10 +36,22 @@ export class NotificacionesComponent implements OnInit {
 			this.userService.getNotification(userNotification.id)
 				.subscribe(
 					(notification: Notificacion) => {
-						this.notifications.push({ text: notification.text, read: userNotification.read });
+						this.notifications.push(
+							{
+								idNotification: notification.id,
+								idUserNotification: userNotification.id,
+								text: notification.text,
+								read: userNotification.read
+							}
+						);
 					}
 				);
 		}
+	}
+
+	leerNotificacion(notification) {
+		this.userService.leerNotification(this.localStorageService.getUserId(), notification.idUserNotification)
+			.subscribe();
 	}
 
 }

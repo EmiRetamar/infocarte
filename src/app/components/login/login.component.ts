@@ -13,6 +13,7 @@ import { ToasterService } from '../../services/toaster.service';
 export class LoginComponent implements OnInit, OnDestroy {
 
     loginForm: FormGroup;
+    loginError: boolean = false;
 
     constructor(private formBuilder: FormBuilder,
                 private authService: AuthService,
@@ -42,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                         this.router.navigateByUrl('/');
                     },
                     error => {
-                        this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
+                        this.loginError = true;
                         console.error(error.message);
                     }
                 );

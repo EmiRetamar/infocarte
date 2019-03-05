@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UserService } from '../../../services/user.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
 import { Usuario } from '../../../models/usuario';
 
 @Component({
@@ -13,6 +14,7 @@ export class PerfilComponent implements OnInit {
 	user: Usuario;
 
 	constructor(private userService: UserService,
+				private localStorageService: LocalStorageService,
 				private router: Router,
 				private route: ActivatedRoute) { }
 
@@ -25,6 +27,18 @@ export class PerfilComponent implements OnInit {
 					this.user = user;
 				}
 			);
+	}
+
+	redirectToCartelerasCreadas() {
+		this.router.navigateByUrl('/carteleras-creadas');
+	}
+
+	redirectToPostsCreados() {
+		this.router.navigateByUrl('/posts-creados');
+	}
+
+	redirectToCartelerasSeguidas() {
+		this.router.navigateByUrl('/carteleras-seguidas');
 	}
 
 }

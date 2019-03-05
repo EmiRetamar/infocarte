@@ -42,7 +42,7 @@ const appRoutes: Routes = [
 
 // Las rutas se definen en RouterModule y se exportan para ser importadas por la clase AppModule
 @NgModule({
-    imports: [ RouterModule.forRoot(appRoutes, { onSameUrlNavigation: 'reload' }) ],
+    imports: [ RouterModule.forRoot(appRoutes, { onSameUrlNavigation: 'reload', scrollPositionRestoration: 'enabled' }) ],
     exports: [ RouterModule ]
 })
 export class AppRoutingModule { }

@@ -17,3 +17,8 @@ mat-card {
     flex-direction: row;
     justify-content: center;
 }
+
+.loginError {
+    text-align: center;
+    color: darkred;
+}

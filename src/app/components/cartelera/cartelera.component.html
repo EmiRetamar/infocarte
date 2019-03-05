@@ -1,8 +1,6 @@
 <mat-card *ngIf="cartelera && posts && postsUser">
     <mat-toolbar color="warn" class="mat-elevation-z1">
-        <div *ngIf="cartelera">
-            <h1>{{ cartelera.title }}</h1>
-        </div>
+        <h1>{{ cartelera.title }}</h1>
     </mat-toolbar>
     <div class="card-container">
         <!-- Aca se van generando los posts de la cartelera seleccionada -->
