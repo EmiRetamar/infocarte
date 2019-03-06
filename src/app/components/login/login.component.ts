@@ -43,7 +43,14 @@ export class LoginComponent implements OnInit, OnDestroy {
                         this.router.navigateByUrl('/');
                     },
                     error => {
-                        this.loginError = true;
+                        // Si el codigo de error es 401 significa que las credenciales son incorrectas
+                        if (error.status == 401) {
+                            this.loginError = true;
+                        }
+                        // Sino es que se produjo un error de otro tipo
+                        else {
+                            this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
+                        }
                         console.error(error.message);
                     }
                 );

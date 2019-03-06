@@ -9,6 +9,10 @@
 			</a>
 			<mat-divider></mat-divider>
 		</mat-list-item>
+		<mat-list-item *ngIf="seguidores.length == 0">
+			<div>No hay seguidores para esta cartelera</div>
+			<mat-divider></mat-divider>
+		</mat-list-item>
 	</mat-list>
 </mat-dialog-content>
 <mat-dialog-actions align="center">

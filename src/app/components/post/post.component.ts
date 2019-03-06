@@ -54,19 +54,27 @@ export class PostComponent implements OnInit {
                     .subscribe((post) => {
                         this.carteleraService.getComentarios(this.idPost)
                             .subscribe((comentarios) => {
-                                this.userService.getUserById(this.localStorageService.getUserId())
-                                    .subscribe((user) => {
-                                        this.userService.getComentariosUser(this.localStorageService.getUserId())
-                                            .subscribe((comentariosUser) => {
-                                                this.cartelera = cartelera;
-                                                this.post = post;
-                                                this.comentarios = comentarios;
-                                                this.user = user;
-                                                this.comentariosUser = comentariosUser;
-                                                this.getUsersForComments(this.comentarios);
-                                                this.loaded = true;
-                                            });
-                                    });
+                                if (this.localStorageService.getToken()) {
+                                    this.userService.getUserById(this.localStorageService.getUserId())
+                                        .subscribe((user) => {
+                                            this.userService.getComentariosUser(this.localStorageService.getUserId())
+                                                .subscribe((comentariosUser) => {
+                                                    this.cartelera = cartelera;
+                                                    this.post = post;
+                                                    this.comentarios = comentarios;
+                                                    this.user = user;
+                                                    this.comentariosUser = comentariosUser;
+                                                    this.getUsersForComments(this.comentarios);
+                                                    this.loaded = true;
+                                                });
+                                        });
+                                }
+                                else {
+                                    this.cartelera = cartelera;
+                                    this.post = post;
+                                    this.comentarios = comentarios;
+                                    this.loaded = true;
+                                }
                             });
                     });
             });
