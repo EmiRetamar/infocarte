@@ -5,7 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { finalize } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user.service';
-import { ToasterService } from 'src/app/services/toaster.service';
+import { ToasterService } from '../../../services/toaster.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
 import { Usuario } from '../../../models/usuario';
 
 @Component({
@@ -26,6 +27,7 @@ export class EditUserComponent implements OnInit {
 
 	constructor(private userService: UserService,
 				private toasterService: ToasterService,
+				private localStorageService: LocalStorageService,
 				private formBuilder: FormBuilder,
 				private fireStorage: AngularFireStorage,
 				private router: Router,
@@ -34,11 +36,12 @@ export class EditUserComponent implements OnInit {
 	ngOnInit() {
 		let idUser: string;
 		idUser = this.route.snapshot.paramMap.get('idUser');
+		if (this.localStorageService.getUserId() != idUser) {
+			this.router.navigateByUrl('/page-not-found');
+		}
 		this.userService.getUserById(idUser)
 			.subscribe(
-				(user: Usuario) => {
-					this.user = user;
-				}
+				(user: Usuario) => this.user = user
 			);
 		this.editUserForm = this.formBuilder.group({
 			name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],

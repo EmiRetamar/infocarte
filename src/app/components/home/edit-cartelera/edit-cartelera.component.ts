@@ -36,7 +36,13 @@ export class EditCarteleraComponent implements OnInit {
         idCartelera = this.route.snapshot.paramMap.get('idCartelera');
         this.carteleraService.getCartelera(idCartelera)
             .subscribe(
-                (cartelera) => this.cartelera = cartelera
+                (cartelera) => this.cartelera = cartelera,
+                (error) => {
+                    if (error.status == 404) {
+                        console.log(error.message);
+                        this.router.navigateByUrl('/page-not-found');
+                    }
+                }
             );
         this.editCarteleraForm = this.formBuilder.group({
             title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],

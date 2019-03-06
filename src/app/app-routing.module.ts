@@ -36,6 +36,7 @@ const appRoutes: Routes = [
     { path: 'carteleras-seguidas', component: CartelerasSeguidasComponent, canActivate: [ UsuarioAutenticado, UsuarioAlumno ] },
     { path: 'posts-creados', component: PostsCreadosComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
     { path: 'notificaciones', component: NotificacionesComponent, canActivate: [ UsuarioAutenticado, UsuarioAlumno ] },
+    { path: 'page-not-found', component: PageNotFoundComponent },
     { path: '', redirectTo: 'home', pathMatch: 'full' }, // Cuando el path esta vacio se redirige a home, pathMatch va en el default siempre
     { path: '**', component: PageNotFoundComponent }
 ];

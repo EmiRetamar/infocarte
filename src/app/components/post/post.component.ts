@@ -5,9 +5,9 @@ import { DeletePostComponent } from '../cartelera/delete-post/delete-post.compon
 import { DeleteComentarioComponent } from '../post/delete-comentario/delete-comentario.component';
 import { CarteleraService } from '../../services/cartelera.service';
 import { UserService } from '../../services/user.service';
+import { ToasterService } from '../../services/toaster.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ToasterService } from '../../services/toaster.service';
 import { Cartelera } from '../../models/cartelera';
 import { Post } from '../../models/post';
 import { Comentario } from '../../models/comentario';
@@ -76,7 +76,19 @@ export class PostComponent implements OnInit {
                                     this.loaded = true;
                                 }
                             });
+                    },
+                    (error) => {
+                        if (error.status == 404) {
+                            console.log(error.message);
+                            this.router.navigateByUrl('/page-not-found');
+                        }
                     });
+            },
+            (error) => {
+                if (error.status == 404) {
+                    console.log(error.message);
+                    this.router.navigateByUrl('/page-not-found');
+                }
             });
         this.commentForm = this.formBuilder.group({
             comment: ['', [Validators.minLength(1), Validators.maxLength(1000)]]

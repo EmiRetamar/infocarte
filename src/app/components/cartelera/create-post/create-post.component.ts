@@ -45,7 +45,13 @@ export class CreatePostComponent implements OnInit {
         this.idCartelera = this.route.snapshot.paramMap.get('idCartelera');
         this.carteleraService.getCartelera(this.idCartelera)
             .subscribe(
-                (cartelera: Cartelera) => this.cartelera = cartelera
+                (cartelera: Cartelera) => this.cartelera = cartelera,
+                (error) => {
+                    if (error.status == 404) {
+                        console.log(error.message);
+                        this.router.navigateByUrl('/page-not-found');
+                    }
+                }
             );
         this.createPostForm = this.formBuilder.group({
             title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],

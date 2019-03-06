@@ -49,8 +49,20 @@ export class EditPostComponent implements OnInit {
                             (post: Post) => {
                                 this.cartelera = cartelera;
                                 this.post = post;
+                            },
+                            (error) => {
+                                if (error.status == 404) {
+                                    console.log(error.message);
+                                    this.router.navigateByUrl('/page-not-found');
+                                }
                             }
                         );
+                },
+                (error) => {
+                    if (error.status == 404) {
+                        console.log(error.message);
+                        this.router.navigateByUrl('/page-not-found');
+                    }
                 }
             );
         this.editPostForm = this.formBuilder.group({

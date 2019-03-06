@@ -13,26 +13,26 @@
 				<mat-divider></mat-divider>
 				<mat-list-item>Email: {{ user.email }}</mat-list-item>
 				<mat-divider></mat-divider>
-				<mat-list-item *ngIf="userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities())">
+				<mat-list-item *ngIf="this.localStorageService.getUserId() == user.id && userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities())">
 					<div class="div-width">Carteleras creadas:</div>
 					<button mat-button color="primary" [routerLink]="['/carteleras-creadas']">Mostrar</button>
 				</mat-list-item>
-				<mat-divider *ngIf="userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities())"></mat-divider>
-				<mat-list-item *ngIf="userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities()) || userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities())">
+				<mat-divider *ngIf="this.localStorageService.getUserId() == user.id && userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities())"></mat-divider>
+				<mat-list-item *ngIf="(this.localStorageService.getUserId() == user.id) && (userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities()) || userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities()) )">
 					<div class="div-width">Publicaciones creadas:</div>
 					<button mat-button color="primary" [routerLink]="['/posts-creados']">Mostrar</button>
 				</mat-list-item>
-				<mat-divider *ngIf="userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities()) || userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities())"></mat-divider>
-				<mat-list-item *ngIf="userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())">
+				<mat-divider *ngIf="this.localStorageService.getUserId() == user.id && (userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities()) || userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities()) )"></mat-divider>
+				<mat-list-item *ngIf="this.localStorageService.getUserId() == user.id && userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())">
 					<div class="div-width">Carteleras seguidas:</div>
 					<button mat-button color="primary" [routerLink]="['/carteleras-seguidas']">Mostrar</button>
 				</mat-list-item>
-				<mat-divider *ngIf="userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())"></mat-divider>
+				<mat-divider *ngIf="this.localStorageService.getUserId() == user.id && userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())"></mat-divider>
 			</mat-list>
 
 		</mat-card-content>
 
-		<mat-card-actions>
+		<mat-card-actions *ngIf="this.localStorageService.getUserId() == user.id">
 			<button mat-button color="primary" [routerLink]="['/edit-user', user.id]">Editar</button>
 		</mat-card-actions>
 

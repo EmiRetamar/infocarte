@@ -4,7 +4,7 @@ import { DeletePostComponent } from './delete-post/delete-post.component';
 import { CarteleraService } from '../../services/cartelera.service';
 import { UserService } from '../../services/user.service';
 import { LocalStorageService } from '../../services/local-storage.service';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
 import { Cartelera } from '../../models/cartelera';
 import { Post } from '../../models/post';
@@ -23,6 +23,7 @@ export class CarteleraComponent implements OnInit {
 
     constructor(private carteleraService: CarteleraService,
                 private userService: UserService,
+                private router: Router,
                 private route: ActivatedRoute,
                 private dialog: MatDialog,
                 private toasterService: ToasterService,
@@ -32,34 +33,34 @@ export class CarteleraComponent implements OnInit {
         let idCartelera: string;
         idCartelera = this.route.snapshot.paramMap.get('idCartelera');
         this.carteleraService.getCartelera(idCartelera)
-            .subscribe(
-                (cartelera) => {
-                    this.cartelera = cartelera;
-                    this.carteleraService.getPosts(idCartelera)
-                        .subscribe(
-                            (postsBillboard) => {
-                                this.posts = postsBillboard;
-                                if (this.localStorageService.getToken()) {
-                                    this.userService.getPostsUser(this.localStorageService.getUserId())
-                                        .subscribe(
-                                            (postsUser) => {
-                                                this.postsUser = postsUser;
-                                                this.loaded = true;
-                                            }
-                                        );
-                                }
-                                /* Este else es necesario porque la ejecucion del request a la api es asincrono
-                                por lo tanto se seguiran ejecutando las siguientes instrucciones mientras
-                                se espera una respuesta en el subscribe, entonces antes de recibir la respuesta
-                                se ejecutara el "this.loaded = true" y la aplicacion fallara ya que aun no
-                                se tiene el arreglo "postUser" seteado */
-                                else {
+            .subscribe((cartelera) => {
+                this.cartelera = cartelera;
+                this.carteleraService.getPosts(idCartelera)
+                    .subscribe((postsBillboard) => {
+                        this.posts = postsBillboard;
+                        if (this.localStorageService.getToken()) {
+                            this.userService.getPostsUser(this.localStorageService.getUserId())
+                                .subscribe((postsUser) => {
+                                    this.postsUser = postsUser;
                                     this.loaded = true;
-                                }
-                            }
-                        );
+                                });
+                        }
+                        /* Este else es necesario porque la ejecucion del request a la api es asincrono
+                        por lo tanto se seguiran ejecutando las siguientes instrucciones mientras
+                        se espera una respuesta en el subscribe, entonces antes de recibir la respuesta
+                        se ejecutara el "this.loaded = true" y la aplicacion fallara ya que aun no
+                        se tiene el arreglo "postUser" seteado */
+                        else {
+                            this.loaded = true;
+                        }
+                    });
+            },
+            (error) => {
+                if (error.status == 404) {
+                    console.log(error.message);
+                    this.router.navigateByUrl('/page-not-found');
                 }
-            );
+            });
     }
 
     isMyPost(postActual: Post) {
