@@ -33,7 +33,14 @@
             </button>
         </span>
     </div>
+
+    <div *ngIf="posts && posts.length == 0">
+        <h1 class="message">No hay publicaciones para mostrar</h1>
+    </div>
+
 </mat-card>
+
+<div *ngIf="cartelera && posts && postsUser && posts.length == 0" class="space"></div>
 
 <div class="spinner-container" *ngIf="!cartelera || !posts || !postsUser">
     <mat-spinner class="spinner-content"></mat-spinner>

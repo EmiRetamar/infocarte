@@ -39,6 +39,18 @@ a:hover {
     color: white;
 }
 
+.message {
+    max-width: 100%;
+    text-align: center;
+    margin-top: 1.5em;
+    margin-left: 0.2em;
+    color: #428bca;
+}
+
+.space {
+    margin-bottom: 10em;
+}
+
 .spinner-container {
     align-items: center;
     margin-bottom: 25em;

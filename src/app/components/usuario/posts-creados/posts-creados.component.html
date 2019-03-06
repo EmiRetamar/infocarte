@@ -27,7 +27,14 @@
 			</mat-card-actions>
 		</mat-card>
 	</div>
+
+	<div *ngIf="loaded && posts.length == 0">
+        <h1 class="message">No hay publicaciones para mostrar</h1>
+    </div>
+
 </mat-card>
+
+<div *ngIf="loaded && posts.length == 0" class="space"></div>
 
 <div class="spinner-container" *ngIf="!loaded">
 	<mat-spinner class="spinner-content"></mat-spinner>

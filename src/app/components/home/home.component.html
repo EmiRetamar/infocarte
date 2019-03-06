@@ -42,6 +42,12 @@
 
 </div>
 
+<div *ngIf="carteleras && carteleras.length == 0">
+    <mat-card class="message">
+        <h1>No hay carteleras para mostrar</h1>
+    </mat-card>
+</div>
+
 <div class="spinner-container" *ngIf="!carteleras">
     <mat-spinner class="spinner-content"></mat-spinner>
 </div>

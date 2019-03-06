@@ -43,6 +43,17 @@ a:hover {
     background-color: rgb(193, 222, 231);
 }
 
+.message {
+    max-width: 50%;
+    margin: auto;
+    text-align: center;
+    color: #428bca;
+}
+
+.space {
+    margin-bottom: 10.3em;
+}
+
 .spinner-container {
     align-items: center;
     margin-bottom: 25em;
