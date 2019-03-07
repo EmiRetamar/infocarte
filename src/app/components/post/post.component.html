@@ -48,19 +48,21 @@
     <!-- Comentarios -->
     <div class="comment-card-container">
         <mat-card class="comment-card" *ngFor="let comentario of comentarios">
-            <mat-card-header>
+            <mat-card-header *ngIf="usersForComments[comentario.id] != undefined">
                 <img mat-line mat-card-avatar src="{{ usersForComments[comentario.id].photo }}">
-                <mat-card-title *ngIf="usersForComments[comentario.id] != undefined">
-                    {{ usersForComments[comentario.id].name }} {{ usersForComments[comentario.id].lastname }}
+                <mat-card-title>
+                    <a [routerLink]="['/user', usersForComments[comentario.id].id]">
+                        {{ usersForComments[comentario.id].name }} {{ usersForComments[comentario.id].lastname }}
+                    </a>
                 </mat-card-title>
                 <mat-card-subtitle>{{ comentario.created_at }}</mat-card-subtitle>
             </mat-card-header>
 
-            <mat-card-content>
+            <mat-card-content *ngIf="usersForComments[comentario.id] != undefined">
                 {{ comentario.comment }}
             </mat-card-content>
 
-            <mat-card-actions>
+            <mat-card-actions *ngIf="usersForComments[comentario.id] != undefined">
                 <button mat-button color="primary" (click)="eliminarComentario(comentario)" *ngIf="localStorageService.getToken() && isMyComment(comentario)">Eliminar</button>
             </mat-card-actions>
         </mat-card>
