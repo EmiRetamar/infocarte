@@ -49,7 +49,7 @@
     <div class="comment-card-container">
         <mat-card class="comment-card" *ngFor="let comentario of comentarios">
             <mat-card-header>
-                <img mat-line mat-card-avatar src="{{ user.photo }}">
+                <img mat-line mat-card-avatar src="{{ usersForComments[comentario.id].photo }}">
                 <mat-card-title *ngIf="usersForComments[comentario.id] != undefined">
                     {{ usersForComments[comentario.id].name }} {{ usersForComments[comentario.id].lastname }}
                 </mat-card-title>
