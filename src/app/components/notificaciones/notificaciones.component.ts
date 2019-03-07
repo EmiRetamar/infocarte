@@ -29,7 +29,7 @@ export class NotificacionesComponent implements OnInit {
 					setTimeout(() => {
 						this.ordenarNotificaciones();
 						this.loaded = true;
-					}, 2500);
+					}, 5000);
 				}
 			);
 	}
