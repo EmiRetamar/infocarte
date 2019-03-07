@@ -104,7 +104,7 @@ export class PostComponent implements OnInit {
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-        // Estos datos son pasados al componente "DeletePostComponent"
+
         dialogConfig.data = {
             id: post.id,
             title: post.title
@@ -237,9 +237,6 @@ export class PostComponent implements OnInit {
 
     addComentario(comentario: Comentario) {
         this.comentarios.push(comentario);
-        // Se agrega una nueva posicion en el arreglo que guarda los comentarios del usuario logueado
-        /* Solo es necesario guardar el id del comentario para comparar, pero se guarda el texto
-        del comentario para mantener el formato */
         this.comentariosUser.push([ comentario.id, comentario.comment ]);
     }
 
@@ -248,7 +245,7 @@ export class PostComponent implements OnInit {
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-        // Estos datos son pasados al componente "DeleteComentarioComponent"
+
         dialogConfig.data = {
             id: comentario.id,
             title: comentario.comment

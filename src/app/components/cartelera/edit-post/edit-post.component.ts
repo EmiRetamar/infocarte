@@ -126,26 +126,21 @@ export class EditPostComponent implements OnInit {
     }
 
     upload(event) {
-        // Cargando imagen
+
         this.loading = true;
 
-        // Se obtiene el archivo del input
         const file = event.target.files[0];
 
-        // Se genera un id aleatorio que se usara como nombre de la imagen
         const randomId = Math.random().toString(36).substring(2);
 
         const filepath = `images/${randomId}`;
 
         const fileRef = this.fireStorage.ref(filepath);
 
-        // Se sube la imagen
         const task = this.fireStorage.upload(filepath, file);
 
-        // Se setea el progreso de carga
         this.uploadProgress = task.percentageChanges();
 
-        // Se notifica cuando la imagen termina de subirse y esta disponible
         task.snapshotChanges().pipe(
             finalize(() => {
                 this.uploadUrl = fileRef.getDownloadURL();

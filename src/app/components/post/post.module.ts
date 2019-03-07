@@ -16,11 +16,7 @@ import { DeleteComentarioComponent } from './delete-comentario/delete-comentario
     ReactiveFormsModule,
     FormsModule
   ],
-  exports: [
-    // Hay que exportarlo porque lo utiliza el routing en el contexto de app.module donde solo tienen alcance AppComponent y LoginComponent
-    PostComponent,
-    DeleteComentarioComponent
-  ],
+  exports: [],
   declarations: [ PostComponent, DeleteComentarioComponent ],
   entryComponents: [
     DeleteComentarioComponent

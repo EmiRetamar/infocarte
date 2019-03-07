@@ -26,10 +26,6 @@ export class NotificacionesComponent implements OnInit {
 			.subscribe(
 				(userNotifications: UsuarioNotificaciones[]) => {
 					this.getNotificaciones(userNotifications);
-					/* Se esperan unos segundos para setear en true la variable loaded porque sino queda
-					precargado en la vista que el arreglo "notifications" esta vacio (cuando hay notificaciones)
-					y se muestra el mensaje de que aun no hay notificaciones durante algunas milesimas de
-					segundo hasta que se cargue la vista con el listado de notificaciones */
 					setTimeout(() => {
 						this.ordenarNotificaciones();
 						this.loaded = true;
@@ -62,15 +58,11 @@ export class NotificacionesComponent implements OnInit {
 		}
 	}
 
-	// Fuente: https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/sort
-	// Se ordenan las notificaciones de la mas reciente a la mas antigua
 	ordenarNotificaciones() {
 		this.notifications.sort((a, b) => {
-			// Si la funcion anonima devuelve un numero mayor que 0, se sitúa "b" en un indice menor que "a".
 			if (a.idNotification < b.idNotification) {
 				return 1;
 			}
-			// Si la funcion anonima devuelve un numero menor que 0, se sitúa "a" en un indice menor que "b"
 		  	if (a.idNotification > b.idNotification) {
 				return -1;
 			}

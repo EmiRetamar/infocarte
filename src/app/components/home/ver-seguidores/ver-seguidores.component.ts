@@ -15,10 +15,6 @@ export class VerSeguidoresComponent implements OnInit {
 	seguidores: Usuario[];
 	dialogRef: MatDialog;
 
-	/* {read: ElementRef} es porque es un boton de angular material, si no se especifica esta propiedad
-	no es posible acceder a la propiedad "nativeElement" */
-	@ViewChild("buttonClose", {read: ElementRef}) buttonClose: ElementRef;
-
   	constructor(@Inject(MAT_DIALOG_DATA) data: any, private carteleraService: CarteleraService, private router: Router) {
 		this.idCartelera = data.id;
 		this.dialogRef = data.dialogRef;

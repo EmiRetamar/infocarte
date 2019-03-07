@@ -45,11 +45,6 @@ export class CarteleraComponent implements OnInit {
                                     this.loaded = true;
                                 });
                         }
-                        /* Este else es necesario porque la ejecucion del request a la api es asincrono
-                        por lo tanto se seguiran ejecutando las siguientes instrucciones mientras
-                        se espera una respuesta en el subscribe, entonces antes de recibir la respuesta
-                        se ejecutara el "this.loaded = true" y la aplicacion fallara ya que aun no
-                        se tiene el arreglo "postUser" seteado */
                         else {
                             this.loaded = true;
                         }

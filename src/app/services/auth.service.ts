@@ -4,14 +4,12 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { UserService } from './user.service';
-// import { Usuario } from '../models/Usuario';
 
 @Injectable()
 export class AuthService {
 
     private apiUrl = 'https://infocarte-api.herokuapp.com/api/auth/signin';
 
-    // El atributo http es inyectado por el framework (Inyeccion de dependencias)
     constructor(private http: HttpClient, private userService: UserService) { }
 
     login(username: string, password: string): Observable<any> {
