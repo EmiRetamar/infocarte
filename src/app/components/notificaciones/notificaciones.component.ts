@@ -4,8 +4,9 @@ import { CarteleraService } from '../../services/cartelera.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { Notificacion } from '../../models/notificacion';
 import { UsuarioNotificaciones } from 'src/app/models/usuario-notificaciones';
-import { Post } from '../../models/post';
+import { Usuario } from '../../models/usuario';
 import { Cartelera } from '../../models/cartelera';
+import { Post } from '../../models/post';
 
 @Component({
 	selector: 'info-notificaciones',
@@ -38,22 +39,26 @@ export class NotificacionesComponent implements OnInit {
 		for (let userNotification of userNotifications) {
 			this.userService.getNotification(userNotification.id)
 				.subscribe((notification: Notificacion) => {
-					this.userService.getPostForNotification(notification.id)
-						.subscribe((post: Post) => {
-							this.carteleraService.getCarteleraForPost(post.id)
-								.subscribe((cartelera: Cartelera) => {
-									this.notifications.push(
-										{
-											idNotification: notification.id,
-											idUserNotification: userNotification.id,
-											idPost: post.id,
-											idCartelera: cartelera.id,
-											text: notification.text,
-											read: userNotification.read
-										}
-									);
+					this.userService.getUserForNotification(userNotification.id)
+						.subscribe((user: Usuario) => {
+							this.userService.getPostForNotification(notification.id)
+								.subscribe((post: Post) => {
+									this.carteleraService.getCarteleraForPost(post.id)
+										.subscribe((cartelera: Cartelera) => {
+											this.notifications.push(
+												{
+													idNotification: notification.id,
+													idUserNotification: userNotification.id,
+													idUser: user.id,
+													idPost: post.id,
+													idCartelera: cartelera.id,
+													text: notification.text,
+													read: userNotification.read
+												}
+											);
+										});
 								});
-						});
+						})
 				});
 		}
 	}

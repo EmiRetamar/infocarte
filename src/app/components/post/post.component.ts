@@ -202,11 +202,8 @@ export class PostComponent implements OnInit {
                         this.requestUserForComment(comentario);
                         this.addComentario(comentario);
                         this.toasterService.success('Enviado !');
-                        // Se genera la notificacion solo si el usuario que realiza el comentario NO es alumno
-                        if (!this.userService.hasAuthority('ALUMNO', this.localStorageService.getAuthorities())) {
-                            this.getSeguidoresForCartelera(this.idCartelera);
-                            this.notificarUsuarios();
-                        }
+                        this.getSeguidoresForCartelera(this.idCartelera);
+                        this.notificarUsuarios();
                         console.log(comentario);
                     },
                     error => {
