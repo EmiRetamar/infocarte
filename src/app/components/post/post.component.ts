@@ -225,7 +225,7 @@ export class PostComponent implements OnInit {
     }
 
     notificarUsuarios() {
-        this.carteleraService.postNotification(`${this.user.name} ${this.user.lastname} creó un comentario en la publicación "${this.post.title}" de la cartelera "${this.cartelera.title}"`)
+        this.carteleraService.postNotification(`${this.user.name} ${this.user.lastname} creó un comentario en la publicación "${this.post.title}" de la cartelera "${this.cartelera.title}"`, this.post.id)
             .subscribe(
                 (notificacion: Notificacion) => {
                     for (let seguidor of this.seguidores) {

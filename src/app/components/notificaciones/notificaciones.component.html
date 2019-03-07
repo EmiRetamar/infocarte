@@ -7,8 +7,8 @@
 
 		<div class="input-container" *ngIf="notifications.length > 0">
 			<mat-nav-list>
-				<mat-list-item *ngFor="let notification of notifications" (click)="leerNotificacion(notification)">
-					<a matLine [routerLink]="['/notificaciones']">{{ notification.text }}</a>
+				<mat-list-item *ngFor="let notification of notifications" [routerLink]="['/cartelera', notification.idCartelera, 'post', notification.idPost]" (click)="leerNotificacion(notification)">
+					<div matLine>{{ notification.text }}</div>
 					<button mat-icon-button>
 						<div *ngIf="notification.read; then read else unread"></div>
 						<ng-template #read><mat-icon>check</mat-icon></ng-template>
