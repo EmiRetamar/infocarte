@@ -45,17 +45,18 @@ export class NotificacionesComponent implements OnInit {
 								.subscribe((post: Post) => {
 									this.carteleraService.getCarteleraForPost(post.id)
 										.subscribe((cartelera: Cartelera) => {
-											this.notifications.push(
-												{
-													idNotification: notification.id,
-													idUserNotification: userNotification.id,
-													idUser: user.id,
-													idPost: post.id,
-													idCartelera: cartelera.id,
-													text: notification.text,
-													read: userNotification.read
-												}
-											);
+											if (this.localStorageService.getUserId() != user.id) {
+												this.notifications.push(
+													{
+														idNotification: notification.id,
+														idUserNotification: userNotification.id,
+														idPost: post.id,
+														idCartelera: cartelera.id,
+														text: notification.text,
+														read: userNotification.read
+													}
+												);
+											}
 										});
 								});
 						})
