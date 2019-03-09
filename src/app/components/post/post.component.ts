@@ -27,6 +27,7 @@ export class PostComponent implements OnInit {
     cartelera: Cartelera;
     post: Post;
     comentarios: Comentario[];
+    postsUser: Post[];
     comentariosUser: any;
     usersForComments: Usuario[] = new Array();
     seguidores: Usuario[];
@@ -57,15 +58,19 @@ export class PostComponent implements OnInit {
                                 if (this.localStorageService.getToken()) {
                                     this.userService.getUserById(this.localStorageService.getUserId())
                                         .subscribe((user) => {
-                                            this.userService.getComentariosUser(this.localStorageService.getUserId())
-                                                .subscribe((comentariosUser) => {
-                                                    this.cartelera = cartelera;
-                                                    this.post = post;
-                                                    this.comentarios = comentarios;
-                                                    this.user = user;
-                                                    this.comentariosUser = comentariosUser;
-                                                    this.getUsersForComments(this.comentarios);
-                                                    this.loaded = true;
+                                            this.userService.getPostsUser(this.localStorageService.getUserId())
+                                                .subscribe((postsUser) => {
+                                                    this.userService.getComentariosUser(this.localStorageService.getUserId())
+                                                        .subscribe((comentariosUser) => {
+                                                            this.cartelera = cartelera;
+                                                            this.post = post;
+                                                            this.comentarios = comentarios;
+                                                            this.user = user;
+                                                            this.postsUser = postsUser;
+                                                            this.comentariosUser = comentariosUser;
+                                                            this.getUsersForComments(this.comentarios);
+                                                            this.loaded = true;
+                                                        });
                                                 });
                                         });
                                 }
@@ -97,6 +102,14 @@ export class PostComponent implements OnInit {
 
     get form() {
         return this.commentForm.controls;
+    }
+
+    isMyPost(postActual: Post) {
+        for (let post of this.postsUser) {
+            if (post.id == postActual.id)
+                return true;
+        }
+        return false;
     }
 
     eliminarPost(post: Post) {
