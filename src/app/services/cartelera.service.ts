@@ -106,13 +106,14 @@ export class CarteleraService {
         return this.http.delete(this.getUrl(`comments/${idComentario}`));
     }
 
-    postNotification(notificacion: string, idPost: string): Observable<Notificacion> {
+    postNotification(notificacion: string, idPost: string, idUser: string): Observable<Notificacion> {
         let httpHeaders = new HttpHeaders({
             'Content-type': 'application/json; charset=UTF-8'
         });
         let body = {
             "text": `${notificacion}`,
-            "post": `posts/${idPost}`
+            "post": `posts/${idPost}`,
+            "user": `users/${idUser}`
         };
         return this.http.post<Notificacion>(this.getUrl('notifications'), body, { headers: httpHeaders });
     }

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { finalize } from 'rxjs/operators';
 import { CarteleraService } from '../../../services/cartelera.service';
 import { ToasterService } from 'src/app/services/toaster.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
 import { Cartelera } from '../../../models/cartelera';
 import { Post } from '../../../models/post';
 import { Notificacion } from '../../../models/notificacion';
@@ -36,7 +37,8 @@ export class EditPostComponent implements OnInit {
                 private formBuilder: FormBuilder,
                 private fireStorage: AngularFireStorage,
                 private router: Router,
-                private route: ActivatedRoute) { }
+                private route: ActivatedRoute,
+                private localStorageService: LocalStorageService) { }
 
     ngOnInit() {
         this.idCartelera = this.route.snapshot.paramMap.get('idCartelera');
@@ -115,7 +117,7 @@ export class EditPostComponent implements OnInit {
     }
 
     notificarUsuarios(updatedPost: Post) {
-        this.carteleraService.postNotification(`Se actualizó la publicación "${updatedPost.title}" en la cartelera "${this.cartelera.title}"`, updatedPost.id)
+        this.carteleraService.postNotification(`Se actualizó la publicación "${updatedPost.title}" en la cartelera "${this.cartelera.title}"`, updatedPost.id, this.localStorageService.getUserId())
             .subscribe(
                 (notificacion: Notificacion) => {
                     for (let seguidor of this.seguidores) {

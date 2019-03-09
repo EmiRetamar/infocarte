@@ -70,8 +70,8 @@ export class UserService {
 		return this.http.get<Notificacion>(this.getUrl(`userNotifications/${idUserNotification}/notification`));
 	}
 
-	getUserForNotification(idUserNotification: string): Observable<Usuario> {
-		return this.http.get<Usuario>(this.getUrl(`userNotifications/${idUserNotification}/user`));
+	getUserForNotification(idNotification: string): Observable<Usuario> {
+		return this.http.get<Usuario>(this.getUrl(`notifications/${idNotification}/user`));
 	}
 
 	getPostForNotification(idNotification: string): Observable<Post> {

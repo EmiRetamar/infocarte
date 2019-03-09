@@ -39,7 +39,7 @@ export class NotificacionesComponent implements OnInit {
 		for (let userNotification of userNotifications) {
 			this.userService.getNotification(userNotification.id)
 				.subscribe((notification: Notificacion) => {
-					this.userService.getUserForNotification(userNotification.id)
+					this.userService.getUserForNotification(notification.id)
 						.subscribe((user: Usuario) => {
 							this.userService.getPostForNotification(notification.id)
 								.subscribe((post: Post) => {
@@ -59,7 +59,7 @@ export class NotificacionesComponent implements OnInit {
 											}
 										});
 								});
-						})
+						});
 				});
 		}
 	}
