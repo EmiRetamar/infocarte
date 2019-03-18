@@ -10,7 +10,7 @@
 				<mat-list>
 					<mat-list-item *ngFor="let profesor of profesores">
 						<mat-divider></mat-divider>
-						<mat-checkbox *ngIf="cartelerasForProfesores[profesor.id] != undefined" class="options" value="{{ profesor.id }}" [checked]="hasPermissions(profesor)" (change)="administrarPermisos($event)">{{ profesor.name }} {{ profesor.lastname }}</mat-checkbox>
+						<mat-checkbox class="options" value="{{ profesor.id }}" [checked]="hasPermissions(profesor)" (change)="administrarPermisos($event)">{{ profesor.name }} {{ profesor.lastname }}</mat-checkbox>
 						<mat-divider></mat-divider>
 					</mat-list-item>
 				</mat-list>

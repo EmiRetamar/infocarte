@@ -39,8 +39,12 @@ export class AdministrarPermisosComponent implements OnInit {
 								this.obtenerProfesores(users);
 								setTimeout(() => {
 									this.getCartelerasForProfesores(this.profesores);
-									this.loaded = true;
-									console.log(this.cartelerasForProfesores);
+									/* Cuando la funcion anonima tiene una sola sentencia se puede expresar
+									sin llaves ni punto y coma */
+									/* "setTimeout()" recibe como parametro una funcion anonima y un valor
+									que representa el tiempo expresado en milisegundos. Este tiempo es el que
+									se espera para que se ejecuten las sentencias de la funcion anonima */
+									setTimeout(() => this.loaded = true, 1000);
 								}, 2000);
 							}
 						);
