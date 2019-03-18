@@ -45,7 +45,7 @@ export class CarteleraComponent implements OnInit {
                                     this.postsUser = postsUser;
                                     if (this.userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities())) {
                                         this.requestCartelerasWithPermissions(this.localStorageService.getUserId());
-                                        this.loaded = true;
+                                        setTimeout(() => this.loaded = true, 1000);
                                     }
                                     else {
                                         this.loaded = true;
