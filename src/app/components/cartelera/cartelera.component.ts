@@ -19,6 +19,7 @@ export class CarteleraComponent implements OnInit {
     cartelera: Cartelera;
     posts: Post[];
     postsUser: Post[];
+    cartelerasWithPermissions: Cartelera[] = new Array();
     loaded = false;
 
     constructor(private carteleraService: CarteleraService,
@@ -43,7 +44,8 @@ export class CarteleraComponent implements OnInit {
                                 .subscribe((postsUser) => {
                                     this.postsUser = postsUser;
                                     if (this.userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities())) {
-                                        // Llamado a endpoint permissions y luego a funcion que obtiene sus carteleras
+                                        this.requestCartelerasWithPermissions(this.localStorageService.getUserId());
+                                        this.loaded = true;
                                     }
                                     else {
                                         this.loaded = true;
@@ -61,6 +63,26 @@ export class CarteleraComponent implements OnInit {
                     this.router.navigateByUrl('/page-not-found');
                 }
             });
+    }
+
+	requestCartelerasWithPermissions(idProfesor: string) {
+		this.userService.getPermissions(idProfesor)
+			.subscribe(
+				(permissions) => {
+					for (let permission of permissions) {
+						this.userService.getBillboardForPermission(permission.id)
+							.subscribe(
+								(cartelera: Cartelera) => {
+									this.cartelerasWithPermissions[cartelera.id] = cartelera;
+								}
+							);
+					}
+				}
+			);
+    }
+
+    hasPermissions() {
+        return (this.cartelerasWithPermissions[this.cartelera.id] != undefined);
     }
 
     isMyPost(postActual: Post) {

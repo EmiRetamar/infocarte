@@ -17,7 +17,7 @@ export class AdministrarPermisosComponent implements OnInit {
 
 	cartelera: Cartelera;
 	profesores: Usuario[] = new Array();
-	cartelerasForProfesores: Cartelera[] = new Array();
+	cartelerasWithPermissions: Cartelera[] = new Array();
 	loaded: boolean;
 
 	constructor(private carteleraService: CarteleraService,
@@ -38,7 +38,7 @@ export class AdministrarPermisosComponent implements OnInit {
 								this.cartelera = cartelera;
 								this.obtenerProfesores(users);
 								setTimeout(() => {
-									this.getCartelerasForProfesores(this.profesores);
+									this.getCartelerasWithPermissions(this.profesores);
 									setTimeout(() => this.loaded = true, 1500);
 								}, 1000);
 							}
@@ -61,14 +61,14 @@ export class AdministrarPermisosComponent implements OnInit {
 		}
 	}
 
-	getCartelerasForProfesores(profesores: Usuario[]): void {
+	getCartelerasWithPermissions(profesores: Usuario[]): void {
 		for (let profesor of profesores) {
-			this.requestCartelerasForProfesor(profesor);
+			this.requestCartelerasWithPermissions(profesor);
 		}
 	}
 
-	requestCartelerasForProfesor(profesor: Usuario) {
-		this.cartelerasForProfesores[profesor.id] = new Array();
+	requestCartelerasWithPermissions(profesor: Usuario) {
+		this.cartelerasWithPermissions[profesor.id] = new Array();
 		this.userService.getPermissions(profesor.id)
 			.subscribe(
 				(permissions) => {
@@ -76,7 +76,7 @@ export class AdministrarPermisosComponent implements OnInit {
 						this.userService.getBillboardForPermission(permission.id)
 							.subscribe(
 								(cartelera: Cartelera) => {
-									this.cartelerasForProfesores[profesor.id][cartelera.id] = cartelera;
+									this.cartelerasWithPermissions[profesor.id][cartelera.id] = cartelera;
 								}
 							);
 					}
@@ -85,7 +85,7 @@ export class AdministrarPermisosComponent implements OnInit {
 	}
 
 	hasPermissions(profesor: Usuario) {
-		return (this.cartelerasForProfesores[profesor.id][this.cartelera.id] != undefined);
+		return (this.cartelerasWithPermissions[profesor.id][this.cartelera.id] != undefined);
 	}
 
 	administrarPermisos(event) {
