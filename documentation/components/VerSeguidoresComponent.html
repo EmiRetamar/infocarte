@@ -130,9 +130,6 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#buttonClose">buttonClose</a>
-                            </li>
-                            <li>
                                 <a href="#dialogRef">dialogRef</a>
                             </li>
                             <li>
@@ -182,7 +179,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/components/home/ver-seguidores/ver-seguidores.component.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/components/home/ver-seguidores/ver-seguidores.component.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -275,7 +272,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/components/home/ver-seguidores/ver-seguidores.component.ts:34</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/components/home/ver-seguidores/ver-seguidores.component.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -313,7 +310,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/components/home/ver-seguidores/ver-seguidores.component.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/components/home/ver-seguidores/ver-seguidores.component.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -336,42 +333,6 @@
         <h3 id="inputs">
             Properties
         </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="buttonClose"></a>
-                        <span class="name">
-                            <b>
-                            buttonClose</b>
-                            <a href="#buttonClose"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>    <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <b>Decorators : </b>
-                            <br />
-                            <code>
-                                @ViewChild(&#x27;buttonClose&#x27;, {read: ElementRef})<br />
-                            </code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/components/home/ver-seguidores/ver-seguidores.component.ts:20</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -476,10 +437,6 @@ export class VerSeguidoresComponent implements OnInit {
 	seguidores: Usuario[];
 	dialogRef: MatDialog;
 
-	/* {read: ElementRef} es porque es un boton de angular material, si no se especifica esta propiedad
-	no es posible acceder a la propiedad &quot;nativeElement&quot; */
-	@ViewChild(&quot;buttonClose&quot;, {read: ElementRef}) buttonClose: ElementRef;
-
   	constructor(@Inject(MAT_DIALOG_DATA) data: any, private carteleraService: CarteleraService, private router: Router) {
 		this.idCartelera &#x3D; data.id;
 		this.dialogRef &#x3D; data.dialogRef;
@@ -512,11 +469,14 @@ export class VerSeguidoresComponent implements OnInit {
 			&lt;/a&gt;
 			&lt;mat-divider&gt;&lt;/mat-divider&gt;
 		&lt;/mat-list-item&gt;
+		&lt;mat-list-item *ngIf&#x3D;&quot;seguidores.length &#x3D;&#x3D; 0&quot;&gt;
+			&lt;div&gt;No hay seguidores para esta cartelera&lt;/div&gt;
+			&lt;mat-divider&gt;&lt;/mat-divider&gt;
+		&lt;/mat-list-item&gt;
 	&lt;/mat-list&gt;
 &lt;/mat-dialog-content&gt;
 &lt;mat-dialog-actions align&#x3D;&quot;center&quot;&gt;
-	&lt;!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. --&gt;
-	&lt;button #buttonClose mat-button color&#x3D;&quot;primary&quot; [mat-dialog-close]&#x3D;&quot;true&quot;&gt;Cerrar&lt;/button&gt;
+	&lt;button mat-button color&#x3D;&quot;primary&quot; [mat-dialog-close]&#x3D;&quot;true&quot;&gt;Cerrar&lt;/button&gt;
 &lt;/mat-dialog-actions&gt;
 </code></pre>
     </div>
@@ -570,8 +530,8 @@ a:hover {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><mat-dialog-content>	<h3>Lista de seguidores</h3>	<mat-divider></mat-divider>	<mat-list *ngIf="seguidores">		<mat-list-item *ngFor="let seguidor of seguidores">			<img mat-line mat-card-avatar class="profile-img" src="{{ seguidor.photo }}">			<a [routerLink]="[\'/user\', seguidor.id]" (click)="closeMatDialog()">				{{ seguidor.name }} {{ seguidor.lastname }}			</a>			<mat-divider></mat-divider>		</mat-list-item>	</mat-list></mat-dialog-content><mat-dialog-actions align="center">	<!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->	<button #buttonClose mat-button color="primary" [mat-dialog-close]="true">Cerrar</button></mat-dialog-actions></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'info-app'},{'name': 'CarteleraComponent', 'selector': 'info-cartelera'},{'name': 'CreateCarteleraComponent', 'selector': 'info-create-cartelera'},{'name': 'CreatePostComponent', 'selector': 'info-create-post'},{'name': 'DeleteCarteleraComponent', 'selector': 'info-delete-cartelera'},{'name': 'DeleteComentarioComponent', 'selector': 'info-delete-comentario'},{'name': 'DeletePostComponent', 'selector': 'info-delete-post'},{'name': 'EditCarteleraComponent', 'selector': 'info-edit-cartelera'},{'name': 'EditPostComponent', 'selector': 'info-edit-post'},{'name': 'EditUserComponent', 'selector': 'info-edit-user'},{'name': 'HomeComponent', 'selector': 'info-home'},{'name': 'LoginComponent', 'selector': 'info-login'},{'name': 'PageNotFoundComponent', 'selector': 'info-page-not-found'},{'name': 'PerfilComponent', 'selector': 'info-perfil'},{'name': 'PostComponent', 'selector': 'info-cartelera-detail'},{'name': 'VerSeguidoresComponent', 'selector': 'info-ver-seguidores'}];
+        var COMPONENT_TEMPLATE = '<div><mat-dialog-content>	<h3>Lista de seguidores</h3>	<mat-divider></mat-divider>	<mat-list *ngIf="seguidores">		<mat-list-item *ngFor="let seguidor of seguidores">			<img mat-line mat-card-avatar class="profile-img" src="{{ seguidor.photo }}">			<a [routerLink]="[\'/user\', seguidor.id]" (click)="closeMatDialog()">				{{ seguidor.name }} {{ seguidor.lastname }}			</a>			<mat-divider></mat-divider>		</mat-list-item>		<mat-list-item *ngIf="seguidores.length == 0">			<div>No hay seguidores para esta cartelera</div>			<mat-divider></mat-divider>		</mat-list-item>	</mat-list></mat-dialog-content><mat-dialog-actions align="center">	<button mat-button color="primary" [mat-dialog-close]="true">Cerrar</button></mat-dialog-actions></div>'
+    var COMPONENTS = [{'name': 'AdministrarPermisosComponent', 'selector': 'info-administrar-permisos'},{'name': 'AppComponent', 'selector': 'info-app'},{'name': 'CarteleraComponent', 'selector': 'info-cartelera'},{'name': 'CartelerasCreadasComponent', 'selector': 'info-carteleras-creadas'},{'name': 'CartelerasSeguidasComponent', 'selector': 'info-carteleras-seguidas'},{'name': 'CreateCarteleraComponent', 'selector': 'info-create-cartelera'},{'name': 'CreatePostComponent', 'selector': 'info-create-post'},{'name': 'DeleteCarteleraComponent', 'selector': 'info-delete-cartelera'},{'name': 'DeleteComentarioComponent', 'selector': 'info-delete-comentario'},{'name': 'DeletePostComponent', 'selector': 'info-delete-post'},{'name': 'EditCarteleraComponent', 'selector': 'info-edit-cartelera'},{'name': 'EditPostComponent', 'selector': 'info-edit-post'},{'name': 'EditUserComponent', 'selector': 'info-edit-user'},{'name': 'HomeComponent', 'selector': 'info-home'},{'name': 'LoginComponent', 'selector': 'info-login'},{'name': 'NotificacionesComponent', 'selector': 'info-notificaciones'},{'name': 'PageNotFoundComponent', 'selector': 'info-page-not-found'},{'name': 'PerfilComponent', 'selector': 'info-perfil'},{'name': 'PostComponent', 'selector': 'info-cartelera-detail'},{'name': 'PostsCreadosComponent', 'selector': 'info-posts-creados'},{'name': 'VerSeguidoresComponent', 'selector': 'info-ver-seguidores'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'VerSeguidoresComponent'};
 </script>

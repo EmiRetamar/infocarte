@@ -81,12 +81,18 @@ import { CreateCarteleraComponent } from &#x27;./components/home/create-carteler
 import { EditCarteleraComponent } from &#x27;./components/home/edit-cartelera/edit-cartelera.component&#x27;;
 import { CreatePostComponent } from &#x27;./components/cartelera/create-post/create-post.component&#x27;;
 import { EditPostComponent } from &#x27;./components/cartelera/edit-post/edit-post.component&#x27;;
+import { AdministrarPermisosComponent } from &#x27;./components/cartelera/administrar-permisos/administrar-permisos.component&#x27;;
+import { PerfilComponent } from &#x27;./components/usuario/perfil/perfil.component&#x27;;
+import { EditUserComponent } from &#x27;./components/usuario/edit-user/edit-user.component&#x27;;
+import { CartelerasCreadasComponent } from &#x27;./components/usuario/carteleras-creadas/carteleras-creadas.component&#x27;;
+import { CartelerasSeguidasComponent } from &#x27;./components/usuario/carteleras-seguidas/carteleras-seguidas.component&#x27;;
+import { PostsCreadosComponent } from &#x27;./components/usuario/posts-creados/posts-creados.component&#x27;;
+import { NotificacionesComponent } from &#x27;./components/notificaciones/notificaciones.component&#x27;;
 import { PageNotFoundComponent } from &#x27;./components/page-not-found/page-not-found.component&#x27;;
 import { UsuarioAutenticado } from &#x27;./components/guards/usuario-autenticado&#x27;;
 import { UsuarioAdministrador } from &#x27;./components/guards/usuario-administrador&#x27;;
 import { UsuarioProfesor } from &#x27;./components/guards/usuario-profesor&#x27;;
-import { PerfilComponent } from &#x27;./components/usuario/perfil/perfil.component&#x27;;
-import { EditUserComponent } from &#x27;./components/usuario/edit-user/edit-user.component&#x27;;
+import { UsuarioAlumno } from &#x27;./components/guards/usuario-alumno&#x27;;
 
 const appRoutes: Routes &#x3D; [
     { path: &#x27;home&#x27;, component: HomeComponent },
@@ -97,20 +103,23 @@ const appRoutes: Routes &#x3D; [
     { path: &#x27;edit-cartelera/:idCartelera&#x27;, component: EditCarteleraComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },
     { path: &#x27;cartelera/:idCartelera/create-post&#x27;, component: CreatePostComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
     { path: &#x27;cartelera/:idCartelera/edit-post/:idPost&#x27;, component: EditPostComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
-    { path: &#x27;user/:idUser&#x27;, component: PerfilComponent },
-    { path: &#x27;edit-user/:idUser&#x27;, component: EditUserComponent },
-    // { path: &#x27;**&#x27;, component: PageNotFoundComponent },
-    // {path: &#x27;projects&#x27;, component: ProjectsComponent,canActivate:[AuthGuard]},
-    { path: &#x27;&#x27;, redirectTo: &#x27;home&#x27;, pathMatch: &#x27;full&#x27; } // Cuando el path esta vacio se redirige a home, pathMatch va en el default siempre
+    { path: &#x27;administrar-permisos/:idCartelera&#x27;, component: AdministrarPermisosComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },
+    { path: &#x27;user/:idUser&#x27;, component: PerfilComponent, canActivate: [ UsuarioAutenticado ] },
+    { path: &#x27;edit-user/:idUser&#x27;, component: EditUserComponent, canActivate: [ UsuarioAutenticado ] },
+    { path: &#x27;carteleras-creadas&#x27;, component: CartelerasCreadasComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },
+    { path: &#x27;carteleras-seguidas&#x27;, component: CartelerasSeguidasComponent, canActivate: [ UsuarioAutenticado, UsuarioAlumno ] },
+    { path: &#x27;posts-creados&#x27;, component: PostsCreadosComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
+    { path: &#x27;notificaciones&#x27;, component: NotificacionesComponent, canActivate: [ UsuarioAutenticado, UsuarioAlumno ] },
+    { path: &#x27;page-not-found&#x27;, component: PageNotFoundComponent },
+    { path: &#x27;&#x27;, redirectTo: &#x27;home&#x27;, pathMatch: &#x27;full&#x27; },
+    { path: &#x27;**&#x27;, component: PageNotFoundComponent }
 ];
 
-// Las rutas se definen en RouterModule y se exportan para ser importadas por la clase AppModule
 @NgModule({
-    imports: [ RouterModule.forRoot(appRoutes, { onSameUrlNavigation: &#x27;reload&#x27; }) ],
+    imports: [ RouterModule.forRoot(appRoutes, { onSameUrlNavigation: &#x27;reload&#x27;, scrollPositionRestoration: &#x27;enabled&#x27; }) ],
     exports: [ RouterModule ]
 })
 export class AppRoutingModule { }
-// export const Routing &#x3D; RouterModule.forRoot(appRoutes);
 </code></pre>
     </div>
 </div>

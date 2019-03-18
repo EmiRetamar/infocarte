@@ -9,6 +9,7 @@ import { CreateCarteleraComponent } from './components/home/create-cartelera/cre
 import { EditCarteleraComponent } from './components/home/edit-cartelera/edit-cartelera.component';
 import { CreatePostComponent } from './components/cartelera/create-post/create-post.component';
 import { EditPostComponent } from './components/cartelera/edit-post/edit-post.component';
+import { AdministrarPermisosComponent } from './components/cartelera/administrar-permisos/administrar-permisos.component';
 import { PerfilComponent } from './components/usuario/perfil/perfil.component';
 import { EditUserComponent } from './components/usuario/edit-user/edit-user.component';
 import { CartelerasCreadasComponent } from './components/usuario/carteleras-creadas/carteleras-creadas.component';
@@ -30,6 +31,7 @@ const appRoutes: Routes = [
     { path: 'edit-cartelera/:idCartelera', component: EditCarteleraComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },
     { path: 'cartelera/:idCartelera/create-post', component: CreatePostComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
     { path: 'cartelera/:idCartelera/edit-post/:idPost', component: EditPostComponent, canActivate: [ UsuarioAutenticado, UsuarioProfesor ] },
+    { path: 'administrar-permisos/:idCartelera', component: AdministrarPermisosComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },
     { path: 'user/:idUser', component: PerfilComponent, canActivate: [ UsuarioAutenticado ] },
     { path: 'edit-user/:idUser', component: EditUserComponent, canActivate: [ UsuarioAutenticado ] },
     { path: 'carteleras-creadas', component: CartelerasCreadasComponent, canActivate: [ UsuarioAutenticado, UsuarioAdministrador ] },

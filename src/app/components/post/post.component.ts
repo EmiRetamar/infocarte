@@ -78,6 +78,7 @@ export class PostComponent implements OnInit {
                                     this.cartelera = cartelera;
                                     this.post = post;
                                     this.comentarios = comentarios;
+                                    this.getUsersForComments(this.comentarios);
                                     this.loaded = true;
                                 }
                             });

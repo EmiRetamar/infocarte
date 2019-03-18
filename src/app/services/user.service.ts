@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Cartelera } from '../models/cartelera';
 import { Post } from '../models/post';
 import { Usuario } from '../models/usuario';
+import { Rol } from '../models/rol';
 import { Notificacion } from '../models/notificacion';
 import { UsuarioNotificaciones } from '../models/usuario-notificaciones';
 
@@ -19,6 +20,11 @@ export class UserService {
 
 	getUser(): Observable<any> {
 		return this.http.get(this.getUrl('users/me'));
+	}
+
+	getUsers(): Observable<Usuario[]> {
+		return this.http.get(this.getUrl('users'))
+			.pipe(map((result: any) => result._embedded.users as Usuario[]));
 	}
 
 	getUserById(idUser: string): Observable<Usuario> {
@@ -80,6 +86,35 @@ export class UserService {
 
 	leerNotification(idUser: string, idUserNotification: string) {
 		return this.http.get(this.getUrl(`users/${idUser}/userNotifications/${idUserNotification}`));
+	}
+
+	getRoles(idUser: string): Observable<Rol[]> {
+		return this.http.get(this.getUrl(`users/${idUser}/roles`))
+			.pipe(map((result: any) => result._embedded.roles as Rol[]));
+	}
+
+	givePermissions(idUser: string, idCartelera: string) {
+		let httpHeaders = new HttpHeaders({
+            'Content-type': 'application/json; charset=UTF-8'
+        });
+        let body = {
+			"user": `users/${idUser}`,
+			"billboard": `billboards/${idCartelera}`
+		};
+		return this.http.post(this.getUrl('permissions'), body, { headers: httpHeaders });
+	}
+
+	removePermissions(idUser: string, idCartelera: string) {
+		return this.http.delete(this.getUrl(`permission/billboard/${idCartelera}/user/${idUser}`));
+	}
+
+	getPermissions(idUser: string): Observable<any> {
+		return this.http.get<any>(this.getUrl(`users/${idUser}/permissions`))
+			.pipe(map((result: any) => result._embedded.permissions));
+	}
+
+	getBillboardForPermission(idPermission: string): Observable<Cartelera> {
+		return this.http.get<Cartelera>(this.getUrl(`permissions/${idPermission}/billboard`));
 	}
 
 	private getUrl(modelo: String): string {

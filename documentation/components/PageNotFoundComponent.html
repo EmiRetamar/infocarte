@@ -221,25 +221,34 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
 
 @Component({
-  selector: &#x27;info-page-not-found&#x27;,
-  templateUrl: &#x27;./page-not-found.component.html&#x27;,
-  styleUrls: [&#x27;./page-not-found.component.css&#x27;]
+	selector: &#x27;info-page-not-found&#x27;,
+	templateUrl: &#x27;./page-not-found.component.html&#x27;,
+	styleUrls: [&#x27;./page-not-found.component.css&#x27;]
 })
 export class PageNotFoundComponent implements OnInit {
 
-  constructor() { }
+	constructor() { }
 
-  ngOnInit() {
-  }
+	ngOnInit() { }
 
 }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;p&gt;
-  page-not-found works!
-&lt;/p&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;div id&#x3D;&quot;notfound&quot;&gt;
+	&lt;div class&#x3D;&quot;notfound&quot;&gt;
+		&lt;div class&#x3D;&quot;notfound-404&quot;&gt;
+			&lt;h1&gt;4&lt;span&gt;&lt;/span&gt;4&lt;/h1&gt;
+		&lt;/div&gt;
+		&lt;h2&gt;Oops! Página no encontrada&lt;/h2&gt;
+		&lt;p&gt;
+			Lo sentimos, la página que busca no existe, se ha eliminado,
+			se le ha cambiado el nombre o no está disponible temporalmente
+		&lt;/p&gt;
+		&lt;a [routerLink]&#x3D;&quot;[&#x27;/home&#x27;]&quot;&gt;Volver a la página de inicio&lt;/a&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
 </code></pre>
     </div>
 
@@ -247,7 +256,106 @@ export class PageNotFoundComponent implements OnInit {
                 <p class="comment">
                     <code>./page-not-found.component.css</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss"></code></pre>
+                <pre class="line-numbers"><code class="language-scss">* {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#notfound {
+    position: relative;
+    height: 100vh;
+}
+
+#notfound .notfound {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+}
+
+.notfound {
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.notfound .notfound-404 {
+    height: 190px;
+}
+
+.notfound .notfound-404 h1 {
+    font-family: &#x27;Montserrat&#x27;, sans-serif;
+    font-size: 146px;
+    font-weight: 700;
+    margin: 0px;
+    color: #232323;
+}
+
+.notfound .notfound-404 h1&gt;span {
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+    background-image: url(&#x27;../../../assets/emoji.png&#x27;);
+    background-size: cover;
+    -webkit-transform: scale(1.4);
+        -ms-transform: scale(1.4);
+            transform: scale(1.4);
+    z-index: -1;
+}
+
+.notfound h2 {
+    font-family: &#x27;Montserrat&#x27;, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+    color: #232323;
+}
+
+.notfound p {
+    font-family: &#x27;Montserrat&#x27;, sans-serif;
+    color: #929191;
+    font-weight: 300;
+}
+
+.notfound a {
+    font-family: &#x27;Montserrat&#x27;, sans-serif;
+    display: inline-block;
+    padding: 12px 30px;
+    font-weight: 700;
+    background-color: #f99827;
+    color: #fff;
+    border-radius: 40px;
+    text-decoration: none;
+    -webkit-transition: 0.2s all;
+            transition: 0.2s all;
+}
+
+.notfound a:hover {
+    opacity: 0.8;
+}
+
+@media only screen and (max-width: 767px) {
+    .notfound .notfound-404 {
+        height: 115px;
+    }
+    .notfound .notfound-404 h1 {
+        font-size: 86px;
+    }
+    .notfound .notfound-404 h1&gt;span {
+        width: 86px;
+        height: 86px;
+    }
+}
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -275,8 +383,8 @@ export class PageNotFoundComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><p>  page-not-found works!</p></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'info-app'},{'name': 'CarteleraComponent', 'selector': 'info-cartelera'},{'name': 'CreateCarteleraComponent', 'selector': 'info-create-cartelera'},{'name': 'CreatePostComponent', 'selector': 'info-create-post'},{'name': 'DeleteCarteleraComponent', 'selector': 'info-delete-cartelera'},{'name': 'DeleteComentarioComponent', 'selector': 'info-delete-comentario'},{'name': 'DeletePostComponent', 'selector': 'info-delete-post'},{'name': 'EditCarteleraComponent', 'selector': 'info-edit-cartelera'},{'name': 'EditPostComponent', 'selector': 'info-edit-post'},{'name': 'EditUserComponent', 'selector': 'info-edit-user'},{'name': 'HomeComponent', 'selector': 'info-home'},{'name': 'LoginComponent', 'selector': 'info-login'},{'name': 'PageNotFoundComponent', 'selector': 'info-page-not-found'},{'name': 'PerfilComponent', 'selector': 'info-perfil'},{'name': 'PostComponent', 'selector': 'info-cartelera-detail'},{'name': 'VerSeguidoresComponent', 'selector': 'info-ver-seguidores'}];
+        var COMPONENT_TEMPLATE = '<div><div id="notfound">	<div class="notfound">		<div class="notfound-404">			<h1>4<span></span>4</h1>		</div>		<h2>Oops! Página no encontrada</h2>		<p>			Lo sentimos, la página que busca no existe, se ha eliminado,			se le ha cambiado el nombre o no está disponible temporalmente		</p>		<a [routerLink]="[\'/home\']">Volver a la página de inicio</a>	</div></div></div>'
+    var COMPONENTS = [{'name': 'AdministrarPermisosComponent', 'selector': 'info-administrar-permisos'},{'name': 'AppComponent', 'selector': 'info-app'},{'name': 'CarteleraComponent', 'selector': 'info-cartelera'},{'name': 'CartelerasCreadasComponent', 'selector': 'info-carteleras-creadas'},{'name': 'CartelerasSeguidasComponent', 'selector': 'info-carteleras-seguidas'},{'name': 'CreateCarteleraComponent', 'selector': 'info-create-cartelera'},{'name': 'CreatePostComponent', 'selector': 'info-create-post'},{'name': 'DeleteCarteleraComponent', 'selector': 'info-delete-cartelera'},{'name': 'DeleteComentarioComponent', 'selector': 'info-delete-comentario'},{'name': 'DeletePostComponent', 'selector': 'info-delete-post'},{'name': 'EditCarteleraComponent', 'selector': 'info-edit-cartelera'},{'name': 'EditPostComponent', 'selector': 'info-edit-post'},{'name': 'EditUserComponent', 'selector': 'info-edit-user'},{'name': 'HomeComponent', 'selector': 'info-home'},{'name': 'LoginComponent', 'selector': 'info-login'},{'name': 'NotificacionesComponent', 'selector': 'info-notificaciones'},{'name': 'PageNotFoundComponent', 'selector': 'info-page-not-found'},{'name': 'PerfilComponent', 'selector': 'info-perfil'},{'name': 'PostComponent', 'selector': 'info-cartelera-detail'},{'name': 'PostsCreadosComponent', 'selector': 'info-posts-creados'},{'name': 'VerSeguidoresComponent', 'selector': 'info-ver-seguidores'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'PageNotFoundComponent'};
 </script>

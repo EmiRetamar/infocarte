@@ -42,7 +42,12 @@ export class CarteleraComponent implements OnInit {
                             this.userService.getPostsUser(this.localStorageService.getUserId())
                                 .subscribe((postsUser) => {
                                     this.postsUser = postsUser;
-                                    this.loaded = true;
+                                    if (this.userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities())) {
+                                        // Llamado a endpoint permissions y luego a funcion que obtiene sus carteleras
+                                    }
+                                    else {
+                                        this.loaded = true;
+                                    }
                                 });
                         }
                         else {

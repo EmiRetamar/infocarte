@@ -9,6 +9,7 @@ import { CarteleraComponent } from './cartelera.component';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { DeletePostComponent } from './delete-post/delete-post.component';
+import { AdministrarPermisosComponent } from './administrar-permisos/administrar-permisos.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,7 @@ import { DeletePostComponent } from './delete-post/delete-post.component';
   exports: [
     CarteleraComponent
   ],
-  declarations: [ CarteleraComponent, CreatePostComponent, EditPostComponent, DeletePostComponent ],
+  declarations: [ CarteleraComponent, CreatePostComponent, EditPostComponent, DeletePostComponent, AdministrarPermisosComponent ],
   entryComponents: [
     DeletePostComponent
   ]
