@@ -41,8 +41,8 @@ a:hover {
 
 .add-button {
     position: fixed;
-    bottom: 20px;
-    right: 24px;
+    bottom: 1.25em;
+    right: 1.5em;
     color: white;
 }
 

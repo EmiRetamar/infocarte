@@ -24,6 +24,12 @@
             </mat-card-actions>
         </mat-card>
 
+        <span class="permissions-button">
+            <button mat-fab [routerLink]="['/administrar-permisos', cartelera.id]" *ngIf="localStorageService.getToken() && userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities())">
+                <mat-icon>lock</mat-icon>
+            </button>
+        </span>
+
         <span class="add-button">
             <button mat-fab [routerLink]="['/cartelera', cartelera.id, 'create-post']" *ngIf="localStorageService.getToken() && (userService.hasAuthority('ADMIN', this.localStorageService.getAuthorities()) || (userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities()) && hasPermissions()) )">
                 <mat-icon>add</mat-icon>

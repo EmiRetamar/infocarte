@@ -32,10 +32,17 @@ a:hover {
     margin: 2.7em;
 }
 
+.permissions-button {
+    position: fixed;
+    bottom: 1.25em;
+    left: 0.5em;
+    color: white;
+}
+
 .add-button {
     position: fixed;
-    bottom: 20px;
-    right: 24px;
+    bottom: 1.25em;
+    right: 1.5em;
     color: white;
 }
 
