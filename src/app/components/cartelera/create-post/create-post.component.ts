@@ -23,12 +23,14 @@ export class CreatePostComponent implements OnInit {
     idCartelera: string;
     cartelera: Cartelera;
     seguidores: Usuario[];
+    permissionForCartelera: boolean[] = new Array();
     createPostForm: FormGroup;
     imageUrl: string;
     comentariosHabilitados = false;
     submitted = false;
     loading = false;
     loaded = false;
+    loadFinished = false;
     uploadProgress: Observable<number>;
     uploadUrl: Observable<string>;
 
@@ -45,7 +47,25 @@ export class CreatePostComponent implements OnInit {
         this.idCartelera = this.route.snapshot.paramMap.get('idCartelera');
         this.carteleraService.getCartelera(this.idCartelera)
             .subscribe(
-                (cartelera: Cartelera) => this.cartelera = cartelera,
+                (cartelera: Cartelera) => {
+                    this.cartelera = cartelera;
+                    // Un profesor solo podra crear una publicacion si tiene permisos en esta cartelera
+                    if (this.userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities())) {
+                        this.requestCartelerasWithPermissions(this.localStorageService.getUserId());
+                        setTimeout(() => {
+                            if (this.hasPermissions()) {
+                                this.loadFinished = true;
+                            }
+                            else {
+                                this.router.navigateByUrl('home');
+                                this.toasterService.warning('No tienes permisos para realizar esta acción !');
+                            }
+                        }, 1000);
+                    }
+                    else {
+                        this.loadFinished = true;
+                    }
+                },
                 (error) => {
                     if (error.status == 404) {
                         console.log(error.message);
@@ -63,6 +83,29 @@ export class CreatePostComponent implements OnInit {
 
     get form() {
         return this.createPostForm.controls;
+    }
+
+    requestCartelerasWithPermissions(idProfesor: string) {
+		this.userService.getPermissions(idProfesor)
+			.subscribe(
+				(permissions) => {
+					for (let permission of permissions) {
+						this.userService.getBillboardForPermission(permission.id)
+							.subscribe(
+								(cartelera: Cartelera) => {
+                                    if (cartelera.id == this.cartelera.id)
+                                        this.permissionForCartelera[cartelera.id] = true;
+                                    else
+                                        this.permissionForCartelera[cartelera.id] = true;
+								}
+							);
+					}
+				}
+			);
+    }
+
+    hasPermissions() {
+        return this.permissionForCartelera[this.cartelera.id];
     }
 
     createPost() {
