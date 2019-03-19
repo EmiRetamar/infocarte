@@ -43,6 +43,12 @@ export class AdministrarPermisosComponent implements OnInit {
 								}, 1000);
 							}
 						);
+				},
+				(error) => {
+					if (error.status == 404) {
+						console.log(error.message);
+						this.router.navigateByUrl('/page-not-found');
+					}
 				}
 			);
 	}
