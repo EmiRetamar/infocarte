@@ -17,7 +17,7 @@ export class AdministrarPermisosComponent implements OnInit {
 
 	cartelera: Cartelera;
 	profesores: Usuario[] = new Array();
-	cartelerasWithPermissions: Cartelera[] = new Array();
+	checked: boolean[] = new Array();
 	loaded: boolean;
 
 	constructor(private carteleraService: CarteleraService,
@@ -68,7 +68,7 @@ export class AdministrarPermisosComponent implements OnInit {
 	}
 
 	requestCartelerasWithPermissions(profesor: Usuario) {
-		this.cartelerasWithPermissions[profesor.id] = new Array();
+		this.checked[profesor.id] = false;
 		this.userService.getPermissions(profesor.id)
 			.subscribe(
 				(permissions) => {
@@ -76,16 +76,14 @@ export class AdministrarPermisosComponent implements OnInit {
 						this.userService.getBillboardForPermission(permission.id)
 							.subscribe(
 								(cartelera: Cartelera) => {
-									this.cartelerasWithPermissions[profesor.id][cartelera.id] = cartelera;
+									if (cartelera.id == this.cartelera.id) {
+										this.checked[profesor.id] = true;
+									}
 								}
 							);
 					}
 				}
 			);
-	}
-
-	hasPermissions(profesor: Usuario) {
-		return (this.cartelerasWithPermissions[profesor.id][this.cartelera.id] != undefined);
 	}
 
 	administrarPermisos(event) {
