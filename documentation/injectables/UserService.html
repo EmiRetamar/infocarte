@@ -90,6 +90,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#getBillboardForPermission">getBillboardForPermission</a>
+                            </li>
+                            <li>
                                 <a href="#getCartelerasCreadas">getCartelerasCreadas</a>
                             </li>
                             <li>
@@ -220,6 +223,75 @@
         <h3 id="methods">
             Methods
         </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getBillboardForPermission"></a>
+                        <span class="name">
+                            <b>
+                            getBillboardForPermission
+                            </b>
+                            <a href="#getBillboardForPermission"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>getBillboardForPermission(idPermission: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="116" class="link-to-prism">src/app/services/user.service.ts:116</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>idPermission</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../interfaces/Cartelera.html" target="_self" >Observable&lt;Cartelera&gt;</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -555,7 +627,7 @@
                             <div>
                             </div>
                             <div class="io-description">
-                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                             </div>
                                 <div class="io-description">
@@ -865,7 +937,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">src/app/services/user.service.ts:115</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">src/app/services/user.service.ts:120</a></div>
                             </td>
                         </tr>
 
@@ -1369,7 +1441,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">src/app/services/user.service.ts:119</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">src/app/services/user.service.ts:124</a></div>
                             </td>
                         </tr>
 
@@ -1812,11 +1884,16 @@ export class UserService {
 	}
 
 	removePermissions(idUser: string, idCartelera: string) {
-		return this.http.get(this.getUrl(&#x60;permissions/${idUser}/billboard/${idCartelera}&#x60;));
+		return this.http.delete(this.getUrl(&#x60;permission/billboard/${idCartelera}/user/${idUser}&#x60;));
 	}
 
-	getPermissions(idUser: string) {
-		return this.http.get(this.getUrl(&#x60;users/${idUser}/permissions&#x60;));
+	getPermissions(idUser: string): Observable&lt;any&gt; {
+		return this.http.get&lt;any&gt;(this.getUrl(&#x60;users/${idUser}/permissions&#x60;))
+			.pipe(map((result: any) &#x3D;&gt; result._embedded.permissions));
+	}
+
+	getBillboardForPermission(idPermission: string): Observable&lt;Cartelera&gt; {
+		return this.http.get&lt;Cartelera&gt;(this.getUrl(&#x60;permissions/${idPermission}/billboard&#x60;));
 	}
 
 	private getUrl(modelo: String): string {
