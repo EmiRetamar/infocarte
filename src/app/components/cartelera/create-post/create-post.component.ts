@@ -49,7 +49,6 @@ export class CreatePostComponent implements OnInit {
             .subscribe(
                 (cartelera: Cartelera) => {
                     this.cartelera = cartelera;
-                    // Un profesor solo podra crear una publicacion si tiene permisos en esta cartelera
                     if (this.userService.hasAuthority('PROFESOR', this.localStorageService.getAuthorities())) {
                         this.requestCartelerasWithPermissions(this.localStorageService.getUserId());
                         setTimeout(() => {
