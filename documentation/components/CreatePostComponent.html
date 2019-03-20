@@ -395,7 +395,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:111</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:110</a></div>
                             </td>
                         </tr>
 
@@ -433,7 +433,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="141" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:141</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="140" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:140</a></div>
                             </td>
                         </tr>
 
@@ -502,7 +502,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:107</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:106</a></div>
                             </td>
                         </tr>
 
@@ -578,7 +578,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:148</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="147" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:147</a></div>
                             </td>
                         </tr>
 
@@ -647,7 +647,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:88</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:87</a></div>
                             </td>
                         </tr>
 
@@ -716,7 +716,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="159" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:159</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="158" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:158</a></div>
                             </td>
                         </tr>
 
@@ -1167,7 +1167,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:84</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/components/cartelera/create-post/create-post.component.ts:83</a></div>
                                 </td>
                             </tr>
 
@@ -1229,7 +1229,6 @@ export class CreatePostComponent implements OnInit {
             .subscribe(
                 (cartelera: Cartelera) &#x3D;&gt; {
                     this.cartelera &#x3D; cartelera;
-                    // Un profesor solo podra crear una publicacion si tiene permisos en esta cartelera
                     if (this.userService.hasAuthority(&#x27;PROFESOR&#x27;, this.localStorageService.getAuthorities())) {
                         this.requestCartelerasWithPermissions(this.localStorageService.getUserId());
                         setTimeout(() &#x3D;&gt; {

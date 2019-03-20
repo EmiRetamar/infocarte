@@ -76,8 +76,10 @@ export class HomeComponent implements OnInit {
                                     this.toasterService.success('Cartelera eliminada con éxito !');
                                 },
                                 (error) => {
-                                    this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
-                                    console.error(error.message);
+                                    if (error.status == 409)
+                                        this.toasterService.info('No se puede eliminar esta cartelera porque tiene publicaciones o seguidores');
+                                    else
+                                        this.toasterService.error('Ha ocurrido un error', 'La acción no ha podido realizarse');
                                 }
                             );
                     }

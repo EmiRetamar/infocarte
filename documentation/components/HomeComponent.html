@@ -377,7 +377,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">src/app/components/home/home.component.ts:138</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="140" class="link-to-prism">src/app/components/home/home.component.ts:140</a></div>
                             </td>
                         </tr>
 
@@ -451,7 +451,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/components/home/home.component.ts:95</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">src/app/components/home/home.component.ts:97</a></div>
                             </td>
                         </tr>
 
@@ -520,7 +520,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">src/app/components/home/home.component.ts:127</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="129" class="link-to-prism">src/app/components/home/home.component.ts:129</a></div>
                             </td>
                         </tr>
 
@@ -639,7 +639,7 @@
 
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/components/home/home.component.ts:88</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/components/home/home.component.ts:90</a></div>
                             </td>
                         </tr>
 
@@ -917,8 +917,10 @@ export class HomeComponent implements OnInit {
                                     this.toasterService.success(&#x27;Cartelera eliminada con éxito !&#x27;);
                                 },
                                 (error) &#x3D;&gt; {
-                                    this.toasterService.error(&#x27;Ha ocurrido un error&#x27;, &#x27;La acción no ha podido realizarse&#x27;);
-                                    console.error(error.message);
+                                    if (error.status &#x3D;&#x3D; 409)
+                                        this.toasterService.info(&#x27;No se puede eliminar esta cartelera porque tiene publicaciones o seguidores&#x27;);
+                                    else
+                                        this.toasterService.error(&#x27;Ha ocurrido un error&#x27;, &#x27;La acción no ha podido realizarse&#x27;);
                                 }
                             );
                     }
