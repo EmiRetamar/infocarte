@@ -55,6 +55,10 @@ npm install
 
 ng serve
 
-## Acceder a la aplicacion
+## Acceder a la aplicación
 
 http://localhost:4200/
+
+## API Rest de InfoCarte
+
+https://github.com/EmiRetamar/infocarte-api
