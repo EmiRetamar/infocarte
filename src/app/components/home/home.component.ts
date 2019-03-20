@@ -55,9 +55,7 @@ export class HomeComponent implements OnInit {
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-        //dialogConfig.height = '12em';
-        //dialogConfig.width = '15em';
-        // Estos datos son pasados al componente "DeleteCarteleraComponent"
+
         dialogConfig.data = {
             id: cartelera.id,
             title: cartelera.title
