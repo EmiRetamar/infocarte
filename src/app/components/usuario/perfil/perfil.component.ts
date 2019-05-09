@@ -25,7 +25,6 @@ export class PerfilComponent implements OnInit {
 			.subscribe(
 				(user: Usuario) => {
 					this.user = user;
-					console.log(user.id);
 				},
 				(error) => {
 					if (error.status == 404) {
@@ -34,7 +33,6 @@ export class PerfilComponent implements OnInit {
                     }
 				}
 			);
-		console.log(this.localStorageService.getUserId());
 	}
 
 	redirectToCartelerasCreadas() {

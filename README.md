@@ -33,7 +33,7 @@ npm -v
 
 npm install -g @angular/cli
 
-## Generar un proyecto y correrlo en el servidor:
+## Generar un proyecto y correrlo en el servidor
 
 ng new project-name
 
